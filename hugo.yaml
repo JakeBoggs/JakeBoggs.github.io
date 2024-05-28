@@ -1,0 +1,44 @@
+baseURL: "https://boggs.tech/"
+title: Jake Boggs
+theme: PaperMod
+publishDir: "public"
+enableEmoji: true
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+params:
+  env: production
+  author: Jake Boggs
+
+  ShowReadingTime: true
+  ShowWordCount: true
+  ShowBreadCrumbs: false
+
+  label:
+    text: "Home"
+
+  homeInfoParams:
+    Title: "Hi there \U0001F44B"
+    Content: Figured it was time to start sharing some of the projects I've been working on...
+
+  socialIcons:
+    - name: linkedin
+      url: "https://www.linkedin.com/in/jake-boggs/"
+    - name: github
+      url: "https://github.com/JakeBoggs"
+    - name: stackoverflow
+      url: "https://stackoverflow.com/users/6585418/jakeboggs"
+
+menu:
+  main:
+    - identifier: startups
+      name: Startups
+      url: /startups
+      weight: 30
