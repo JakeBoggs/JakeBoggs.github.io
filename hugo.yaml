@@ -1,7 +1,7 @@
 baseURL: "https://boggs.tech/"
 title: Jake Boggs
 theme: PaperMod
-publishDir: "public"
+publishDir: "docs"
 enableEmoji: true
 
 enableRobotsTXT: true
