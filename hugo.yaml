@@ -21,6 +21,9 @@ params:
   ShowWordCount: true
   ShowBreadCrumbs: false
 
+  assets:
+    disableFingerprinting: true
+
   label:
     text: "Home"
 
