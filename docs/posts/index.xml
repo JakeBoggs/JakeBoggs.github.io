@@ -6,8 +6,17 @@
     <description>Recent content in Posts on Jake Boggs</description>
     <generator>Hugo -- 0.126.1</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 24 May 2024 23:39:24 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 23 Jun 2024 23:39:24 -0400</lastBuildDate>
     <atom:link href="https://boggs.tech/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Open-sourcing 100 Hours of Conversational Audio (Daily Yap)</title>
+      <link>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</link>
+      <pubDate>Sun, 23 Jun 2024 23:39:24 -0400</pubDate>
+      <guid>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</guid>
+      <description>In the rapidly evolving field of artificial intelligence, one critical gap became apparent to me as I was helping my friend&amp;rsquo;s startup locate data for training their multimodal model: the scarcity of high-quality conversational audio datasets.
+Existing datasets often fall short in several key areas:
+Content of conversations: Most available datasets consist assistant-user exchanges that don&amp;rsquo;t capture the complexity and subject matter of real-world dialogues. Audio-text alignment: There&amp;rsquo;s a lack of datasets that provide both high-quality audio and accurately transcribed text, perfectly aligned.</description>
+    </item>
     <item>
       <title>Large Language Models for Magic: the Gathering</title>
       <link>https://boggs.tech/posts/large-language-models-for-magic-the-gathering/</link>
