@@ -8,7 +8,7 @@ These are companies I've started myself or been involved with from the beginning
 {{< investment img="/images/osmos.png" url="https://osmoslearn.com" title="Osmos Learn" description="Service for K-12 teachers that uses GPT-4V to scan assignments and automatically grade them based on a rubric. Currently on hold due to new student privacy regulations. Started by my friend, I built a lot of the backend" >}}
 
 # Investments
-Eventually I want to run my own VC fund, so I've been practicing through [Reg-CF](https://www.investor.gov/introduction-investing/investing-basics/glossary/regulation-crowdfunding). Hopefully one day this will serve as a track record when I go to raise money from investors, but in the meantime it's teaching me a lot and reading the quarterly updates is always exciting. I initially set out to make 100 investments by the time I graduate college, so far I'm 2 years in with 52 investments across 49 companies.
+Eventually I want to run my own VC fund, so I've been practicing through [Reg-CF](https://www.investor.gov/introduction-investing/investing-basics/glossary/regulation-crowdfunding). Hopefully one day this will serve as a track record when I go to raise money from investors, but in the meantime it's teaching me a lot and reading the quarterly updates is always exciting. I initially set out to make 100 investments by the time I graduate college, so far I'm 2 years in with 52 investments across 50 companies.
 ## Highlights
 These have been the best performers, with substantial revenue growth and/or follow-on rounds at much higher valuations.
 {{< investment img="/images/clockwork.png" url="https://likeclockwork.com/" title="Clockwork" description="10 minute robotic manicure - Invested 2023" >}}
@@ -29,6 +29,7 @@ This list will undoubtedly grow.
 {{< investment img="/images/unbanked.png" url="https://www.unbanked.com/" title="Unbanked" description="Aggressive SEC enforcement forced them to suspend operations, all customer funds were returned - Invested 2022 - Shutdown in 2023" >}}
 ## The rest
 Still operational but have not yet raised additional rounds. Will be moved to the other lists as events unfold.
+{{< investment img="/images/athyna.png" url="https://www.athyna.com/" title="Athyna" description="Invested 2024" >}}
 {{< investment img="/images/offline.png" url="https://letsgetoffline.com" title="Offline" description="Invested 2024" >}}
 {{< investment img="/images/l5.png" url="https://www.l5automation.com/" title="L5 Automation" description="Invested 2024" >}}
 {{< investment img="/images/implantclub.png" url="https://theimplantclub.com/" title="Implant Club" description="Invested 2024" >}}

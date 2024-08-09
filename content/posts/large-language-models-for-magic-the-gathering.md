@@ -1,6 +1,6 @@
 ---
 title: "Large Language Models for Magic: the Gathering"
-date: "2024-05-24T23:39:24-04:00"
+date: "2024-05-24"
 draft: false
 ---
 Magic: The Gathering (MTG) has always fascinated me with its complexity and strategic depth, thanks to its extensive rulebook and vast array of unique cards. Despite the game's popularity, AI systems specifically designed for MTG have been few and far between, often falling short due to their inability to accurately interpret the intricate rules and interactions between cards. This blog post chronicles my recent endeavor to bridge this gap with large language models (LLMs) by creating a specialized dataset and evaluation metric to improve AI performance in MTG-related tasks.

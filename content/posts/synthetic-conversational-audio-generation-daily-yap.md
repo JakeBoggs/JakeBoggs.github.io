@@ -1,6 +1,6 @@
 ---
 title: "Open-sourcing 100 Hours of Conversational Audio (Daily Yap)"
-date: "2024-06-23T23:39:24-04:00"
+date: "2024-06-23"
 draft: false
 ---
 In the rapidly evolving field of artificial intelligence, one critical gap became apparent to me as I was helping my friend's startup locate data for training their multimodal model: the scarcity of high-quality conversational audio datasets.

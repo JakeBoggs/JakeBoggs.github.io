@@ -1,6 +1,6 @@
 <div style="display: inline-block; width: 50%; padding: 10px;">
     <a href="{{ .Get "url" }}" target="_blank">
-        <img src="{{ .Get "img" }}">
+        <img src="{{ .Get "img" }}" width="128">
         <h4>{{ .Get "title"}}</h4>
         {{ with .Get "description" }}<p>{{ . }}</p>{{ end }}
     </a>

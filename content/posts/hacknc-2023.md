@@ -1,6 +1,6 @@
 ---
 title: "HackNC 2023"
-date: "2023-10-24T23:39:24-04:00"
+date: "2023-10-24"
 draft: true
 ---
 ## Introduction

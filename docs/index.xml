@@ -6,12 +6,21 @@
     <description>Recent content on Jake Boggs</description>
     <generator>Hugo -- 0.126.1</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 23 Jun 2024 23:39:24 -0400</lastBuildDate>
+    <lastBuildDate>Fri, 09 Aug 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://boggs.tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Reverse Engineering GPT-4o</title>
+      <link>https://boggs.tech/posts/gpt-4o-model-architecture/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://boggs.tech/posts/gpt-4o-model-architecture/</guid>
+      <description>How does the GPT-4o model work? Based purely on speculation, I have no inside information. All numbers were pulled out of my ass. This is just my highly-detailed, educated guess on how the model works, along with a Pytorch implementation. If that sounds interesting, then keep reading.
+Tokenization The cornerstone of GPT-4o&amp;rsquo;s capabilities lies in its unified representation of diverse input types. Here&amp;rsquo;s how each modality is tokenized:
+Text Tokenization If you&amp;rsquo;re familiar with LLMs, you can skip this section.</description>
+    </item>
     <item>
       <title>Open-sourcing 100 Hours of Conversational Audio (Daily Yap)</title>
       <link>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</link>
-      <pubDate>Sun, 23 Jun 2024 23:39:24 -0400</pubDate>
+      <pubDate>Sun, 23 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</guid>
       <description>In the rapidly evolving field of artificial intelligence, one critical gap became apparent to me as I was helping my friend&amp;rsquo;s startup locate data for training their multimodal model: the scarcity of high-quality conversational audio datasets.
 Existing datasets often fall short in several key areas:
@@ -20,7 +29,7 @@ Content of conversations: Most available datasets consist assistant-user exchang
     <item>
       <title>Large Language Models for Magic: the Gathering</title>
       <link>https://boggs.tech/posts/large-language-models-for-magic-the-gathering/</link>
-      <pubDate>Fri, 24 May 2024 23:39:24 -0400</pubDate>
+      <pubDate>Fri, 24 May 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/large-language-models-for-magic-the-gathering/</guid>
       <description>Magic: The Gathering (MTG) has always fascinated me with its complexity and strategic depth, thanks to its extensive rulebook and vast array of unique cards. Despite the game&amp;rsquo;s popularity, AI systems specifically designed for MTG have been few and far between, often falling short due to their inability to accurately interpret the intricate rules and interactions between cards. This blog post chronicles my recent endeavor to bridge this gap with large language models (LLMs) by creating a specialized dataset and evaluation metric to improve AI performance in MTG-related tasks.</description>
     </item>
