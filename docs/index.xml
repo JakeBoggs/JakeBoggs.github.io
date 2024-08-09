@@ -13,7 +13,7 @@
       <link>https://boggs.tech/posts/gpt-4o-model-architecture/</link>
       <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/gpt-4o-model-architecture/</guid>
-      <description>How does the GPT-4o model work? Based purely on speculation, I have no inside information. All numbers were pulled out of my ass. This is just my highly-detailed, educated guess on how the model works, along with a Pytorch implementation. If that sounds interesting, then keep reading.
+      <description>How does GPT-4o work? Based purely on speculation, I have no inside information. All numbers were pulled out of my ass. This is just my highly-detailed, educated guess on how the model works, along with a Pytorch implementation. If that sounds interesting, then keep reading.
 Tokenization The cornerstone of GPT-4o&amp;rsquo;s capabilities lies in its unified representation of diverse input types. Here&amp;rsquo;s how each modality is tokenized:
 Text Tokenization If you&amp;rsquo;re familiar with LLMs, you can skip this section.</description>
     </item>

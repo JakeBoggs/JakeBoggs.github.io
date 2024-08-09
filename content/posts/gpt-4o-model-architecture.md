@@ -3,7 +3,7 @@ title: "Reverse Engineering GPT-4o"
 date: "2024-08-09"
 draft: false
 ---
-## How does the GPT-4o model work?
+## How does GPT-4o work?
 Based purely on speculation, I have no inside information. All numbers were pulled out of my ass. This is just my highly-detailed, educated guess on how the model works, along with a Pytorch implementation. If that sounds interesting, then keep reading.
 
 ## Tokenization
@@ -115,7 +115,7 @@ To address this, GPT-4o employs a dual encoding system similar to [σ-GPTs](http
 1. Modality-specific position encoding: Represents the position within a specific modality
 2. Time-based encoding: A function of absolute time
 
-These encodings are concatenated to the end of the embedding rather than added, preserving their individual information and preventing them from interfering with one another. During training and inference, the attention mask considers both the sequence position and the temporal position, ensuring proper alignment of multimodal inputs.
+These encodings are concatenated to the end of the embedding rather than added, preserving their individual information and preventing them from interfering with one another. This goes against typical transformer architecture design, but is vital to allow the temporal and modality-specific positon embeddings to operately separately. During training and inference, the attention mask considers both the position within a modality and the temporal position, ensuring proper alignment of multimodal inputs.
 
 The time-based embeddings are at the same frequency as the audio, meaning 4 steps per second. This temporal resolution also applies to the image input stream, limiting the model to a maximum of 4 frames per second for video input. However, you can somewhat work around this by giving multiple frames the same time encoding and varying the modality-specific encoding. In practice, you probably wouldn't want to do this, as you'd start to be limited by compute and would gain minimal information from the extra frames.
 
@@ -170,13 +170,13 @@ This is all just speculation, and I have no affiliation with ClosedAI.
 The training process for GPT-4o is complex and multi-staged, incorporating several advanced techniques to achieve its impressive multimodal and real-time capabilities.
 
 ### Pretraining
-During this stage, the temporal embeddings are set to the same value for all text and image samples and are equal to the modality embedding for the audio samples. The source flag is also set to 0 for all tokens.
+During this stage, the temporal embeddings are set to the same value for all text and image samples and are equal to the position embedding for the audio samples. The source flag is also set to 0 for all tokens. Note that the audio and image tokenizers must be trained separately before beginning.
 
 1. **Interleaved Text and Image Pretraining**: 
    Following an approach similar to the Chameleon model, GPT-4o is first pretrained on a large dataset of interleaved text and image data scraped from the web. This allows the model to develop a unified representation across these modalities.
 
 2. **Audio Tokenizer Training**:
-   After the initial pretraining, the audio tokenizer is trained while the main model weights are frozen. The model performs autoregressive prediction on audio tokens, learning to understand and generate audio content. Data for this is sourced by scraping online podcasts and applying voice activity detection to filter the audio.
+   After the initial pretraining, the audio embeddings are trained while the main model weights are frozen. The model performs autoregressive prediction on audio tokens, learning to understand and generate audio content. Data for this is sourced by scraping online podcasts and applying voice activity detection to filter the audio.
 
 3. **Multimodal Unfrozen Training**:
    Once the audio tokenizer is sufficiently trained, all weights are unfrozen, and the model trains on all modalities simultaneously, further integrating its understanding across text, image, and audio. Note that audio samples still haven't been combined with the text and images at this stage, this will happen later. The output head that isn't used for a sample is trained to predict the "No Output" token.
@@ -206,7 +206,7 @@ Until now, all of the training has following the standard autoregressive setup. 
    The base model generates scripts that simulate real-time interactions, including dialogue between users and the assistant, along with actions like "Begin transcribing what I'm saying" or "Describe what is happening in these images". This leverages the model's text and image generation capabilities to create scripts similar to what you might see in a TV show, along with supplemental images. Portions of the scripts are then converted to audio using an existing text-to-speech model.
 
 2. **Real-time Processing Simulation**:
-   The synthetic data is processed to simulate real-time inputs, with text, audio, and image inputs interleaved to mimic real-world scenarios.
+   The synthetic data is processed to simulate real-time inputs, with text, audio, and image inputs interleaved to mimic real-world scenarios. A system prompt is added with audio tokens from the target speaker to select a voice for the model.
 
 3. **Final Integrated Training**:
    GPT-4o undergoes a final round of training on this synthetic real-time multimodal data, enhancing its ability to seamlessly integrate and respond to text, image, and audio inputs as they arrive, mimicking real-time interaction scenarios.
@@ -554,4 +554,4 @@ decoded_audio = model.decode_audio(audio_tokens)
 print("Decoded audio shape:", [tokens.shape for tokens in decoded_audio])
 ```
 
-If you've made it this far somehow have access to the ungodly number of GPUs required to train this monster, hit me up and let's give ClosedAI a run for their money.
+If you've made it this far and somehow have access to the ungodly number of GPUs required to train this monster, hit me up and let's give ClosedAI a run for their money.
