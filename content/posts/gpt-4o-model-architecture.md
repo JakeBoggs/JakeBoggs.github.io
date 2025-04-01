@@ -1,7 +1,7 @@
 ---
 title: "Reverse Engineering GPT-4o"
 date: "2024-08-09"
-draft: false
+draft: true
 ---
 ## How does GPT-4o work?
 Based purely on speculation, I have no inside information. All numbers were pulled out of my ass. This is just my highly-detailed, educated guess on how the model works, along with a Pytorch implementation. If that sounds interesting, then keep reading.
