@@ -29,9 +29,11 @@ params:
 
   homeInfoParams:
     Title: "Hi there \U0001F44B"
-    Content: Figured it was time to start sharing some of the projects I've been working on...
+    Content: I'm Jake, an obsessive AI / ML researcher. Figured it was time to start sharing a few of the projects I've been working on...
 
   socialIcons:
+    - name: twitter
+      url: "https://twitter.com/JakeABoggs"
     - name: linkedin
       url: "https://www.linkedin.com/in/jake-boggs/"
     - name: github
@@ -45,3 +47,8 @@ menu:
       name: Startups
       url: /startups
       weight: 30
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true

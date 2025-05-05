@@ -2,11 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://boggs.tech/posts/manamorphosis/</loc>
+    <lastmod>2025-05-05T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://boggs.tech/</loc>
-    <lastmod>2024-08-09T00:00:00+00:00</lastmod>
+    <lastmod>2025-05-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://boggs.tech/posts/</loc>
-    <lastmod>2024-08-09T00:00:00+00:00</lastmod>
+    <lastmod>2025-05-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://boggs.tech/posts/gait-analysis-physical-therapy-research/</loc>
+    <lastmod>2025-04-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://boggs.tech/posts/accountabuddy-hacknc-2024/</loc>
+    <lastmod>2024-11-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</loc>
     <lastmod>2024-06-23T00:00:00+00:00</lastmod>

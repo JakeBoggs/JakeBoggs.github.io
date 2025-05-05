@@ -6,16 +6,41 @@
     <description>Recent content in Posts on Jake Boggs</description>
     <generator>Hugo -- 0.126.1</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 23 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 05 May 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://boggs.tech/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Open-sourcing 100 Hours of Conversational Audio (Daily Yap)</title>
+      <title>Introducing Manamorphosis: A Diffusion Model for MTG Deck Generation</title>
+      <link>https://boggs.tech/posts/manamorphosis/</link>
+      <pubDate>Mon, 05 May 2025 00:00:00 +0000</pubDate>
+      <guid>https://boggs.tech/posts/manamorphosis/</guid>
+      <description>This post details Manamorphosis, a first-of-its-kind diffusion model developed to complete Magic: The Gathering decklists. It takes a set of known cards and fills in the rest to form a 60-card main deck. Subsequently, using the completed main deck as context, it can complete a 15-card sideboard. The core generative mechanism is based on Denoising Diffusion Probabilistic Models (DDPMs), the same family of models powering many image generation systems like Stable Diffusion and Midjourney, but adapted here for the unique domain of card sets.</description>
+    </item>
+    <item>
+      <title>Gait Analysis for Physical Therapy with YOLOv11</title>
+      <link>https://boggs.tech/posts/gait-analysis-physical-therapy-research/</link>
+      <pubDate>Mon, 21 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>https://boggs.tech/posts/gait-analysis-physical-therapy-research/</guid>
+      <description>Analyzing how people walk using video is common in research and clinical settings, but getting accurate joint angles usually means either expensive equipment or manually annotating frames, which is slow and tedious.
+Over Easter weekend, I built a Python tool to help my mother with her research study analyzing patient videos. It uses YOLOv11-pose for automatic detection and adds an interactive interface for manual adjustments.
+What it Does
+The script (track.</description>
+    </item>
+    <item>
+      <title>AccountaBuddy: Your AI Accountability Partner - HackNC 2024</title>
+      <link>https://boggs.tech/posts/accountabuddy-hacknc-2024/</link>
+      <pubDate>Mon, 04 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://boggs.tech/posts/accountabuddy-hacknc-2024/</guid>
+      <description>Check out the project on Devpost and view the source code on GitHub.
+I spent a weekend at HackNC building something to help manage all of my other side projects. What started as a simple &amp;ldquo;Wouldn&amp;rsquo;t it be cool if an AI actually rang you to ask if you&amp;rsquo;d done your work?&amp;rdquo; turned into AccountaBuddy, a lightweight app that does more than fire off push notifications - it actually calls you, celebrates your wins, and helps you problem-solve when tasks stall.</description>
+    </item>
+    <item>
+      <title>Daily Yap: A Synthetically Generated Conversational Audio Dataset</title>
       <link>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</link>
       <pubDate>Sun, 23 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</guid>
-      <description>In the rapidly evolving field of artificial intelligence, one critical gap became apparent to me as I was helping my friend&amp;rsquo;s startup locate data for training their multimodal model: the scarcity of high-quality conversational audio datasets.
-Existing datasets often fall short in several key areas:
-Content of conversations: Most available datasets consist assistant-user exchanges that don&amp;rsquo;t capture the complexity and subject matter of real-world dialogues. Audio-text alignment: There&amp;rsquo;s a lack of datasets that provide both high-quality audio and accurately transcribed text, perfectly aligned.</description>
+      <description>Training multimodal models often requires large, high-quality conversational audio datasets, which are currently scarce. This document details the creation of Daily Yap, a dataset developed to address this gap.
+Existing conversational audio datasets present several limitations:
+Content Scope: Many datasets focus on assistant-user interactions, lacking the breadth of topics found in general human dialogues. Audio-Text Alignment: Datasets with precise alignment between high-quality audio and accurate transcriptions are uncommon. Speaker Diversity: The use of few speakers limits the generalizability of models trained on these datasets.</description>
     </item>
     <item>
       <title>Large Language Models for Magic: the Gathering</title>

@@ -1,59 +1,120 @@
 ---
-title: "Open-sourcing 100 Hours of Conversational Audio (Daily Yap)"
+title: "Daily Yap: A Synthetically Generated Conversational Audio Dataset"
 date: "2024-06-23"
 draft: false
 ---
-In the rapidly evolving field of artificial intelligence, one critical gap became apparent to me as I was helping my friend's startup locate data for training their multimodal model: the scarcity of high-quality conversational audio datasets.
+Training multimodal models often requires large, high-quality conversational audio datasets, which are currently scarce. This document details the creation of Daily Yap, a dataset developed to address this gap.
 
-Existing datasets often fall short in several key areas:
+Existing conversational audio datasets present several limitations:
 
-1. Content of conversations: Most available datasets consist assistant-user exchanges that don't capture the complexity and subject matter of real-world dialogues.
-2. Audio-text alignment: There's a lack of datasets that provide both high-quality audio and accurately transcribed text, perfectly aligned.
-3. Diversity of speakers: Many datasets use a limited number of voices, which can lead to AI models that don't generalize well across different speakers.
-4. Scalability: The labor-intensive nature of creating human-recorded conversational audio data limits the size and scope of many existing datasets.
+1.  **Content Scope:** Many datasets focus on assistant-user interactions, lacking the breadth of topics found in general human dialogues.
+2.  **Audio-Text Alignment:** Datasets with precise alignment between high-quality audio and accurate transcriptions are uncommon.
+3.  **Speaker Diversity:** The use of few speakers limits the generalizability of models trained on these datasets.
+4.  **Scalability:** Human recording is resource-intensive, hindering the creation of large-scale datasets.
 
-It was in response to these specific challenges that I embarked on the journey to create Daily Yap. This dataset aims to provide a starting point to address the shortage of comprehensive conversational audio data, offering researchers and developers a resource for training real-time conversational audio models.
+Daily Yap was created to mitigate these challenges by providing a synthetically generated conversational audio resource suitable for training real-time conversational audio models.
 
-In the following sections, I'll detail the process of developing Daily Yap, from its conceptual roots to its final form as a dataset of nearly 10,000 audio samples with matching transcripts.
+The following sections describe the methodology used to develop Daily Yap, resulting in a dataset comprising 9,758 audio samples with corresponding transcripts.
 
-## Choosing a Foundation
+## Foundational Dataset Selection
 
-After extensive research, I selected the Daily Dialog dataset as the foundation for this project. Daily Dialog offered a solid base of conversational topics, providing a springboard from which to build. However, I quickly realized that to create a truly valuable resource, significant enhancements would be necessary.
+The Daily Dialog dataset was selected as the textual foundation due to its range of conversational topics. However, modifications were required to enhance its suitability for audio synthesis.
 
-## Refining the Raw Material
+## Text Preprocessing and Enhancement
 
-The first step in transforming Daily Dialog into Daily Yap involved leveraging the power of GPT-4. I tasked this advanced language model with three primary objectives:
+The Daily Dialog transcripts were initially filtered to remove conversations where any utterance was shorter than 10 characters. The remaining transcripts were then processed using GPT-4o via the OpenAI API with three main objectives:
 
-1. Correcting grammatical and spelling errors in the original transcripts.
-2. Reformatting the text to be more compatible with text-to-speech (TTS) engines. This included expanding abbreviations (e.g., changing "Mr." to "Mister") to ensure clearer audio output.
-3. Extending conversations that were deemed too brief, adding depth and complexity to the dialogues.
+1.  Correcting grammatical and spelling errors.
+2.  Reformatting text for improved compatibility with text-to-speech (TTS) engines. This included expanding abbreviations (e.g., "Mr." to "Mister", ".com" to "dot com", "@" to "at") so the text represented spoken language more accurately.
+3.  Extending shorter conversations. GPT-4o was prompted to plausibly continue the dialogue until it reached a total of 10 utterances, increasing the average length and complexity.
 
-This process was crucial in preparing the data for the next stage: audio generation.
+The prompt instructed GPT-4o to return the processed dialogue as a JSON object containing a list of strings, where each string represented one turn in the conversation (e.g., `{"segments": ["segment one", "segment two", ...]}`). This structured output facilitated programmatic handling. The processed transcripts were saved incrementally during the generation process.
 
-## Bringing Conversations to Life
+```python
+completion = client.chat.completions.create(
+    model='gpt-4o',
+    response_format={ 'type': 'json_object' },
+    messages=[
+        {'role': 'system', 'content': 'You are a helpful assistant who responds only with JSON.'},
+        {'role': 'user', 'content': 'Given the following dialog transcription, fix any formatting issues, grammar mistakes, or spelling mistakes if they exist. Replace any abbreviations like the ".? in ".com" or the "@" in an email with their corresponding text, such as "dot" or "at" so that the text reads the way it would be spoken. Also replace other common abbreviations like "Ms" and "Mr". Additionally, if you think it is plausible that the conversation could continue, generate some additional lines of dialog until there are 10 total. Reply with a JSON object in the following format: {"segments": ["segment one", "segment two"]}\n: ' + json.dumps(sample['dialog'])}
+    ]
+)
+completion_data = json.loads(completion.choices[0].message.content)['segments']
+```
 
-Selecting the right text-to-speech engine was a critical decision. After experimenting with several options, including ChatTTS, I ultimately chose XTTSv2. This engine stood out for its superior quality, producing more natural-sounding speech than other open-source options.
+## Audio Generation using TTS
 
-To enhance the dataset's versatility, I decided to use a total of eight distinct voices - four male and four female. These were generated by mixing latent representations of my own voice and those of some friends. This diversity was intentional, aimed at creating a balanced dataset that would allow AI models to generalize better across different speaker characteristics.
+After evaluating several TTS engines, including ChatTTS, the Coqui TTS library's `xtts_v2` model (`tts_models/multilingual/multi-dataset/xtts_v2`) was selected using `TTS.api`, chosen for the perceived naturalness of its output compared to other open-source alternatives available at the time. Audio generation was performed using GPU acceleration.
 
-## The Final Product
+```python
+from TTS.api import TTS
 
-After weeks of development, refinement, and quality assurance, Daily Yap emerged as a robust dataset consisting of 9,758 samples. With approximately 90 hours of audio and an average sample length of 33 seconds, it offers a rich resource for researchers and developers working on conversational AI, speech recognition, and natural language processing tasks.
+tts = TTS('tts_models/multilingual/multi-dataset/xtts_v2', gpu=True)
+```
 
-Each sample in the dataset includes a JSON-formatted transcript paired with a dual-channel WAV file, allowing for easy speaker separation and multimodal alignment.
+To introduce speaker variability, eight distinct voices (four male, four female) were synthesized using recorded samples as inputs to generate latent representations. For each conversation transcript retrieved from the processed dataset, two distinct speaker voices were randomly selected from the available voice pool (`voices` directory).
 
-## Looking to the Future
+The generation process iterated through each utterance (`line`) in the conversation's `segments`. Each turn was assigned to one of the two selected voices in an alternating fashion (`j % 2`). The `tts.tts_to_file` function generated a temporary WAV file (`current.wav`) for the utterance using the appropriate speaker voice (`speaker_wav=v1` or `speaker_wav=v2`) and language set to English (`language='en'`).
 
-While Daily Yap represents a significant step forward, I see it as just the beginning. Future iterations could potentially include fully synthetic dialogues, moving beyond the constraints of the original Daily Dialog dataset. This approach could allow for even greater scalability and diversity in the conversations.
+To create the dual-channel output, the `pydub` library was employed. Two `AudioSegment` objects (`track_one`, `track_two`) were initialized. As each utterance's audio was generated, it was appended to the corresponding speaker's track. Simultaneously, silence of equivalent duration was appended to the *other* speaker's track using `AudioSegment.silent()`. This ensured both tracks remained synchronized, representing the back-and-forth nature of the conversation with silence during the other speaker's turn.
 
-Additionally, as text-to-speech technology continues to advance, I plan to explore upgrading the audio generation process to incorporate the latest breakthroughs in synthetic speech.
+```python
+from os import listdir
+from random import choice
+from pydub import AudioSegment
+
+voices = listdir('voices')
+# ... (dataset loading)
+
+for (i, sample) in enumerate(dataset):
+    # Select two distinct random voices
+    v1 = 'voices/' + choice(voices)
+    v2 = 'voices/' + choice(voices)
+    while v1 == v2:
+        v2 = 'voices/' + choice(voices)
+
+    track_one = AudioSegment.empty()
+    track_two = AudioSegment.empty()
+
+    for (j, line) in enumerate(sample['conversation']):
+        if j % 2 == 1: # Speaker 1
+            tts.tts_to_file(text=line, file_path='current.wav', speaker_wav=v1, language='en')
+            segment = AudioSegment.from_wav('current.wav')
+            track_one += segment
+            track_two += AudioSegment.silent(duration=len(segment))
+        else: # Speaker 0
+            tts.tts_to_file(text=line, file_path='current.wav', speaker_wav=v2, language='en')
+            segment = AudioSegment.from_wav('current.wav')
+            track_two += segment
+            track_one += AudioSegment.silent(duration=len(segment))
+    
+    # Combine tracks and export
+    result = AudioSegment.from_mono_audiosegments(
+        track_one[:min(len(track_one), len(track_two))],
+        track_two[:min(len(track_one), len(track_two))]
+    )
+    result.export('audio/' + str(i) + '.mp3', format='mp3')
+```
+
+Finally, the two mono audio segments were combined into a single stereo audio file using `AudioSegment.from_mono_audiosegments`. The resulting segment was truncated to the length of the shorter track to handle any minor duration discrepancies and then exported as an MP3 file (e.g., `audio/0.mp3`, `audio/1.mp3`, ...).
+
+## Dataset Characteristics
+
+The resulting Daily Yap dataset contains 9,758 samples, totaling approximately 90 hours of audio. The average sample duration is 33 seconds. This resource is intended for use in conversational AI, speech recognition, and related natural language processing tasks.
+
+Each sample consists of a JSON-formatted transcript and a corresponding dual-channel WAV audio file, facilitating speaker diarization and multimodal alignment.
+
+## Future Directions
+
+Future work may involve generating entirely synthetic dialogues, independent of the Daily Dialog source material, potentially increasing scalability and topical diversity.
+
+Furthermore, updates to the audio generation process will be considered as TTS technology progresses, incorporating newer methods for synthetic speech generation.
 
 ## Conclusion
 
-The creation of Daily Yap was driven by a desire to address the lack of high-quality conversational audio datasets and gain a better understanding of multimodal models. This research has taught me a lot about the architecture of audio models and helped familiarize me with the latest research in the field.
+The development of Daily Yap was undertaken to address the need for suitable conversational audio datasets and to investigate multimodal model requirements. This project involved exploring audio model architectures and current research in the field.
 
-Daily Yap represents a significant step forward in providing researchers and developers with the tools they need to create more natural, more engaging, and more capable conversational AI systems. I'm excited to see how the community will leverage this resource to push the boundaries of what's possible in multimodal AI and speech recognition.
+Daily Yap provides a resource for developing and evaluating conversational AI systems. The dataset is available on HuggingFace: [https://huggingface.co/datasets/jakeBoggs/DailyYap](https://huggingface.co/datasets/jakeBoggs/DailyYap)
 
-For those interested in exploring or using the Daily Yap dataset, you can find it on HuggingFace: [https://huggingface.co/datasets/jakeBoggs/DailyYap](https://huggingface.co/datasets/jakeBoggs/DailyYap)
-
-If any academics want to cite this in a paper, I would be honored and extremely amused. Seeing "Daily Yap" in a works cited section would give me a good laugh and make all of this worth it.
+If any academics want to cite this in a paper, I would be honored and extremely amused. Seeing "Daily Yap" in a works 
+cited section would give me a good laugh and make all of this worth it.
