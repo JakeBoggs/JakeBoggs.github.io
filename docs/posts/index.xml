@@ -13,7 +13,7 @@
       <link>https://boggs.tech/posts/evaluating-llm-reasoning-with-mtg-deck-building/</link>
       <pubDate>Fri, 09 May 2025 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/evaluating-llm-reasoning-with-mtg-deck-building/</guid>
-      <description>Introduction Evaluating the advanced reasoning capabilities of Large Language Models (LLMs) requires specialized benchmarks that move beyond surface-level NLP tasks. Building upon my obsession applying AI models to my favorite card game, I&amp;rsquo;ve created ManaBench, a benchmark designed to probe an LLM&amp;rsquo;s capacity for reasoning using the collectible card game Magic: The Gathering (MTG) as a proxy. MTG, with its intricate interactions and deep strategic layer, serves as an ideal micro-world to test an LLM&amp;rsquo;s ability to process extensive contextual information, identify sophisticated patterns, and make judgments that align with expert human strategic choices.</description>
+      <description>Update (2025-05-14): Human Baseline, Gemini 2.5 Pro 03-25, Gemini 1.5 Flash, Deepseek V3 03-24, Qwen3 30B 3A, added.Introduction Evaluating the advanced reasoning capabilities of Large Language Models (LLMs) requires specialized benchmarks that move beyond surface-level NLP tasks. Building upon my obsession applying AI models to my favorite card game, I&amp;rsquo;ve created ManaBench, a benchmark designed to probe an LLM&amp;rsquo;s capacity for reasoning using the collectible card game Magic: The Gathering (MTG) as a proxy.</description>
     </item>
     <item>
       <title>Introducing Manamorphosis: A Diffusion Model for MTG Deck Generation</title>
