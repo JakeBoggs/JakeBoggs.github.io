@@ -6,14 +6,22 @@
     <description>Recent content on Jake Boggs</description>
     <generator>Hugo -- 0.126.1</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 09 May 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 16 May 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://boggs.tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Scalable Reinforcement Learning with LLMs - Atropos Guide</title>
+      <link>https://boggs.tech/posts/atropos-guide-reinforcement-learning-with-llms/</link>
+      <pubDate>Fri, 16 May 2025 00:00:00 +0000</pubDate>
+      <guid>https://boggs.tech/posts/atropos-guide-reinforcement-learning-with-llms/</guid>
+      <description>This weekend, I will be in attendance at the Nous Research – RL Environments Hackathon, so to prepare I&amp;rsquo;ve been playing around with Atropos, their new RL framework that we will be using for the event. After failing to find any guides online, I decided to write my own.
+What is Atropos? Atropos is a library from Nous Research for performing reinforcement learning with LLMs. It provides a framework for managing environments and collecting rollouts.</description>
+    </item>
     <item>
       <title>Evaluating Reasoning in LLMs Through MTG Deck Building</title>
       <link>https://boggs.tech/posts/evaluating-llm-reasoning-with-mtg-deck-building/</link>
       <pubDate>Fri, 09 May 2025 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/evaluating-llm-reasoning-with-mtg-deck-building/</guid>
-      <description>Update (2025-05-14): Human Baseline, Gemini 2.5 Pro 03-25, Gemini 1.5 Flash, Deepseek V3 03-24, Qwen3 30B 3A, added.Introduction Evaluating the advanced reasoning capabilities of Large Language Models (LLMs) requires specialized benchmarks that move beyond surface-level NLP tasks. Building upon my obsession applying AI models to my favorite card game, I&amp;rsquo;ve created ManaBench, a benchmark designed to probe an LLM&amp;rsquo;s capacity for reasoning using the collectible card game Magic: The Gathering (MTG) as a proxy.</description>
+      <description>Update (2025-05-14): Human Baseline, Gemini 2.5 Pro 03-25, Gemini 1.5 Flash, Deepseek V3 03-24, Qwen3 30B 3A added.Introduction Evaluating the advanced reasoning capabilities of Large Language Models (LLMs) requires specialized benchmarks that move beyond surface-level NLP tasks. Building upon my obsession applying AI models to my favorite card game, I&amp;rsquo;ve created ManaBench, a benchmark designed to probe an LLM&amp;rsquo;s capacity for reasoning using the collectible card game Magic: The Gathering (MTG) as a proxy.</description>
     </item>
     <item>
       <title>Introducing Manamorphosis: A Diffusion Model for MTG Deck Generation</title>
