@@ -26,7 +26,7 @@ There are already plenty of reinforcement learning libraries such as [TRL](https
     *   **Game AI:** Developing AI for complex games can require simulating many game instances simultaneously. Each game instance acts as an environment, and Atropos can orchestrate the collection of gameplay data (actions, states, rewards).
     *   **Robotics:** Training robots often involves physical or simulated environments. Atropos can help manage these diverse environments, allowing for parallel data collection from multiple robots or simulations.
 
-To drive continued performance gains, future models are likely to spend a large portion of their compute budget on RL instead of pretraining. This will necessitate scalable frameworks.
+To drive continued performance gains, future models are likely to spend a larger portion of their compute budget on RL instead of pretraining. This will necessitate scalable frameworks.
 
 ## Environment Setup
 Create a python environment and install dependencies:
@@ -38,7 +38,7 @@ pip install "vllm>=0.8.5" torch transformers datasets wandb tenacity atroposlib 
 
 ## Code Structure
 
-We'll go over the GSM8K example from the [Atropos repository](https://github.com/NousResearch/atropos). At the time of writing, there are a couple of small bugs in example scripts that you will need to fix if you plan to run them yourself.
+We'll go over the GSM8K example from the [Atropos repository](https://github.com/NousResearch/atropos). At the time of writing, there are a couple of small bugs that you will need to fix if you plan to run them yourself.
 
 1. In `trainer.py`, the wandb variables need to be empty strings and not `None` if you are not using wandb, otherwise the script will error:
     ```python
