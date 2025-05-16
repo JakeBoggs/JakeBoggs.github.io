@@ -26,7 +26,7 @@ There are already plenty of reinforcement learning libraries such as [TRL](https
     *   **Game AI:** Developing AI for complex games can require simulating many game instances simultaneously. Each game instance acts as an environment, and Atropos can orchestrate the collection of gameplay data (actions, states, rewards).
     *   **Robotics:** Training robots often involves physical or simulated environments. Atropos can help manage these diverse environments, allowing for parallel data collection from multiple robots or simulations.
 
-To drive continued performance gains in future models, they are likely to spend most of their compute budget on RL instead of pretraining. This will necessitate scalable frameworks.
+To drive continued performance gains, future models are likely to spend a large portion of their compute budget on RL instead of pretraining. This will necessitate scalable frameworks.
 
 ## Environment Setup
 Create a python environment and install dependencies:
