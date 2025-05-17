@@ -50,7 +50,7 @@ We'll go over the GSM8K example from the [Atropos repository](https://github.com
 
 With that out of the way, here are the important files and functions:
 
-### [`environment.py`](https://github.com/NousResearch/atropos/blob/main/environments/gsm8k_server.py)
+### [`gsm8k_environment.py`](https://github.com/NousResearch/atropos/blob/main/environments/gsm8k_server.py)
 This script defines the `GSM8kEnv` class, which is responsible for interacting with the GSM8k dataset, generating prompts, collecting model completions, and scoring them.
 
 **Key Components:**
@@ -178,7 +178,7 @@ This script defines the `GSM8kEnv` class, which is responsible for interacting w
     *   Provides the next training item from the dataset.
 
 ### [`trainer.py`](https://github.com/NousResearch/atropos/blob/main/example_trainer/grpo.py)
-This script is responsible for the actual model training process. It initializes the model and tokenizer, sets up the optimizer, fetches data batches from the orchestration server (which gets them from `environment.py`), performs the training steps, and manages the vLLM inference server.
+This script is responsible for the actual model training process. It initializes the model and tokenizer, sets up the optimizer, fetches data batches from the orchestration server (which gets them from `gsm8k_environment.py`), performs the training steps, and manages the vLLM inference server.
 
 **Key Components:**
 
@@ -308,7 +308,7 @@ Once you have installed the dependencies, download the [environment](https://git
 2.  **Start Environment**:
     Open another terminal, activate the environment, and run:
     ```bash
-    python environment.py serve --slurm false
+    python gsm8k_environment.py serve --slurm false
     ```
     The environment will attempt to connect to the orchestration server. Initially, it might wait if the trainer hasn't registered yet.
 
