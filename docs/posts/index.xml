@@ -21,7 +21,7 @@ What is Atropos? Atropos is a library from Nous Research for performing reinforc
       <link>https://boggs.tech/posts/evaluating-llm-reasoning-with-mtg-deck-building/</link>
       <pubDate>Fri, 09 May 2025 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/evaluating-llm-reasoning-with-mtg-deck-building/</guid>
-      <description>Update (2025-05-14): Human Baseline, Gemini 2.5 Pro 03-25, Gemini 1.5 Flash, Deepseek V3 03-24, Qwen3 30B 3A added.Introduction Evaluating the advanced reasoning capabilities of Large Language Models (LLMs) requires specialized benchmarks that move beyond surface-level NLP tasks. Building upon my obsession applying AI models to my favorite card game, I&amp;rsquo;ve created ManaBench, a benchmark designed to probe an LLM&amp;rsquo;s capacity for reasoning using the collectible card game Magic: The Gathering (MTG) as a proxy.</description>
+      <description>Update (2025-05-22): Claude Sonnet 4 and Opus 4 added. Update (2025-05-14): Human Baseline, Gemini 2.5 Pro 03-25, Gemini 1.5 Flash, Deepseek V3 03-24, Qwen3 30B 3A added. Introduction Evaluating the advanced reasoning capabilities of Large Language Models (LLMs) requires specialized benchmarks that move beyond surface-level NLP tasks. Building upon my obsession applying AI models to my favorite card game, I&amp;rsquo;ve created ManaBench, a benchmark designed to probe an LLM&amp;rsquo;s capacity for reasoning using the collectible card game Magic: The Gathering (MTG) as a proxy.</description>
     </item>
     <item>
       <title>Introducing Manamorphosis: A Diffusion Model for MTG Deck Generation</title>

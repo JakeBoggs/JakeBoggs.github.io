@@ -5,6 +5,9 @@ draft: false
 ---
 
 <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
+  <strong>Update (2025-05-22):</strong> Claude Sonnet 4 and Opus 4 added.
+</div>
+<div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
   <strong>Update (2025-05-14):</strong> Human Baseline, Gemini 2.5 Pro 03-25, Gemini 1.5 Flash, Deepseek V3 03-24, Qwen3 30B 3A added.
 </div>
 
@@ -32,47 +35,60 @@ This task is non-trivial for an LLM because it demands more than just factual re
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const ctxLeaderboard = document.getElementById('leaderboardChart').getContext('2d');
+        const canvasElement = document.getElementById('leaderboardChart'); // Get the canvas element itself
+        const ctxLeaderboard = canvasElement.getContext('2d');
         
         const labels = [
-            'Human Baseline',
-            'o3 (low)',
-            'Gemini 2.5 Pro 03-25',
-            'Claude 3.7 Sonnet (no thinking)',
-            'o4 Mini (low)',
-            'Deepseek R1',
-            'GPT-4o 08-06',
-            'Deepseek V3 03-24',
-            'Qwen3 235B A22B (thinking)',
-            'Grok 3 Mini (low)',
-            'Gemini 2.0 Flash',
-            'Mistral 3 Medium',
-            'Qwen3 30B A3B (thinking)',
-            'Llama 4 Maverick',
-            'Gemini 1.5 Flash',
-            'GPT-4.1 Nano',
-            'Llama 3.3 70B',
-            'Random Guessing'
+            'Human Baseline',                       // 68
+            'o3 (low)',                             // 63
+            'Gemini 2.5 Pro 03-25',                 // 53
+            'Claude 3.7 Sonnet (no thinking)',      // 49.5
+            'o4 Mini (low)',                        // 45
+            'Deepseek R1',                          // 43.5
+            'GPT-4o 08-06',                         // 41
+            'Claude Opus 4 (no thinking)',          // 40.5
+            'Claude Sonnet 4 (no thinking)',        // 38
+            'Deepseek V3 03-24',                    // 37.5
+            'Qwen3 235B A22B (thinking)',           // 37
+            'Grok 3 Mini (low)',                    // 37
+            'Gemini 2.0 Flash',                     // 35
+            'Mistral 3 Medium',                     // 31.5
+            'Qwen3 30B A3B (thinking)',             // 28.5
+            'Llama 4 Maverick',                     // 26.5
+            'Gemini 1.5 Flash',                     // 22.5
+            'GPT-4.1 Nano',                         // 19.5
+            'Llama 3.3 70B',                        // 19.5
+            'Random Guessing'                       // 16.67
         ];
 
+        // Calculate dynamic height for the chart
+        const numBars = labels.length;
+        const pixelsPerBar = 15; // Adjust this value as needed for spacing
+        const chartTitleAndXAxisHeight = 100; // Estimated height for title, X-axis, padding
+        const newCanvasHeight = (numBars * pixelsPerBar) + chartTitleAndXAxisHeight;
+        
+        canvasElement.style.height = newCanvasHeight + 'px';
+
         const dataValues = [
-            68, 63, 53, 49.5, 45, 43.5, 41, 37.5, 37, 37, 35, 31.5, 28.5, 26.5, 22.5, 19.5, 19.5, 16.67
+            68, 63, 53, 49.5, 45, 43.5, 41, 40.5, 38, 37.5, 37, 37, 35, 31.5, 28.5, 26.5, 22.5, 19.5, 19.5, 16.67
         ];
 
         const backgroundColors = [
             'rgba(34, 139, 34, 0.8)',  // Human Baseline
             'rgba(75, 192, 192, 0.8)', // o3 (low)
             'rgba(0, 200, 255, 0.8)', // Gemini 2.5 Pro 03-25
-            'rgba(54, 162, 235, 0.8)', // Claude 3.7 Sonnet
-            'rgba(255, 206, 86, 0.8)', // o4 Mini
+            'rgba(54, 162, 235, 0.8)', // Claude 3.7 Sonnet (no thinking)
+            'rgba(255, 206, 86, 0.8)', // o4 Mini (low)
             'rgba(255, 99, 132, 0.8)',  // Deepseek R1
-            'rgba(153, 102, 255, 0.8)',// GPT-4o
+            'rgba(153, 102, 255, 0.8)',// GPT-4o 08-06
+            'rgba(205, 133, 63, 0.8)', // Claude Opus 4 (no thinking)
+            'rgba(188, 143, 143, 0.8)',// Claude Sonnet 4 (no thinking)
             'rgba(128, 128, 0, 0.8)',   // Deepseek V3 03-24
-            'rgba(255, 159, 64, 0.8)', // Qwen3
-            'rgba(101, 143, 74, 0.8)',  // Grok 3 Mini
+            'rgba(255, 159, 64, 0.8)', // Qwen3 235B A22B (thinking)
+            'rgba(101, 143, 74, 0.8)',  // Grok 3 Mini (low)
             'rgba(210, 105, 30, 0.8)',  // Gemini 2.0 Flash
             'rgba(0, 128, 128, 0.8)',   // Mistral 3 Medium
-            'rgba(0, 0, 205, 0.8)',     // Qwen3 30B A3B
+            'rgba(0, 0, 205, 0.8)',     // Qwen3 30B A3B (thinking)
             'rgba(165, 42, 42, 0.8)',   // Llama 4 Maverick
             'rgba(255, 105, 180, 0.8)', // Gemini 1.5 Flash
             'rgba(70, 130, 180, 0.8)',  // GPT-4.1 Nano
@@ -97,7 +113,7 @@ This task is non-trivial for an LLM because it demands more than just factual re
             options: {
                 indexAxis: 'y', // Horizontal bar chart
                 responsive: true,
-                maintainAspectRatio: true, 
+                maintainAspectRatio: false, // Key change: allow height to be independent of width
                 plugins: {
                     legend: {
                         display: false // Hide legend as there's only one dataset
