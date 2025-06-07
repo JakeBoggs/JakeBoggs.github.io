@@ -5,6 +5,9 @@ draft: false
 ---
 
 <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
+  <strong>Update (2025-06-06):</strong> Deepseek R1 05-28 and Gemini 2.5 Pro 06-05 added.
+</div>
+<div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
   <strong>Update (2025-05-22):</strong> Claude Sonnet 4 and Opus 4 added.
 </div>
 <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
@@ -41,10 +44,12 @@ This task is non-trivial for an LLM because it demands more than just factual re
         const labels = [
             'Human Baseline',                       // 68
             'o3 (low)',                             // 63
+            'Gemini 2.5 Pro 06-05',                 // 57.5
             'Gemini 2.5 Pro 03-25',                 // 53
             'Claude 3.7 Sonnet (no thinking)',      // 49.5
             'o4 Mini (low)',                        // 45
             'Deepseek R1',                          // 43.5
+            'Deepseek R1 05-28',                    // 43
             'GPT-4o 08-06',                         // 41
             'Claude Opus 4 (no thinking)',          // 40.5
             'Claude Sonnet 4 (no thinking)',        // 38
@@ -70,16 +75,18 @@ This task is non-trivial for an LLM because it demands more than just factual re
         canvasElement.style.height = newCanvasHeight + 'px';
 
         const dataValues = [
-            68, 63, 53, 49.5, 45, 43.5, 41, 40.5, 38, 37.5, 37, 37, 35, 31.5, 28.5, 26.5, 22.5, 19.5, 19.5, 16.67
+            68, 63, 57.5, 53, 49.5, 45, 43.5, 43, 41, 40.5, 38, 37.5, 37, 37, 35, 31.5, 28.5, 26.5, 22.5, 19.5, 19.5, 16.67
         ];
 
         const backgroundColors = [
             'rgba(34, 139, 34, 0.8)',  // Human Baseline
             'rgba(75, 192, 192, 0.8)', // o3 (low)
+            'rgba(0, 220, 220, 0.8)', // Gemini 2.5 Pro 06-05
             'rgba(0, 200, 255, 0.8)', // Gemini 2.5 Pro 03-25
             'rgba(54, 162, 235, 0.8)', // Claude 3.7 Sonnet (no thinking)
             'rgba(255, 206, 86, 0.8)', // o4 Mini (low)
             'rgba(255, 99, 132, 0.8)',  // Deepseek R1
+            'rgba(255, 99, 100, 0.8)',  // Deepseek R1 05-28
             'rgba(153, 102, 255, 0.8)',// GPT-4o 08-06
             'rgba(205, 133, 63, 0.8)', // Claude Opus 4 (no thinking)
             'rgba(188, 143, 143, 0.8)',// Claude Sonnet 4 (no thinking)
@@ -159,7 +166,7 @@ This task is non-trivial for an LLM because it demands more than just factual re
     });
 </script>
 
-The human baseline has an admittedly small sample size (just myself, it's difficult to find skilled MTG players who want to sit through a 200 question test), but still provides a valuable reference. As the creator of the benchmark and a player of the game for 10+ years, I scored 68% agreement with the other human deck builders. This could be a skill issue on my end, but I think it is more likely due to the somewhat subjective nature of question, along with the presentation format. To provide a fair comparison, I made a script that presents that questions to me exactly as they are shown to the LLMs, but I think I could do better using a deck editor. Despite my less than perfect score, I still beat most of the models by a wide margin. Among LLMs, o3 (low) comes closest with 63% accuracy, followed by Gemini 2.5 Pro 03-25 at 53%, and Claude 3.7 Sonnet at 49.5%. This aligns with qualitative assessments and other benchmarks where these models often excel in real-world tasks. Their success here suggests that ManaBench is effectively capturing a similar type of reasoning aptitude.
+The human baseline has an admittedly small sample size (just myself, it's difficult to find skilled MTG players who want to sit through a 200 question test), but still provides a valuable reference. As the creator of the benchmark and a player of the game for 10+ years, I scored 68% agreement with the other human deck builders. This could be a skill issue on my end, but I think it is more likely due to the somewhat subjective nature of question, along with the presentation format. To provide a fair comparison, I made a script that presents that questions to me exactly as they are shown to the LLMs, but I think I could do better using a deck editor. Despite my less than perfect score, I still beat most of the models by a wide margin. Among LLMs, o3 (low) comes closest with 63% accuracy, followed by Gemini 2.5 Pro 06-05 at 57.5%, and the older Gemini 2.5 Pro 03-25 at 53%. This aligns with qualitative assessments and other benchmarks where these models often excel in real-world tasks. Their success here suggests that ManaBench is effectively capturing a similar type of reasoning aptitude.
 
 The results also highlight a discernible gap in performance between the leading American models (o3, Gemini 2.5 Pro, Claude) and prominent Chinese models like Deepseek R1 (43.5%) and Qwen3 235B A22B (37%). While these models are undoubtedly powerful, their performance on ManaBench suggests that their reasoning capabilities may not be as developed as some of their US counterparts. This observation underscores the utility of specialized benchmarks like ManaBench in revealing subtle but significant differences in model capabilities that might be obscured by broader, more generalized benchmarks.
 
@@ -253,7 +260,7 @@ The preliminary results and the design of ManaBench highlight several key streng
 
 *   **Measures Alignment with Human Expert Judgment:** The "golden" answers are derived from decks designed by human players and sourced from MTGTop8, a database of tournament decklists. Success on this benchmark therefore indicates an LLM's ability to make choices that align with established human expertise and strategic consensus.
 
-*   **Clear Performance Differentiation:** When comparing ManaBench scores to other established LLM evaluation metrics like LMArena ELO ratings, ManaBench demonstrates a significantly stronger ability to differentiate between models. While a general positive correlation is observed (as indicated by the trendline in the chart below), ManaBench provides a much wider relative spread in scores. For the models included in the comparison, ManaBench accuracies range from 19.5% to 63% (a spread of 43.5 percentage points, representing an increase of approximately 223% from the minimum observed score to the maximum). In contrast, their LMArena ELO scores range from 1257 to 1448 (a spread of 191 ELO points, representing an increase of approximately 15% from the minimum observed ELO score to the maximum). The significantly larger proportional range in ManaBench allows for a more granular distinction between models.
+*   **Clear Performance Differentiation:** When comparing ManaBench scores to other established LLM evaluation metrics like LMArena ELO ratings, ManaBench demonstrates a significantly stronger ability to differentiate between models. While a general positive correlation is observed (as indicated by the trendline in the chart below), ManaBench provides a much wider relative spread in scores. For the models included in the comparison, ManaBench accuracies range from 19.5% to 63% (a spread of 43.5 percentage points, representing an increase of approximately 223% from the minimum observed score to the maximum). In contrast, their LMArena ELO scores range from 1257 to 1470 (a spread of 213 ELO points, representing an increase of approximately 17% from the minimum observed ELO score to the maximum). The significantly larger proportional range in ManaBench allows for a more granular distinction between models.
 
     <div style="width: 90%; margin: 20px auto;">
         <canvas id="correlationChart"></canvas>
@@ -278,11 +285,13 @@ The preliminary results and the design of ManaBench highlight several key streng
                 'GPT-4.1 Nano',
                 'Llama 3.3 70B',
                 'Gemini 1.5 Flash',
-                'Deepseek V3 03-24'
+                'Deepseek V3 03-24',
+                'Gemini 2.5 Pro 06-05',
+                'Deepseek R1 05-28'
             ];
 
             const manaBenchScores = [
-                63, 53, 49.5, 45, 43.5, 41, 37, 37, 35, 31.5, 26.5, 19.5, 19.5, 22.5, 37.5
+                63, 53, 49.5, 45, 43.5, 41, 37, 37, 35, 31.5, 26.5, 19.5, 19.5, 22.5, 37.5, 57.5, 43
             ];
 
             const eloScores = {
@@ -298,7 +307,8 @@ The preliminary results and the design of ManaBench highlight several key streng
                 'GPT-4.1 Nano': 1270,
                 'Llama 3.3 70B': 1257,
                 'Gemini 1.5 Flash': 1271,
-                'Deepseek V3 03-24': 1372
+                'Deepseek V3 03-24': 1372,
+                'Gemini 2.5 Pro 06-05': 1470
             };
 
             // Moved color definitions here, before they are used
@@ -317,7 +327,9 @@ The preliminary results and the design of ManaBench highlight several key streng
                 'rgba(70, 130, 180, 0.8)',  
                 'rgba(128, 0, 128, 0.8)',
                 'rgba(255, 105, 180, 0.8)', // Gemini 1.5 Flash
-                'rgba(128, 128, 0, 0.8)'    // Deepseek V3 03-24
+                'rgba(128, 128, 0, 0.8)',    // Deepseek V3 03-24
+                'rgba(0, 220, 220, 0.8)', // Gemini 2.5 Pro 06-05
+                'rgba(255, 99, 100, 0.8)'  // Deepseek R1 05-28
             ];
             const borderColors = backgroundColors.map(color => color.replace('0.8', '1'));
 
@@ -449,7 +461,7 @@ The preliminary results and the design of ManaBench highlight several key streng
         });
     </script>
 
-*   **Challenge for Frontier Models:** With the exception of o3, most of the models are far from matching human performance, let alone exceeding it. There is a 10 point gap between the top models (o3 at 63% and Gemini 2.5 Pro at 53%) and no model reaches the human baseline, showing that the benchmark remains unsaturated and clearly presents a significant challenge for frontier models.
+*   **Challenge for Frontier Models:** With the exception of o3, most of the models are far from matching human performance, let alone exceeding it. There is a 5.5 point gap between the top models (o3 at 63% and Gemini 2.5 Pro 06-05 at 57.5%) and no model reaches the human baseline, showing that the benchmark remains unsaturated and clearly presents a significant challenge for frontier models.
 
 *   **Test of Generalization vs. Benchmark Overfitting:** The complexity of MTG deck construction, the private nature of the benchmark questions, and the fact that MTG strategy is unlikely to be a direct optimization target for most LLM labs, collectively make ManaBench a strong test of generalized reasoning. Performance on this benchmark may reveal whether models are truly capable of applying reasoning to novel, complex systems, or if their high scores on common academic benchmarks (like MMLU or MATH) are partly due to overfitting or memorization of those specific test distributions. For example, a model series like Llama 4, which demonstrated strong performance on many standard benchmarks, gave a much weaker showing here, highlighting the value of diverse, specialized evaluations like ManaBench in assessing true generalization. This aligns with the experiences of many users who reported that Llama 4 struggled with real tasks and underperformed expectations.
 
