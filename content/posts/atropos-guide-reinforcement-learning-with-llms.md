@@ -5,6 +5,8 @@ draft: false
 ---
 This weekend, I will be in attendance at the [Nous Research – RL Environments Hackathon](https://cerebralvalley.ai/e/nous-research-rl-environments-hackathon-9be3062a), so to prepare I've been playing around with Atropos, their new RL framework that we will be using for the event. After failing to find any guides online, I decided to write my own.
 
+**Update:** I got 2nd place with VR-CLImax, my implementation of Verified Rewards via Completion Likelihood Improvement for improving LLM humor! You can find the code merged into the [Atropos repository](https://github.com/NousResearch/atropos/tree/main/environments/community/punchline_vrcli).
+
 ## What is Atropos?
 
 Atropos is a library from [Nous Research](https://nousresearch.com/) for performing reinforcement learning with LLMs. It provides a framework for managing environments and collecting rollouts. The training process is broken into four main components (environments, inference, trainer, orchestration), each running separately, enabling them to be distributed across multiple machines. 

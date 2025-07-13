@@ -14,14 +14,14 @@
       <pubDate>Fri, 16 May 2025 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/atropos-guide-reinforcement-learning-with-llms/</guid>
       <description>This weekend, I will be in attendance at the Nous Research – RL Environments Hackathon, so to prepare I&amp;rsquo;ve been playing around with Atropos, their new RL framework that we will be using for the event. After failing to find any guides online, I decided to write my own.
-What is Atropos? Atropos is a library from Nous Research for performing reinforcement learning with LLMs. It provides a framework for managing environments and collecting rollouts.</description>
+Update: I got 2nd place with VR-CLImax, my implementation of Verified Rewards via Completion Likelihood Improvement for improving LLM humor! You can find the code merged into the Atropos repository.</description>
     </item>
     <item>
       <title>Evaluating Reasoning in LLMs Through MTG Deck Building</title>
       <link>https://boggs.tech/posts/evaluating-llm-reasoning-with-mtg-deck-building/</link>
       <pubDate>Fri, 09 May 2025 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/evaluating-llm-reasoning-with-mtg-deck-building/</guid>
-      <description>Update (2025-06-11): o3 (high) added after API cost reduction. Update (2025-06-06): Deepseek R1 05-28 and Gemini 2.5 Pro 06-05 added. Update (2025-05-22): Claude Sonnet 4 and Opus 4 added. Update (2025-05-14): Human Baseline, Gemini 2.5 Pro 03-25, Gemini 1.5 Flash, Deepseek V3 03-24, Qwen3 30B 3A added. Introduction Evaluating the advanced reasoning capabilities of Large Language Models (LLMs) requires specialized benchmarks that move beyond surface-level NLP tasks. Building upon my obsession applying AI models to my favorite card game, I&amp;rsquo;ve created ManaBench, a benchmark designed to probe an LLM&amp;rsquo;s capacity for reasoning using the collectible card game Magic: The Gathering (MTG) as a proxy.</description>
+      <description>Update (2025-07-13): Grok 4, Grok 3, Gemini 2.5 Flash, Claude Sonnet 4 (thinking), and Command A added. View Older Updates Update (2025-06-11): o3 (high) added after API cost reduction. Update (2025-06-06): Deepseek R1 05-28 and Gemini 2.5 Pro 06-05 added. Update (2025-05-22): Claude Sonnet 4 and Opus 4 added. Update (2025-05-14): Human Baseline, Gemini 2.5 Pro 03-25, Gemini 1.5 Flash, Deepseek V3 03-24, Qwen3 30B 3A added. Introduction Evaluating the advanced reasoning capabilities of Large Language Models (LLMs) requires specialized benchmarks that move beyond surface-level NLP tasks.</description>
     </item>
     <item>
       <title>Introducing Manamorphosis: A Diffusion Model for MTG Deck Generation</title>
@@ -53,9 +53,9 @@ I spent a weekend at HackNC building something to help manage all of my other si
       <link>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</link>
       <pubDate>Sun, 23 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</guid>
-      <description>Training multimodal models often requires large, high-quality conversational audio datasets, which are currently scarce. This document details the creation of Daily Yap, a dataset developed to address this gap.
+      <description>Training multimodal models often requires large, high-quality conversational audio datasets, which are scarce at the time of writing. This post details the creation of Daily Yap, a dataset I developed to address this gap.
 Existing conversational audio datasets present several limitations:
-Content Scope: Many datasets focus on assistant-user interactions, lacking the breadth of topics found in general human dialogues. Audio-Text Alignment: Datasets with precise alignment between high-quality audio and accurate transcriptions are uncommon. Speaker Diversity: The use of few speakers limits the generalizability of models trained on these datasets.</description>
+Content Scope: Many datasets focus on assistant-user interactions, lacking the breadth of topics found in general human dialogues. Audio-Text Alignment: Datasets with precise alignment between high-quality audio and accurate transcriptions are uncommon.</description>
     </item>
     <item>
       <title>Large Language Models for Magic: the Gathering</title>
@@ -65,13 +65,23 @@ Content Scope: Many datasets focus on assistant-user interactions, lacking the b
       <description>Magic: The Gathering (MTG) has always fascinated me with its complexity and strategic depth, thanks to its extensive rulebook and vast array of unique cards. Despite the game&amp;rsquo;s popularity, AI systems specifically designed for MTG have been few and far between, often falling short due to their inability to accurately interpret the intricate rules and interactions between cards. This blog post chronicles my recent endeavor to bridge this gap with large language models (LLMs) by creating a specialized dataset and evaluation metric to improve AI performance in MTG-related tasks.</description>
     </item>
     <item>
-      <title>Various companies I&#39;ve created or invested in</title>
+      <title>About me</title>
+      <link>https://boggs.tech/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://boggs.tech/about/</guid>
+      <description>The name is Jake and I have a snake. Currently wrapping up school at NC State while working full-time at Endeavor.
+Just moved to the Bay Area, hit me up if you want to get coffee and chat. Or calzones. I fucking love calzones.
+Chances are that if you see me in the wild, I&#39;ll be rocking these bad boys: I&amp;rsquo;m also skilled at Magic: the Gathering &amp;#x1f60f; (ladies, calm down, one at a time)</description>
+    </item>
+    <item>
+      <title>Startups I&#39;ve worked at or invested in</title>
       <link>https://boggs.tech/startups/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/startups/</guid>
-      <description>Personal These are companies I&amp;rsquo;ve started myself or been involved with from the beginning. Free Lunch (Cofounder)Small-scale hedgefund, yes I know our website is ugly lol
-Aeternum Analytics (Founder)Began with facial recognition, ended up selling trading cards, now we&amp;#39;re becoming a B2B prospecting platform. Biggest pivot since The Boring Company switched to flamethrowers
-Osmos LearnService for K-12 teachers that uses GPT-4V to scan assignments and automatically grade them based on a rubric.</description>
+      <description>Endeavor AI (Researcher)Currently working here on training and deploying LLMs / agents for manufacturing companies
+Aeternum Analytics (Founder)Began with facial recognition, ended up selling trading cards, now it&amp;#39;s a B2B prospecting platform. Biggest pivot since The Boring Company switched to flamethrowers
+Free Lunch (Cofounder)Small-scale hedgefund from my quant trading arc, yes I know the website is ugly lol
+Osmos Learn (Full-stack)Service for K-12 teachers that uses GPT-4V to scan assignments and automatically grade them based on a rubric.</description>
     </item>
   </channel>
 </rss>

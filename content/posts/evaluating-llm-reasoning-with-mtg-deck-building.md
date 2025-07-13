@@ -5,17 +5,25 @@ draft: false
 ---
 
 <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
-  <strong>Update (2025-06-11):</strong> o3 (high) added after API cost reduction.
+  <strong>Update (2025-07-13):</strong> Grok 4, Grok 3, Gemini 2.5 Flash, Claude Sonnet 4 (thinking), and Command A added.
 </div>
-<div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
-  <strong>Update (2025-06-06):</strong> Deepseek R1 05-28 and Gemini 2.5 Pro 06-05 added.
-</div>
-<div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
-  <strong>Update (2025-05-22):</strong> Claude Sonnet 4 and Opus 4 added.
-</div>
-<div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
-  <strong>Update (2025-05-14):</strong> Human Baseline, Gemini 2.5 Pro 03-25, Gemini 1.5 Flash, Deepseek V3 03-24, Qwen3 30B 3A added.
-</div>
+<details style="margin-bottom: 18px;">
+  <summary style="cursor: pointer; font-weight: 500;">View Older Updates</summary>
+  <div style="padding-top: 10px;">
+    <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
+      <strong>Update (2025-06-11):</strong> o3 (high) added after API cost reduction.
+    </div>
+    <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
+      <strong>Update (2025-06-06):</strong> Deepseek R1 05-28 and Gemini 2.5 Pro 06-05 added.
+    </div>
+    <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
+      <strong>Update (2025-05-22):</strong> Claude Sonnet 4 and Opus 4 added.
+    </div>
+    <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 0; font-size: 1.08em; font-weight: 500;">
+      <strong>Update (2025-05-14):</strong> Human Baseline, Gemini 2.5 Pro 03-25, Gemini 1.5 Flash, Deepseek V3 03-24, Qwen3 30B 3A added.
+    </div>
+  </div>
+</details>
 
 ## Introduction
 
@@ -50,10 +58,14 @@ This task is non-trivial for an LLM because it demands more than just factual re
             'o3 (low)',                             // 63
             'Gemini 2.5 Pro 06-05',                 // 57.5
             'Gemini 2.5 Pro 03-25',                 // 53
+            'Grok 4',                               // 52.5
+            'Gemini 2.5 Flash',                     // 50
             'Claude 3.7 Sonnet (no thinking)',      // 49.5
             'o4 Mini (low)',                        // 45
+            'Claude Sonnet 4 (thinking)',           // 44
             'Deepseek R1',                          // 43.5
             'Deepseek R1 05-28',                    // 43
+            'Grok 3',                               // 41.5
             'GPT-4o 08-06',                         // 41
             'Claude Opus 4 (no thinking)',          // 40.5
             'Claude Sonnet 4 (no thinking)',        // 38
@@ -64,6 +76,7 @@ This task is non-trivial for an LLM because it demands more than just factual re
             'Mistral 3 Medium',                     // 31.5
             'Qwen3 30B A3B (thinking)',             // 28.5
             'Llama 4 Maverick',                     // 26.5
+            'Command A',                            // 25
             'Gemini 1.5 Flash',                     // 22.5
             'GPT-4.1 Nano',                         // 19.5
             'Llama 3.3 70B',                        // 19.5
@@ -79,7 +92,7 @@ This task is non-trivial for an LLM because it demands more than just factual re
         canvasElement.style.height = newCanvasHeight + 'px';
 
         const dataValues = [
-            68, 65, 63, 57.5, 53, 49.5, 45, 43.5, 43, 41, 40.5, 38, 37.5, 37, 37, 35, 31.5, 28.5, 26.5, 22.5, 19.5, 19.5, 16.67
+            68, 65, 63, 57.5, 53, 52.5, 50, 49.5, 45, 44, 43.5, 43, 41.5, 41, 40.5, 38, 37.5, 37, 37, 35, 31.5, 28.5, 26.5, 25, 22.5, 19.5, 19.5, 16.67
         ];
 
         const backgroundColors = [
@@ -88,10 +101,14 @@ This task is non-trivial for an LLM because it demands more than just factual re
             'rgba(75, 192, 192, 0.8)', // o3 (low)
             'rgba(0, 220, 220, 0.8)', // Gemini 2.5 Pro 06-05
             'rgba(0, 200, 255, 0.8)', // Gemini 2.5 Pro 03-25
+            'rgba(220, 20, 60, 0.8)',  // Grok 4
+            'rgba(50, 205, 50, 0.8)',  // Gemini 2.5 Flash
             'rgba(54, 162, 235, 0.8)', // Claude 3.7 Sonnet (no thinking)
             'rgba(255, 206, 86, 0.8)', // o4 Mini (low)
+            'rgba(138, 43, 226, 0.8)', // Claude Sonnet 4 (thinking)
             'rgba(255, 99, 132, 0.8)',  // Deepseek R1
             'rgba(255, 99, 100, 0.8)',  // Deepseek R1 05-28
+            'rgba(255, 140, 0, 0.8)',  // Grok 3
             'rgba(153, 102, 255, 0.8)',// GPT-4o 08-06
             'rgba(205, 133, 63, 0.8)', // Claude Opus 4 (no thinking)
             'rgba(188, 143, 143, 0.8)',// Claude Sonnet 4 (no thinking)
@@ -102,6 +119,7 @@ This task is non-trivial for an LLM because it demands more than just factual re
             'rgba(0, 128, 128, 0.8)',   // Mistral 3 Medium
             'rgba(0, 0, 205, 0.8)',     // Qwen3 30B A3B (thinking)
             'rgba(165, 42, 42, 0.8)',   // Llama 4 Maverick
+            'rgba(139, 69, 19, 0.8)',   // Command A
             'rgba(255, 105, 180, 0.8)', // Gemini 1.5 Flash
             'rgba(70, 130, 180, 0.8)',  // GPT-4.1 Nano
             'rgba(128, 0, 128, 0.8)',   // Llama 3.3 70B
@@ -174,6 +192,152 @@ This task is non-trivial for an LLM because it demands more than just factual re
 The human baseline has an admittedly small sample size (just myself, it's difficult to find skilled MTG players who want to sit through a 200 question test), but still provides a valuable reference. As the creator of the benchmark and a player of the game for 10+ years, I scored 68% agreement with the other human deck builders. This could be a skill issue on my end, but I think it is more likely due to the somewhat subjective nature of question, along with the presentation format. To provide a fair comparison, I made a script that presents that questions to me exactly as they are shown to the LLMs, but I think I could do better using a deck editor. Despite my less than perfect score, I still beat most of the models by a wide margin. Among LLMs, o3 (high) comes closest with 65% accuracy, followed by o3 (low) at 63%, and Gemini 2.5 Pro 06-05 at 57.5%. This aligns with qualitative assessments and other benchmarks where these models often excel in real-world tasks. Their success here suggests that ManaBench is effectively capturing a similar type of reasoning aptitude.
 
 The results also highlight a discernible gap in performance between the leading American models (o3, Gemini 2.5 Pro, Claude) and prominent Chinese models like Deepseek R1 (43.5%) and Qwen3 235B A22B (37%). While these models are undoubtedly powerful, their performance on ManaBench suggests that their reasoning capabilities may not be as developed as some of their US counterparts. This observation underscores the utility of specialized benchmarks like ManaBench in revealing subtle but significant differences in model capabilities that might be obscured by broader, more generalized benchmarks.
+
+## Accuracy vs. Cost
+
+This chart visualizes the model cost vs performance. The x-axis represents a blended cost per million tokens, calculated with a 3:1 weighting of input to output costs. The y-axis shows the accuracy on ManaBench. Models on the red line represent the Pareto frontier.
+
+<div style="width: 90%; margin: 20px auto;">
+    <canvas id="paretoChart"></canvas>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const ctxPareto = document.getElementById('paretoChart').getContext('2d');
+        
+        const modelData = [
+            { name: 'o3 (high)', accuracy: 65, inputCost: 2.00, outputCost: 8.00, color: 'rgba(70, 130, 220, 0.8)' },
+            { name: 'o3 (low)', accuracy: 63, inputCost: 2.00, outputCost: 8.00, color: 'rgba(75, 192, 192, 0.8)' },
+            { name: 'Gemini 2.5 Pro 06-05', accuracy: 57.5, inputCost: 2.50, outputCost: 15.00, color: 'rgba(0, 220, 220, 0.8)' },
+            { name: 'Gemini 2.5 Pro 03-25', accuracy: 53, inputCost: 2.50, outputCost: 15.00, color: 'rgba(0, 200, 255, 0.8)' },
+            { name: 'Grok 4', accuracy: 52.5, inputCost: 3.00, outputCost: 15.00, color: 'rgba(220, 20, 60, 0.8)' },
+            { name: 'Gemini 2.5 Flash', accuracy: 50, inputCost: 0.30, outputCost: 2.50, color: 'rgba(50, 205, 50, 0.8)' },
+            { name: 'Claude 3.7 Sonnet (no thinking)', accuracy: 49.5, inputCost: 3.00, outputCost: 15.00, color: 'rgba(54, 162, 235, 0.8)' },
+            { name: 'o4 Mini (low)', accuracy: 45, inputCost: 1.10, outputCost: 4.40, color: 'rgba(255, 206, 86, 0.8)' },
+            { name: 'Claude Sonnet 4 (thinking)', accuracy: 44, inputCost: 3.00, outputCost: 15.00, color: 'rgba(138, 43, 226, 0.8)' },
+            { name: 'Deepseek R1', accuracy: 43.5, inputCost: 0.45, outputCost: 2.15, color: 'rgba(255, 99, 132, 0.8)' },
+            { name: 'Deepseek R1 05-28', accuracy: 43, inputCost: 0.50, outputCost: 2.15, color: 'rgba(255, 99, 100, 0.8)' },
+            { name: 'Grok 3', accuracy: 41.5, inputCost: 3.00, outputCost: 15.00, color: 'rgba(255, 140, 0, 0.8)' },
+            { name: 'GPT-4o 08-06', accuracy: 41, inputCost: 2.50, outputCost: 10.00, color: 'rgba(153, 102, 255, 0.8)' },
+            { name: 'Claude Opus 4 (no thinking)', accuracy: 40.5, inputCost: 15.00, outputCost: 75.00, color: 'rgba(205, 133, 63, 0.8)' },
+            { name: 'Claude Sonnet 4 (no thinking)', accuracy: 38, inputCost: 3.00, outputCost: 15.00, color: 'rgba(188, 143, 143, 0.8)' },
+            { name: 'Deepseek V3 03-24', accuracy: 37.5, inputCost: 0.27, outputCost: 1.10, color: 'rgba(128, 128, 0, 0.8)' },
+            { name: 'Qwen3 235B A22B (thinking)', accuracy: 37, inputCost: 0.13, outputCost: 0.60, color: 'rgba(255, 159, 64, 0.8)' },
+            { name: 'Grok 3 Mini (low)', accuracy: 37, inputCost: 0.30, outputCost: 0.50, color: 'rgba(101, 143, 74, 0.8)' },
+            { name: 'Gemini 2.0 Flash', accuracy: 35, inputCost: 0.10, outputCost: 0.40, color: 'rgba(210, 105, 30, 0.8)' },
+            { name: 'Mistral 3 Medium', accuracy: 31.5, inputCost: 0.40, outputCost: 2.00, color: 'rgba(0, 128, 128, 0.8)' },
+            { name: 'Qwen3 30B A3B (thinking)', accuracy: 28.5, inputCost: 0.08, outputCost: 0.29, color: 'rgba(0, 0, 205, 0.8)' },
+            { name: 'Llama 4 Maverick', accuracy: 26.5, inputCost: 0.15, outputCost: 0.60, color: 'rgba(165, 42, 42, 0.8)' },
+            { name: 'Command A', accuracy: 25, inputCost: 2.50, outputCost: 10.00, color: 'rgba(139, 69, 19, 0.8)' },
+            { name: 'Gemini 1.5 Flash', accuracy: 22.5, inputCost: 0.075, outputCost: 0.30, color: 'rgba(255, 105, 180, 0.8)' },
+            { name: 'GPT-4.1 Nano', accuracy: 19.5, inputCost: 0.10, outputCost: 0.40, color: 'rgba(70, 130, 180, 0.8)' },
+            { name: 'Llama 3.3 70B', accuracy: 19.5, inputCost: 0.038, outputCost: 0.12, color: 'rgba(128, 0, 128, 0.8)' },
+        ];
+
+        const scatterDataPoints = modelData.map(model => {
+            const blendedCost = (model.inputCost * 3 + model.outputCost * 1) / 4;
+            return {
+                x: blendedCost,
+                y: model.accuracy,
+                label: model.name,
+                color: model.color
+            };
+        });
+
+        // Identify Pareto Frontier
+        scatterDataPoints.sort((a, b) => b.y - a.y || a.x - b.x); // Sort by accuracy (desc), then cost (asc)
+        
+        const paretoFrontier = [];
+        let maxAccuracy = -1;
+        let minCostForMaxAccuracy = Infinity;
+
+        for (const point of scatterDataPoints) {
+            // Start with the highest accuracy point
+            if (paretoFrontier.length === 0) {
+                paretoFrontier.push(point);
+                minCostForMaxAccuracy = point.x;
+                continue;
+            }
+
+            // A point is on the frontier if it has a lower cost than the current best point for a given or higher accuracy
+            // Since we sorted by accuracy desc, we only need to check the cost
+            if (point.x < minCostForMaxAccuracy) {
+                paretoFrontier.push(point);
+                minCostForMaxAccuracy = point.x;
+            }
+        }
+        paretoFrontier.sort((a, b) => a.x - b.x); // Sort by cost for drawing the line
+
+        const costs = scatterDataPoints.map(p => p.x);
+        const minCost = Math.min(...costs);
+        const maxCost = Math.max(...costs);
+
+        new Chart(ctxPareto, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Models',
+                    data: scatterDataPoints,
+                    backgroundColor: scatterDataPoints.map(p => p.color),
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                },
+                {
+                    label: 'Pareto Frontier',
+                    data: paretoFrontier,
+                    type: 'line',
+                    borderColor: 'rgba(255, 0, 0, 0.7)',
+                    borderWidth: 2,
+                    fill: false,
+                    showLine: true,
+                    pointRadius: 0,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'ManaBench Pareto Frontier (Accuracy vs. Blended Cost)',
+                        font: { size: 18 }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const point = context.dataset.data[context.dataIndex];
+                                return `${point.label}: (${point.x.toFixed(2)}, ${point.y}%)`;
+                            }
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'logarithmic',
+                        min: minCost * 0.9,
+                        max: maxCost * 1.1,
+                        title: {
+                            display: true,
+                            text: 'Blended Cost ($ per 1M Tokens, 3:1 Input/Output Ratio) - Log Scale'
+                        }
+                    },
+                    y: {
+                        grace: '5%', // Add 5% padding to the top of the y-axis
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Accuracy (%)'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
 
 ## Benchmark Construction Methodology
 
@@ -278,15 +442,18 @@ The preliminary results and the design of ManaBench highlight several key streng
             const modelLabels = [
                 'o3 (low)',
                 'Gemini 2.5 Pro 03-25',
+                'Gemini 2.5 Flash',
                 'Claude 3.7 Sonnet (no thinking)',
                 'o4 Mini (low)',
                 'Deepseek R1',
+                'Grok 3',
                 'GPT-4o 08-06',
                 'Qwen3 235B A22B (thinking)',
                 'Grok 3 Mini (low)', // ELO Not available, will be filtered or handled
                 'Gemini 2.0 Flash',
                 'Mistral 3 Medium', // ELO Not available
                 'Llama 4 Maverick',
+                'Command A',
                 'GPT-4.1 Nano',
                 'Llama 3.3 70B',
                 'Gemini 1.5 Flash',
@@ -296,19 +463,22 @@ The preliminary results and the design of ManaBench highlight several key streng
             ];
 
             const manaBenchScores = [
-                63, 53, 49.5, 45, 43.5, 41, 37, 37, 35, 31.5, 26.5, 19.5, 19.5, 22.5, 37.5, 57.5, 43
+                63, 53, 50, 49.5, 45, 43.5, 41.5, 41, 37, 37, 35, 31.5, 26.5, 25, 19.5, 19.5, 22.5, 37.5, 57.5, 43
             ];
 
             const eloScores = {
                 'Gemini 2.5 Pro 03-25': 1448,
+                'Gemini 2.5 Flash': 1416,
                 'o3 (low)': 1411,
                 'Claude 3.7 Sonnet (no thinking)': 1291,
                 'o4 Mini (low)': 1351,
                 'Deepseek R1': 1359,
+                'Grok 3': 1409,
                 'GPT-4o 08-06': 1265,
                 'Qwen3 235B A22B (thinking)': 1342,
                 'Gemini 2.0 Flash': 1355,
                 'Llama 4 Maverick': 1269,
+                'Command A': 1346,
                 'GPT-4.1 Nano': 1270,
                 'Llama 3.3 70B': 1257,
                 'Gemini 1.5 Flash': 1271,
@@ -320,15 +490,18 @@ The preliminary results and the design of ManaBench highlight several key streng
             const backgroundColors = [
                 'rgba(75, 192, 192, 0.8)', 
                 'rgba(0, 200, 255, 0.8)', // Gemini 2.5 Pro 03-25
+                'rgba(50, 205, 50, 0.8)',  // Gemini 2.5 Flash
                 'rgba(54, 162, 235, 0.8)', 
                 'rgba(255, 206, 86, 0.8)', 
                 'rgba(255, 99, 132, 0.8)',  
+                'rgba(255, 140, 0, 0.8)',  // Grok 3
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(255, 159, 64, 0.8)', 
                 'rgba(101, 143, 74, 0.8)',  
                 'rgba(210, 105, 30, 0.8)',  
                 'rgba(0, 128, 128, 0.8)',   
                 'rgba(165, 42, 42, 0.8)',   
+                'rgba(139, 69, 19, 0.8)',   // Command A
                 'rgba(70, 130, 180, 0.8)',  
                 'rgba(128, 0, 128, 0.8)',
                 'rgba(255, 105, 180, 0.8)', // Gemini 1.5 Flash

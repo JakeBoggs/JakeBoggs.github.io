@@ -1,16 +1,15 @@
 ---
-title: "Various companies I've created or invested in"
+title: "Startups I've worked at or invested in"
 ---
-# Personal
-These are companies I've started myself or been involved with from the beginning.
-{{< investment img="/images/freelunch.png" url="https://freelunch.fund" title="Free Lunch (Cofounder)" description="Small-scale hedgefund, yes I know our website is ugly lol" >}}
-{{< investment img="/images/aeternum.png" url="https://aeternumanalytics.com/" title="Aeternum Analytics (Founder)" description="Began with facial recognition, ended up selling trading cards, now we're becoming a B2B prospecting platform. Biggest pivot since The Boring Company switched to flamethrowers" >}}
-{{< investment img="/images/osmos.png" url="https://osmoslearn.com" title="Osmos Learn" description="Service for K-12 teachers that uses GPT-4V to scan assignments and automatically grade them based on a rubric. Shutdown due to new student privacy regulations. Started by my friend, I built a lot of the backend" >}}
+{{< investment img="/images/endeavor.png" url="https://endeavorai.com/" title="Endeavor AI (Researcher)" description="Currently working here on training and deploying LLMs / agents for manufacturing companies" >}}
+{{< investment img="/images/aeternum.png" url="https://aeternumanalytics.com/" title="Aeternum Analytics (Founder)" description="Began with facial recognition, ended up selling trading cards, now it's a B2B prospecting platform. Biggest pivot since The Boring Company switched to flamethrowers" >}}
+{{< investment img="/images/freelunch.png" url="https://freelunch.fund" title="Free Lunch (Cofounder)" description="Small-scale hedgefund from my quant trading arc, yes I know the website is ugly lol" >}}
+{{< investment img="/images/osmos.png" url="https://osmoslearn.com" title="Osmos Learn (Full-stack)" description="Service for K-12 teachers that uses GPT-4V to scan assignments and automatically grade them based on a rubric. Shutdown due to new student privacy regulations. Started by my friend, I built a lot of the backend" >}}
 
 # Investments
-Eventually I want to run my own VC fund, so I've been practicing through [Reg-CF](https://www.investor.gov/introduction-investing/investing-basics/glossary/regulation-crowdfunding). Hopefully one day this will serve as a track record when I go to raise money from investors, but in the meantime it's teaching me a lot and reading the quarterly updates is always exciting. I initially set out to make 100 investments by the time I graduate college, so far I'm 3 years in with 51 investments across 49 companies. Been slowing down lately to focus on other projects, so 100 seems unlikely, but I'm satisfied with my progress so far and I've learned a lot.
+Eventually I want to run my own VC fund, so I've been practicing through [Reg-CF](https://www.investor.gov/introduction-investing/investing-basics/glossary/regulation-crowdfunding). Hopefully one day this will serve as a track record when I go to raise money from investors, but in the meantime it's teaching me a lot and reading the quarterly updates is always exciting. I initially set out to make 100 investments by the time I graduated college, so far I'm 3 years in with 51 investments across 49 companies. Been slowing down lately to focus on other projects, so 100 seems unlikely, but I'm satisfied with my progress and I've learned a lot.
 ## Highlights
-These have been the best performers, with substantial revenue growth and/or follow-on rounds at much higher valuations.
+These have been the best performers, with substantial revenue growth and/or follow-on rounds at higher valuations.
 {{< investment img="/images/fueled.png" url="https://fueled.io/" title="Fueled" description="1st-party eCommerce data platform - Invested 2023" >}}
 {{< investment img="/images/blackbird.png" url="https://www.blackbirdfoods.com/" title="Blackbird Foods" description="Plant-based pizza and meats - Invested 2023" >}}
 {{< investment img="/images/jurny.png" url="https://www.jurny.com/" title="Jurny" description="Automated vacation rental management - Invested 2023" >}}
@@ -22,7 +21,7 @@ These have been the best performers, with substantial revenue growth and/or foll
 {{< investment img="/images/lmnt.png" url="https://drinklmnt.com/" title="LMNT" description="Sugar-free electrolyte drink mix - Invested 2022" >}}
 {{< investment img="/images/guac.png" url="https://joinguac.com/" title="Guac" description="Automatic savings app - Invested 2022" >}}
 {{< investment img="/images/evolution-devices.png" url="https://www.evolutiondevices.com/" title="Evolution Devices" description="Tracking software and electrical stimulation device for gait improvement - Invested 2021 & 2023" >}}
-## Learning Experiences (Failures :cry:)
+## "Learning Experiences" (Losses :cry:)
 This list will undoubtedly grow.
 {{< investment img="/images/clockwork.png" url="https://likeclockwork.com/" title="Clockwork" description="Shutdown and acquired by 10Beauty - Invested 2023 - Shutdown 2024" >}}
 {{< investment img="/images/tinyorganics.png" url="https://www.tinyorganics.com/" title="Tiny Organics" description="Sold itself to a new group of investors for a substantial discount - Invested 2023" >}}

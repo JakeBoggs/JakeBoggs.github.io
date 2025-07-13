@@ -3,7 +3,7 @@ title: "Daily Yap: A Synthetically Generated Conversational Audio Dataset"
 date: "2024-06-23"
 draft: false
 ---
-Training multimodal models often requires large, high-quality conversational audio datasets, which are currently scarce. This document details the creation of Daily Yap, a dataset developed to address this gap.
+Training multimodal models often requires large, high-quality conversational audio datasets, which are scarce at the time of writing. This post details the creation of Daily Yap, a dataset I developed to address this gap.
 
 Existing conversational audio datasets present several limitations:
 
@@ -112,9 +112,6 @@ Furthermore, updates to the audio generation process will be considered as TTS t
 
 ## Conclusion
 
-The development of Daily Yap was undertaken to address the need for suitable conversational audio datasets and to investigate multimodal model requirements. This project involved exploring audio model architectures and current research in the field.
-
 Daily Yap provides a resource for developing and evaluating conversational AI systems. The dataset is available on HuggingFace: [https://huggingface.co/datasets/jakeBoggs/DailyYap](https://huggingface.co/datasets/jakeBoggs/DailyYap)
 
-If any academics want to cite this in a paper, I would be honored and extremely amused. Seeing "Daily Yap" in a works 
-cited section would give me a good laugh and make all of this worth it.
+If any academics want to cite this in a paper, I would be honored and extremely amused. Seeing "Daily Yap" in a works cited section would give me a good laugh and make all of this worth it.

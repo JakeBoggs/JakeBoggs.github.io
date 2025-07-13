@@ -29,7 +29,7 @@ params:
 
   homeInfoParams:
     Title: "Hi there \U0001F44B"
-    Content: I'm Jake, an obsessive AI / ML researcher. Figured it was time to start sharing a few of the projects I've been working on...
+    Content: I'm Jake, an obsessive AI / ML researcher, currently at <a href="https://www.endeavorai.com">Endeavor AI</a>. I'm the guy with the Crocs.
 
   socialIcons:
     - name: twitter
@@ -46,6 +46,10 @@ menu:
     - identifier: startups
       name: Startups
       url: /startups
+      weight: 30
+    - identifier: about
+      name: About me
+      url: /about
       weight: 30
 
 markup:
