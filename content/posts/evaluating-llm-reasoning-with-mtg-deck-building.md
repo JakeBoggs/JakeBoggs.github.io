@@ -5,11 +5,14 @@ draft: false
 ---
 
 <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
-  <strong>Update (2025-07-13):</strong> Grok 4, Grok 3, Gemini 2.5 Flash, Claude Sonnet 4 (thinking), and Command A added.
+  <strong>Update (2025-08-05):</strong> Kimi K2, GPT OSS 120B (low), and GPT OSS 120B (high) added.
 </div>
 <details style="margin-bottom: 18px;">
   <summary style="cursor: pointer; font-weight: 500;">View Older Updates</summary>
   <div style="padding-top: 10px;">
+    <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
+      <strong>Update (2025-07-13):</strong> Grok 4, Grok 3, Gemini 2.5 Flash, Claude Sonnet 4 (thinking), and Command A added.
+    </div>
     <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
       <strong>Update (2025-06-11):</strong> o3 (high) added after API cost reduction.
     </div>
@@ -47,6 +50,7 @@ This task is non-trivial for an LLM because it demands more than just factual re
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const canvasElement = document.getElementById('leaderboardChart'); // Get the canvas element itself
@@ -67,11 +71,14 @@ This task is non-trivial for an LLM because it demands more than just factual re
             'Deepseek R1 05-28',                    // 43
             'Grok 3',                               // 41.5
             'GPT-4o 08-06',                         // 41
+            'Kimi K2',                              // 41
             'Claude Opus 4 (no thinking)',          // 40.5
+            'GPT OSS 120B (high)',                  // 40
             'Claude Sonnet 4 (no thinking)',        // 38
             'Deepseek V3 03-24',                    // 37.5
             'Qwen3 235B A22B (thinking)',           // 37
             'Grok 3 Mini (low)',                    // 37
+            'GPT OSS 120B (low)',                   // 35.5
             'Gemini 2.0 Flash',                     // 35
             'Mistral 3 Medium',                     // 31.5
             'Qwen3 30B A3B (thinking)',             // 28.5
@@ -92,7 +99,7 @@ This task is non-trivial for an LLM because it demands more than just factual re
         canvasElement.style.height = newCanvasHeight + 'px';
 
         const dataValues = [
-            68, 65, 63, 57.5, 53, 52.5, 50, 49.5, 45, 44, 43.5, 43, 41.5, 41, 40.5, 38, 37.5, 37, 37, 35, 31.5, 28.5, 26.5, 25, 22.5, 19.5, 19.5, 16.67
+            68, 65, 63, 57.5, 53, 52.5, 50, 49.5, 45, 44, 43.5, 43, 41.5, 41, 41, 40.5, 40, 38, 37.5, 37, 37, 35.5, 35, 31.5, 28.5, 26.5, 25, 22.5, 19.5, 19.5, 16.67
         ];
 
         const backgroundColors = [
@@ -110,11 +117,14 @@ This task is non-trivial for an LLM because it demands more than just factual re
             'rgba(255, 99, 100, 0.8)',  // Deepseek R1 05-28
             'rgba(255, 140, 0, 0.8)',  // Grok 3
             'rgba(153, 102, 255, 0.8)',// GPT-4o 08-06
+            'rgba(0, 100, 0, 0.8)',    // Kimi K2
             'rgba(205, 133, 63, 0.8)', // Claude Opus 4 (no thinking)
+            'rgba(255, 215, 0, 0.8)',  // GPT OSS 120B (high)
             'rgba(188, 143, 143, 0.8)',// Claude Sonnet 4 (no thinking)
             'rgba(128, 128, 0, 0.8)',   // Deepseek V3 03-24
             'rgba(255, 159, 64, 0.8)', // Qwen3 235B A22B (thinking)
             'rgba(101, 143, 74, 0.8)',  // Grok 3 Mini (low)
+            'rgba(255, 192, 203, 0.8)',// GPT OSS 120B (low)
             'rgba(210, 105, 30, 0.8)',  // Gemini 2.0 Flash
             'rgba(0, 128, 128, 0.8)',   // Mistral 3 Medium
             'rgba(0, 0, 205, 0.8)',     // Qwen3 30B A3B (thinking)
@@ -197,10 +207,12 @@ The results also highlight a discernible gap in performance between the leading 
 
 This chart visualizes the model cost vs performance. The x-axis represents a blended cost per million tokens, calculated with a 3:1 weighting of input to output costs. The y-axis shows the accuracy on ManaBench. Models on the red line represent the Pareto frontier.
 
-<div style="width: 90%; margin: 20px auto;">
+<div style="width: 90%; margin: 20px auto; min-height: 600px;">
     <canvas id="paretoChart"></canvas>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const ctxPareto = document.getElementById('paretoChart').getContext('2d');
@@ -219,11 +231,14 @@ This chart visualizes the model cost vs performance. The x-axis represents a ble
             { name: 'Deepseek R1 05-28', accuracy: 43, inputCost: 0.50, outputCost: 2.15, color: 'rgba(255, 99, 100, 0.8)' },
             { name: 'Grok 3', accuracy: 41.5, inputCost: 3.00, outputCost: 15.00, color: 'rgba(255, 140, 0, 0.8)' },
             { name: 'GPT-4o 08-06', accuracy: 41, inputCost: 2.50, outputCost: 10.00, color: 'rgba(153, 102, 255, 0.8)' },
+            { name: 'Kimi K2', accuracy: 41, inputCost: 0.55, outputCost: 2.20, color: 'rgba(0, 100, 0, 0.8)' },
             { name: 'Claude Opus 4 (no thinking)', accuracy: 40.5, inputCost: 15.00, outputCost: 75.00, color: 'rgba(205, 133, 63, 0.8)' },
+            { name: 'GPT OSS 120B (high)', accuracy: 40, inputCost: 0.15, outputCost: 0.6, color: 'rgba(255, 215, 0, 0.8)' },
             { name: 'Claude Sonnet 4 (no thinking)', accuracy: 38, inputCost: 3.00, outputCost: 15.00, color: 'rgba(188, 143, 143, 0.8)' },
             { name: 'Deepseek V3 03-24', accuracy: 37.5, inputCost: 0.27, outputCost: 1.10, color: 'rgba(128, 128, 0, 0.8)' },
             { name: 'Qwen3 235B A22B (thinking)', accuracy: 37, inputCost: 0.13, outputCost: 0.60, color: 'rgba(255, 159, 64, 0.8)' },
             { name: 'Grok 3 Mini (low)', accuracy: 37, inputCost: 0.30, outputCost: 0.50, color: 'rgba(101, 143, 74, 0.8)' },
+            { name: 'GPT OSS 120B (low)', accuracy: 35.5, inputCost: 0.15, outputCost: 0.6, color: 'rgba(255, 192, 203, 0.8)' },
             { name: 'Gemini 2.0 Flash', accuracy: 35, inputCost: 0.10, outputCost: 0.40, color: 'rgba(210, 105, 30, 0.8)' },
             { name: 'Mistral 3 Medium', accuracy: 31.5, inputCost: 0.40, outputCost: 2.00, color: 'rgba(0, 128, 128, 0.8)' },
             { name: 'Qwen3 30B A3B (thinking)', accuracy: 28.5, inputCost: 0.08, outputCost: 0.29, color: 'rgba(0, 0, 205, 0.8)' },
@@ -271,16 +286,51 @@ This chart visualizes the model cost vs performance. The x-axis represents a ble
         const costs = scatterDataPoints.map(p => p.x);
         const minCost = Math.min(...costs);
         const maxCost = Math.max(...costs);
+        const midCost = Math.sqrt(minCost * maxCost); // Geometric mean for log scale
+        const scores = scatterDataPoints.map(p => p.y);
+        const minScore = Math.min(...scores);
+        const maxScore = Math.max(...scores);
 
         new Chart(ctxPareto, {
             type: 'scatter',
+            plugins: [ChartDataLabels],
             data: {
                 datasets: [{
                     label: 'Models',
                     data: scatterDataPoints,
                     backgroundColor: scatterDataPoints.map(p => p.color),
                     pointRadius: 6,
-                    pointHoverRadius: 8
+                    pointHoverRadius: 8,
+                    datalabels: {
+                        formatter: (value, context) => {
+                            const point = context.dataset.data[context.dataIndex];
+                            if (context.active) {
+                                return `${point.label}: (${point.x.toFixed(2)}, ${point.y}%)`;
+                            }
+                            return point.label;
+                        },
+                        font: function(context) {
+                            return {
+                                size: 9,
+                                weight: context.active ? 'bold' : '500'
+                            };
+                        },
+                        backgroundColor: function(context) {
+                            return context.active ? context.dataset.backgroundColor[context.dataIndex].replace('0.8', '1') : null;
+                        },
+                        borderColor: function(context) {
+                            return context.active ? 'white' : null;
+                        },
+                        borderRadius: 4,
+                        borderWidth: 1,
+                        color: function(context) {
+                            return context.active ? 'white' : '#333';
+                        },
+                        padding: 4,
+                        align: (context) => context.dataset.data[context.dataIndex].x < midCost ? 'right' : 'left',
+                        offset: 8,
+                        anchor: 'center'
+                    }
                 },
                 {
                     label: 'Pareto Frontier',
@@ -291,12 +341,15 @@ This chart visualizes the model cost vs performance. The x-axis represents a ble
                     fill: false,
                     showLine: true,
                     pointRadius: 0,
-                    tension: 0.1
+                    tension: 0.1,
+                    datalabels: {
+                        display: false
+                    }
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true,
+                maintainAspectRatio: false,
                 plugins: {
                     title: {
                         display: true,
@@ -304,12 +357,7 @@ This chart visualizes the model cost vs performance. The x-axis represents a ble
                         font: { size: 18 }
                     },
                     tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const point = context.dataset.data[context.dataIndex];
-                                return `${point.label}: (${point.x.toFixed(2)}, ${point.y}%)`;
-                            }
-                        }
+                        enabled: false
                     },
                     legend: {
                         display: false
@@ -326,8 +374,8 @@ This chart visualizes the model cost vs performance. The x-axis represents a ble
                         }
                     },
                     y: {
-                        grace: '5%', // Add 5% padding to the top of the y-axis
-                        beginAtZero: false,
+                        min: Math.max(minScore - 4, 0),
+                        max: Math.min(maxScore + 4, 100),
                         title: {
                             display: true,
                             text: 'Accuracy (%)'
@@ -459,11 +507,12 @@ The preliminary results and the design of ManaBench highlight several key streng
                 'Gemini 1.5 Flash',
                 'Deepseek V3 03-24',
                 'Gemini 2.5 Pro 06-05',
-                'Deepseek R1 05-28'
+                'Deepseek R1 05-28',
+                'Kimi K2'
             ];
 
             const manaBenchScores = [
-                63, 53, 50, 49.5, 45, 43.5, 41.5, 41, 37, 37, 35, 31.5, 26.5, 25, 19.5, 19.5, 22.5, 37.5, 57.5, 43
+                63, 53, 50, 49.5, 45, 43.5, 41.5, 41, 37, 37, 35, 31.5, 26.5, 25, 19.5, 19.5, 22.5, 37.5, 57.5, 43, 41
             ];
 
             const eloScores = {
@@ -483,7 +532,8 @@ The preliminary results and the design of ManaBench highlight several key streng
                 'Llama 3.3 70B': 1257,
                 'Gemini 1.5 Flash': 1271,
                 'Deepseek V3 03-24': 1372,
-                'Gemini 2.5 Pro 06-05': 1470
+                'Gemini 2.5 Pro 06-05': 1470,
+                'Kimi K2': 1420
             };
 
             // Moved color definitions here, before they are used
@@ -507,7 +557,8 @@ The preliminary results and the design of ManaBench highlight several key streng
                 'rgba(255, 105, 180, 0.8)', // Gemini 1.5 Flash
                 'rgba(128, 128, 0, 0.8)',    // Deepseek V3 03-24
                 'rgba(0, 220, 220, 0.8)', // Gemini 2.5 Pro 06-05
-                'rgba(255, 99, 100, 0.8)'  // Deepseek R1 05-28
+                'rgba(255, 99, 100, 0.8)',  // Deepseek R1 05-28
+                'rgba(0, 100, 0, 0.8)'    // Kimi K2
             ];
             const borderColors = backgroundColors.map(color => color.replace('0.8', '1'));
 
