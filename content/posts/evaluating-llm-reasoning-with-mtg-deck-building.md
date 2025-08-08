@@ -5,11 +5,14 @@ draft: false
 ---
 
 <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
-  <strong>Update (2025-08-05):</strong> Kimi K2, GPT OSS 120B (low), and GPT OSS 120B (high) added.
+  <strong>Update (2025-08-08):</strong> GPT-5, GPT-5 Mini, GPT-5 Nano, GPT-4 Turbo 11-06, and GPT-3.5 Turbo added.
 </div>
 <details style="margin-bottom: 18px;">
   <summary style="cursor: pointer; font-weight: 500;">View Older Updates</summary>
   <div style="padding-top: 10px;">
+    <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
+      <strong>Update (2025-08-05):</strong> Kimi K2, GPT OSS 120B (low), and GPT OSS 120B (high) added.
+    </div>
     <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">
       <strong>Update (2025-07-13):</strong> Grok 4, Grok 3, Gemini 2.5 Flash, Claude Sonnet 4 (thinking), and Command A added.
     </div>
@@ -45,12 +48,14 @@ This task is non-trivial for an LLM because it demands more than just factual re
 
 ## Benchmark Leaderboard
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
 <div style="width: 90%; margin: 20px auto;">
     <canvas id="leaderboardChart"></canvas>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const canvasElement = document.getElementById('leaderboardChart'); // Get the canvas element itself
@@ -58,6 +63,7 @@ This task is non-trivial for an LLM because it demands more than just factual re
         
         const labels = [
             'Human Baseline',                       // 68
+            'GPT-5',                                // 67
             'o3 (high)',                            // 65
             'o3 (low)',                             // 63
             'Gemini 2.5 Pro 06-05',                 // 57.5
@@ -65,6 +71,7 @@ This task is non-trivial for an LLM because it demands more than just factual re
             'Grok 4',                               // 52.5
             'Gemini 2.5 Flash',                     // 50
             'Claude 3.7 Sonnet (no thinking)',      // 49.5
+            'GPT-5 Mini',                           // 45.5
             'o4 Mini (low)',                        // 45
             'Claude Sonnet 4 (thinking)',           // 44
             'Deepseek R1',                          // 43.5
@@ -74,15 +81,19 @@ This task is non-trivial for an LLM because it demands more than just factual re
             'Kimi K2',                              // 41
             'Claude Opus 4 (no thinking)',          // 40.5
             'GPT OSS 120B (high)',                  // 40
+            'GPT-4 Turbo 11-06',                    // 39.5
             'Claude Sonnet 4 (no thinking)',        // 38
             'Deepseek V3 03-24',                    // 37.5
             'Qwen3 235B A22B (thinking)',           // 37
             'Grok 3 Mini (low)',                    // 37
+            'GPT-5 Nano',                           // 36
             'GPT OSS 120B (low)',                   // 35.5
             'Gemini 2.0 Flash',                     // 35
             'Mistral 3 Medium',                     // 31.5
             'Qwen3 30B A3B (thinking)',             // 28.5
+            'Gemini 1.5 Pro',                       // 27.5
             'Llama 4 Maverick',                     // 26.5
+            'GPT-3.5 Turbo',                        // 26
             'Command A',                            // 25
             'Gemini 1.5 Flash',                     // 22.5
             'GPT-4.1 Nano',                         // 19.5
@@ -99,11 +110,12 @@ This task is non-trivial for an LLM because it demands more than just factual re
         canvasElement.style.height = newCanvasHeight + 'px';
 
         const dataValues = [
-            68, 65, 63, 57.5, 53, 52.5, 50, 49.5, 45, 44, 43.5, 43, 41.5, 41, 41, 40.5, 40, 38, 37.5, 37, 37, 35.5, 35, 31.5, 28.5, 26.5, 25, 22.5, 19.5, 19.5, 16.67
+            68, 67, 65, 63, 57.5, 53, 52.5, 50, 49.5, 45.5, 45, 44, 43.5, 43, 41.5, 41, 41, 40.5, 40, 39.5, 38, 37.5, 37, 37, 36, 35.5, 35, 31.5, 28.5, 27.5, 26.5, 26, 25, 22.5, 19.5, 19.5, 16.67
         ];
 
         const backgroundColors = [
             'rgba(34, 139, 34, 0.8)',  // Human Baseline
+            'rgba(0, 114, 178, 0.85)', // GPT-5
             'rgba(70, 130, 220, 0.8)', // o3 (high)
             'rgba(75, 192, 192, 0.8)', // o3 (low)
             'rgba(0, 220, 220, 0.8)', // Gemini 2.5 Pro 06-05
@@ -111,6 +123,7 @@ This task is non-trivial for an LLM because it demands more than just factual re
             'rgba(220, 20, 60, 0.8)',  // Grok 4
             'rgba(50, 205, 50, 0.8)',  // Gemini 2.5 Flash
             'rgba(54, 162, 235, 0.8)', // Claude 3.7 Sonnet (no thinking)
+            'rgba(204, 121, 167, 0.85)', // GPT-5 Mini
             'rgba(255, 206, 86, 0.8)', // o4 Mini (low)
             'rgba(138, 43, 226, 0.8)', // Claude Sonnet 4 (thinking)
             'rgba(255, 99, 132, 0.8)',  // Deepseek R1
@@ -120,15 +133,19 @@ This task is non-trivial for an LLM because it demands more than just factual re
             'rgba(0, 100, 0, 0.8)',    // Kimi K2
             'rgba(205, 133, 63, 0.8)', // Claude Opus 4 (no thinking)
             'rgba(255, 215, 0, 0.8)',  // GPT OSS 120B (high)
+            'rgba(90, 90, 90, 0.8)',   // GPT-4 Turbo 11-06
             'rgba(188, 143, 143, 0.8)',// Claude Sonnet 4 (no thinking)
             'rgba(128, 128, 0, 0.8)',   // Deepseek V3 03-24
             'rgba(255, 159, 64, 0.8)', // Qwen3 235B A22B (thinking)
             'rgba(101, 143, 74, 0.8)',  // Grok 3 Mini (low)
+            'rgba(0, 158, 115, 0.85)',  // GPT-5 Nano
             'rgba(255, 192, 203, 0.8)',// GPT OSS 120B (low)
             'rgba(210, 105, 30, 0.8)',  // Gemini 2.0 Flash
             'rgba(0, 128, 128, 0.8)',   // Mistral 3 Medium
             'rgba(0, 0, 205, 0.8)',     // Qwen3 30B A3B (thinking)
+            'rgba(60, 179, 113, 0.8)',  // Gemini 1.5 Pro
             'rgba(165, 42, 42, 0.8)',   // Llama 4 Maverick
+            'rgba(106, 90, 205, 0.8)',  // GPT-3.5 Turbo
             'rgba(139, 69, 19, 0.8)',   // Command A
             'rgba(255, 105, 180, 0.8)', // Gemini 1.5 Flash
             'rgba(70, 130, 180, 0.8)',  // GPT-4.1 Nano
@@ -136,7 +153,7 @@ This task is non-trivial for an LLM because it demands more than just factual re
             'rgba(150, 150, 150, 0.8)'  // Random Guessing
         ];
 
-        const borderColors = backgroundColors.map(color => color.replace('0.8', '1'));
+        const borderColors = backgroundColors.map(color => color.replace('0.8', '1').replace('0.85','1'));
 
         new Chart(ctxLeaderboard, {
             type: 'bar',
@@ -199,9 +216,501 @@ This task is non-trivial for an LLM because it demands more than just factual re
     });
 </script>
 
-The human baseline has an admittedly small sample size (just myself, it's difficult to find skilled MTG players who want to sit through a 200 question test), but still provides a valuable reference. As the creator of the benchmark and a player of the game for 10+ years, I scored 68% agreement with the other human deck builders. This could be a skill issue on my end, but I think it is more likely due to the somewhat subjective nature of question, along with the presentation format. To provide a fair comparison, I made a script that presents that questions to me exactly as they are shown to the LLMs, but I think I could do better using a deck editor. Despite my less than perfect score, I still beat most of the models by a wide margin. Among LLMs, o3 (high) comes closest with 65% accuracy, followed by o3 (low) at 63%, and Gemini 2.5 Pro 06-05 at 57.5%. This aligns with qualitative assessments and other benchmarks where these models often excel in real-world tasks. Their success here suggests that ManaBench is effectively capturing a similar type of reasoning aptitude.
+The human baseline has an admittedly small sample size (just myself, it's difficult to find skilled MTG players who want to sit through a 200 question test), but still provides a valuable reference. As the creator of the benchmark and a player of the game for 10+ years, I scored 68% agreement with the other human deck builders. This could be a skill issue on my end, but I think it is more likely due to the somewhat subjective nature of question, along with the presentation format. To provide a fair comparison, I made a script that presents that questions to me exactly as they are shown to the LLMs, but I think I could do better using a deck editor. When I first released this benchmark, I beat most of the models by a wide margin. Several months later, GPT-5 essentially matches my score with 67% accuracy, followed closely by o3 and Gemini 2.5 Pro.
 
-The results also highlight a discernible gap in performance between the leading American models (o3, Gemini 2.5 Pro, Claude) and prominent Chinese models like Deepseek R1 (43.5%) and Qwen3 235B A22B (37%). While these models are undoubtedly powerful, their performance on ManaBench suggests that their reasoning capabilities may not be as developed as some of their US counterparts. This observation underscores the utility of specialized benchmarks like ManaBench in revealing subtle but significant differences in model capabilities that might be obscured by broader, more generalized benchmarks.
+The results also highlight a discernible gap in performance between the leading American models (o3, Gemini 2.5 Pro, Claude) and prominent Chinese models like Deepseek R1 (43.5%) and Kimi K2 (41%). While these models are undoubtedly powerful, their performance on ManaBench suggests that their reasoning capabilities may not be as developed as some of their US counterparts. This observation underscores the utility of specialized benchmarks like ManaBench in revealing subtle but significant differences in model capabilities that might be obscured by broader, more generalized benchmarks.
+
+## Performance Over Time
+
+This chart tracks the performance of the best scoring model on ManaBench available at each point in time.
+
+<div style="width: 90%; margin: 20px auto; min-height: 600px;">
+    <canvas id="timeSeriesChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const ctxTimeSeries = document.getElementById('timeSeriesChart').getContext('2d');
+
+        const modelDataWithRelease = [
+            { name: 'GPT-5', score: 67, releaseDate: '2025-08-07', color: 'rgba(0, 114, 178, 0.85)' },
+            { name: 'GPT-5 Mini', score: 45.5, releaseDate: '2025-08-07', color: 'rgba(204, 121, 167, 0.85)' },
+            { name: 'GPT-5 Nano', score: 36, releaseDate: '2025-08-07', color: 'rgba(0, 158, 115, 0.85)' },
+            { name: 'o3 (high)', score: 65, releaseDate: '2025-04-16', color: 'rgba(70, 130, 220, 0.8)' },
+            { name: 'o3 (low)', score: 63, releaseDate: '2025-04-16', color: 'rgba(75, 192, 192, 0.8)' },
+            { name: 'Gemini 2.5 Pro 06-05', score: 57.5, releaseDate: '2025-06-05', color: 'rgba(0, 220, 220, 0.8)' },
+            { name: 'Gemini 2.5 Pro 03-25', score: 53, releaseDate: '2025-03-28', color: 'rgba(0, 200, 255, 0.8)' },
+            { name: 'Grok 4', score: 52.5, releaseDate: '2025-07-09', color: 'rgba(220, 20, 60, 0.8)' },
+            { name: 'Gemini 2.5 Flash', score: 50, releaseDate: '2025-04-17', color: 'rgba(50, 205, 50, 0.8)' },
+            { name: 'Claude 3.7 Sonnet (no thinking)', score: 49.5, releaseDate: '2025-02-24', color: 'rgba(54, 162, 235, 0.8)' },
+            { name: 'o4 Mini (low)', score: 45, releaseDate: '2025-04-16', color: 'rgba(255, 206, 86, 0.8)' },
+            { name: 'Claude Sonnet 4 (thinking)', score: 44, releaseDate: '2025-05-22', color: 'rgba(138, 43, 226, 0.8)' },
+            { name: 'Deepseek R1', score: 43.5, releaseDate: '2025-01-20', color: 'rgba(255, 99, 132, 0.8)' },
+            { name: 'Deepseek R1 05-28', score: 43, releaseDate: '2025-05-28', color: 'rgba(255, 99, 100, 0.8)' },
+            { name: 'Grok 3', score: 41.5, releaseDate: '2025-02-17', color: 'rgba(255, 140, 0, 0.8)' },
+            { name: 'GPT-4o 08-06', score: 41, releaseDate: '2024-08-06', color: 'rgba(153, 102, 255, 0.8)' },
+            { name: 'Kimi K2', score: 41, releaseDate: '2025-07-11', color: 'rgba(0, 100, 0, 0.8)' },
+            { name: 'Claude Opus 4 (no thinking)', score: 40.5, releaseDate: '2025-05-22', color: 'rgba(205, 133, 63, 0.8)' },
+            { name: 'GPT OSS 120B (high)', score: 40, releaseDate: '2025-08-05', color: 'rgba(255, 215, 0, 0.8)' },
+            { name: 'GPT-4 Turbo 11-06', score: 39.5, releaseDate: '2023-11-06', color: 'rgba(90, 90, 90, 0.8)' },
+            { name: 'Claude Sonnet 4 (no thinking)', score: 38, releaseDate: '2025-05-22', color: 'rgba(188, 143, 143, 0.8)' },
+            { name: 'Deepseek V3 03-24', score: 37.5, releaseDate: '2025-03-24', color: 'rgba(128, 128, 0, 0.8)' },
+            { name: 'Qwen3 235B A22B (thinking)', score: 37, releaseDate: '2025-04-28', color: 'rgba(255, 159, 64, 0.8)' },
+            { name: 'Grok 3 Mini (low)', score: 37, releaseDate: '2025-02-17', color: 'rgba(101, 143, 74, 0.8)' },
+            { name: 'GPT OSS 120B (low)', score: 35.5, releaseDate: '2025-08-05', color: 'rgba(255, 192, 203, 0.8)' },
+            { name: 'Gemini 2.0 Flash', score: 35, releaseDate: '2025-02-05', color: 'rgba(210, 105, 30, 0.8)' },
+            { name: 'Mistral 3 Medium', score: 31.5, releaseDate: '2025-06-26', color: 'rgba(0, 128, 128, 0.8)' },
+            { name: 'Qwen3 30B A3B (thinking)', score: 28.5, releaseDate: '2025-07-31', color: 'rgba(0, 0, 205, 0.8)' },
+            { name: 'Llama 4 Maverick', score: 26.5, releaseDate: '2025-04-05', color: 'rgba(165, 42, 42, 0.8)' },
+            { name: 'Gemini 1.5 Pro', score: 27.5, releaseDate: '2024-04-09', color: 'rgba(60, 179, 113, 0.8)' },
+            { name: 'GPT-3.5 Turbo', score: 26, releaseDate: '2023-05-28', color: 'rgba(106, 90, 205, 0.8)' },
+            { name: 'Command A', score: 25, releaseDate: '2025-03-13', color: 'rgba(139, 69, 19, 0.8)' },
+            { name: 'Gemini 1.5 Flash', score: 22.5, releaseDate: '2024-05-14', color: 'rgba(255, 105, 180, 0.8)' },
+            { name: 'GPT-4.1 Nano', score: 19.5, releaseDate: '2025-04-14', color: 'rgba(70, 130, 180, 0.8)' },
+            { name: 'Llama 3.3 70B', score: 19.5, releaseDate: '2024-12-05', color: 'rgba(128, 0, 128, 0.8)' },
+        ];
+
+        // Expose for other charts
+        window.modelDataWithRelease = modelDataWithRelease;
+
+        const sortedModels = modelDataWithRelease.sort((a, b) => new Date(a.releaseDate) - new Date(b.releaseDate) || b.score - a.score);
+
+        let sotaMaxScore = -1;
+        const sotaModels = sortedModels.filter(model => {
+            if (model.score > sotaMaxScore) {
+                sotaMaxScore = model.score;
+                return true;
+            }
+            return false;
+        });
+
+        const scatterDataPoints = sotaModels.map(model => ({
+            x: new Date(model.releaseDate),
+            y: model.score,
+            label: model.name,
+            color: model.color
+        }));
+
+        const scores = scatterDataPoints.map(p => p.y);
+        const minScore = Math.min(...scores);
+        const maxScore = Math.max(...scores);
+
+        // Compute padded x-axis range for nicer spacing at the edges
+        const xTimes = scatterDataPoints.map(p => p.x.getTime());
+        const minXTime = Math.min(...xTimes);
+        const maxXTime = Math.max(...xTimes);
+        const xPad = Math.max((maxXTime - minXTime) * 0.05, 1000 * 60 * 60 * 24 * 7); // at least 7 days
+        const paddedMinDate = new Date(minXTime - xPad);
+        const paddedMaxDate = new Date(maxXTime + xPad);
+        const midDate = new Date((paddedMinDate.getTime() + paddedMaxDate.getTime()) / 2);
+
+        // Calculate trendline using 2nd-degree polynomial regression
+        const regressionPoints = scatterDataPoints.map(p => ({ x: p.x.getTime(), y: p.y }));
+        let trendlineDataset = {};
+        if (regressionPoints.length >= 3) { // Need at least 3 points for a quadratic fit
+            // Polynomial regression calculation (degree 2)
+            const n = regressionPoints.length;
+            let sum_x = 0, sum_y = 0, sum_x2 = 0, sum_x3 = 0, sum_x4 = 0, sum_xy = 0, sum_x2y = 0;
+
+            for (let i = 0; i < n; i++) {
+                const p = regressionPoints[i];
+                sum_x += p.x;
+                sum_y += p.y;
+                sum_x2 += p.x * p.x;
+                sum_x3 += p.x * p.x * p.x;
+                sum_x4 += p.x * p.x * p.x * p.x;
+                sum_xy += p.x * p.y;
+                sum_x2y += p.x * p.x * p.y;
+            }
+
+            const matrix = [
+                [sum_x4, sum_x3, sum_x2],
+                [sum_x3, sum_x2, sum_x],
+                [sum_x2, sum_x, n]
+            ];
+            const vec = [sum_x2y, sum_xy, sum_y];
+
+            // Gaussian elimination to solve for coefficients [a, b, c]
+            for (let i = 0; i < 3; i++) {
+                let max_row = i;
+                for (let k = i + 1; k < 3; k++) {
+                    if (Math.abs(matrix[k][i]) > Math.abs(matrix[max_row][i])) {
+                        max_row = k;
+                    }
+                }
+                [matrix[i], matrix[max_row]] = [matrix[max_row], matrix[i]];
+                [vec[i], vec[max_row]] = [vec[max_row], vec[i]];
+
+                for (let k = i + 1; k < 3; k++) {
+                    const factor = matrix[k][i] / matrix[i][i];
+                    for (let j = i; j < 3; j++) {
+                        matrix[k][j] -= factor * matrix[i][j];
+                    }
+                    vec[k] -= factor * vec[i];
+                }
+            }
+
+            const coeffs = new Array(3);
+            for (let i = 2; i >= 0; i--) {
+                coeffs[i] = vec[i];
+                for (let j = i + 1; j < 3; j++) {
+                    coeffs[i] -= matrix[i][j] * coeffs[j];
+                }
+                coeffs[i] /= matrix[i][i];
+            }
+            const [a, b, c] = coeffs;
+
+            const minDate = Math.min(...regressionPoints.map(p => p.x));
+            const maxDate = Math.max(...regressionPoints.map(p => p.x));
+            
+            const trendlinePoints = [];
+            const steps = 30;
+            for (let i = 0; i <= steps; i++) {
+                const x = minDate + (maxDate - minDate) * i / steps;
+                const y = a * x * x + b * x + c;
+                trendlinePoints.push({ x: new Date(x), y: y });
+            }
+
+            trendlineDataset = {
+                type: 'line',
+                label: 'Trendline',
+                data: trendlinePoints,
+                borderColor: 'rgba(255, 0, 0, 0.7)',
+                borderWidth: 2,
+                fill: false,
+                pointRadius: 0,
+                tension: 0.1, // Smooth the curve slightly
+                datalabels: {
+                    display: false
+                }
+            };
+        }
+
+        const finalDatasets = [
+            {
+                label: 'Models',
+                type: 'scatter',
+                data: scatterDataPoints,
+                backgroundColor: scatterDataPoints.map(p => p.color),
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                datalabels: {
+                    formatter: (value, context) => {
+                        const point = context.dataset.data[context.dataIndex];
+                        if (context.active) {
+                            return `${point.label}: ${point.y}% on ${point.x.toISOString().split('T')[0]}`;
+                        }
+                        return point.label;
+                    },
+                    font: function(context) {
+                        return {
+                            size: 9,
+                            weight: context.active ? 'bold' : '500'
+                        };
+                    },
+                    backgroundColor: function(context) {
+                        return context.active ? context.dataset.backgroundColor[context.dataIndex].replace('0.8', '1') : null;
+                    },
+                    borderColor: function(context) {
+                        return context.active ? 'white' : null;
+                    },
+                    borderRadius: 4,
+                    borderWidth: 1,
+                    color: function(context) {
+                        return context.active ? 'white' : '#333';
+                    },
+                    padding: 4,
+                    align: 'top',
+                    offset: 8,
+                    anchor: 'center'
+                }
+            }
+        ];
+
+        if (Object.keys(trendlineDataset).length > 0) {
+            finalDatasets.push(trendlineDataset);
+        }
+
+        // Add dashed human baseline line at 68%
+        const humanBaseline = 68;
+        finalDatasets.push({
+            type: 'line',
+            label: 'Human Baseline',
+            data: [
+                { x: paddedMinDate, y: humanBaseline },
+                { x: midDate, y: humanBaseline },
+                { x: paddedMaxDate, y: humanBaseline }
+            ],
+            borderColor: 'rgba(34, 139, 34, 0.8)',
+            borderDash: [6, 4],
+            borderWidth: 2,
+            fill: false,
+            pointRadius: 0,
+            datalabels: {
+                formatter: (value, context) => {
+                    return context.dataIndex === 1 ? 'Human Baseline' : null;
+                },
+                align: 'top',
+                anchor: 'center',
+                offset: 6,
+                color: 'rgba(34, 139, 34, 0.95)',
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                borderColor: 'rgba(34, 139, 34, 0.95)',
+                borderWidth: 1,
+                borderRadius: 4,
+                padding: 3,
+                font: { size: 9, weight: 'bold' }
+            }
+        });
+
+        new Chart(ctxTimeSeries, {
+            type: 'scatter',
+            plugins: [ChartDataLabels],
+            data: {
+                datasets: finalDatasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'ManaBench High Score',
+                        font: { size: 18 }
+                    },
+                    tooltip: {
+                        enabled: false
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'month',
+                            tooltipFormat: 'yyyy-MM-dd',
+                            displayFormats: {
+                                month: 'MMM yyyy'
+                            }
+                        },
+                        min: paddedMinDate,
+                        max: paddedMaxDate,
+                        title: {
+                            display: true,
+                            text: 'Model Release Date'
+                        }
+                    },
+                    y: {
+                        min: Math.max(minScore - 4, 0),
+                        max: Math.min(maxScore + 4, 100),
+                        title: {
+                            display: true,
+                            text: 'Accuracy (%)'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+## Cost Over Time
+
+This chart shows the cheapest cost to reach GPT-4-level accuracy over time.
+
+<div style="width: 90%; margin: 20px auto; min-height: 600px;">
+    <canvas id="costOverTimeChart"></canvas>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const ctxCostTime = document.getElementById('costOverTimeChart').getContext('2d');
+
+        // Build datapoints: one per model meeting the thresholds
+        const allModels = (window.modelDataWithRelease || []).slice();
+
+        // Build a lookup for blended cost using the cost table from the Pareto section below
+        const costTable = {
+            'GPT-5': { in: 1.25, out: 10.00 },
+            'GPT-5 Mini': { in: 0.25, out: 2.00 },
+            'GPT-5 Nano': { in: 0.05, out: 0.40 },
+            'o3 (high)': { in: 2.00, out: 8.00 },
+            'o3 (low)': { in: 2.00, out: 8.00 },
+            'Gemini 2.5 Pro 06-05': { in: 2.50, out: 15.00 },
+            'Gemini 2.5 Pro 03-25': { in: 2.50, out: 15.00 },
+            'Grok 4': { in: 3.00, out: 15.00 },
+            'Gemini 2.5 Flash': { in: 0.30, out: 2.50 },
+            'Claude 3.7 Sonnet (no thinking)': { in: 3.00, out: 15.00 },
+            'o4 Mini (low)': { in: 1.10, out: 4.40 },
+            'Claude Sonnet 4 (thinking)': { in: 3.00, out: 15.00 },
+            'Deepseek R1': { in: 0.45, out: 2.15 },
+            'Deepseek R1 05-28': { in: 0.50, out: 2.15 },
+            'Grok 3': { in: 3.00, out: 15.00 },
+            'GPT-4o 08-06': { in: 2.50, out: 10.00 },
+            'Kimi K2': { in: 0.55, out: 2.20 },
+            'Claude Opus 4 (no thinking)': { in: 15.00, out: 75.00 },
+            'GPT OSS 120B (high)': { in: 0.09, out: 0.45 },
+            'GPT-4 Turbo 11-06': { in: 10.00, out: 30.00 },
+            'Claude Sonnet 4 (no thinking)': { in: 3.00, out: 15.00 },
+            'Deepseek V3 03-24': { in: 0.27, out: 1.10 },
+            'Qwen3 235B A22B (thinking)': { in: 0.13, out: 0.60 },
+            'Grok 3 Mini (low)': { in: 0.30, out: 0.50 },
+            'GPT OSS 120B (low)': { in: 0.09, out: 0.45 },
+            'Gemini 2.0 Flash': { in: 0.10, out: 0.40 },
+            'Mistral 3 Medium': { in: 0.40, out: 2.00 },
+            'Qwen3 30B A3B (thinking)': { in: 0.08, out: 0.29 },
+            'Llama 4 Maverick': { in: 0.15, out: 0.60 },
+            'Gemini 1.5 Pro': { in: 1.25, out: 5.00 },
+            'GPT-3.5 Turbo': { in: 0.50, out: 1.50 },
+            'Command A': { in: 2.00, out: 8.00 },
+            'Gemini 1.5 Flash': { in: 0.075, out: 0.30 },
+            'GPT-4.1 Nano': { in: 0.10, out: 0.40 },
+            'Llama 3.3 70B': { in: 0.038, out: 0.12 }
+        };
+
+        function blendedCostFor(name) {
+            const c = costTable[name];
+            if (!c) return null;
+            return (c.in * 3 + c.out * 1) / 4;
+        }
+
+        // Threshold for GPT-4-level performance on this page
+        const threshold = { label: 'GPT-4-level', minAccuracy: 39.5, color: 'rgba(70, 130, 180, 0.9)' };
+
+        // Build cheapest-cost-over-time series for GPT-4 threshold only
+        const seriesByKey = { gpt4: [] };
+        const t = threshold;
+        const eligible = allModels
+            .filter(m => m.score >= t.minAccuracy)
+            .map(m => ({ ...m, date: new Date(m.releaseDate), cost: blendedCostFor(m.name) }))
+            .filter(m => m.cost != null)
+            .sort((a, b) => a.date.getTime() - b.date.getTime());
+        let runningMin = Infinity;
+        let cheapestName = null;
+        const improvementPoints = [];
+        eligible.forEach(m => {
+            if (m.cost < runningMin - 1e-9) { // add only true improvements
+                runningMin = m.cost;
+                cheapestName = m.name;
+                improvementPoints.push({ x: m.date, y: runningMin, label: cheapestName });
+            }
+        });
+        seriesByKey.gpt4 = improvementPoints;
+
+        const allY = seriesByKey.gpt4.map(p => p.y).filter(v => v != null);
+        const minY = allY.length ? Math.max(Math.min(...allY) * 0.9, 0.001) : 0.001;
+        const maxY = allY.length ? Math.max(...allY) * 1.1 : 100;
+
+        // Add horizontal padding to the time axis
+        const xTimes = seriesByKey.gpt4.map(p => p.x.getTime());
+        const padMs = 1000 * 60 * 60 * 24 * 45;
+        const paddedMinX = xTimes.length ? new Date(Math.min(...xTimes) - padMs) : undefined;
+        const paddedMaxX = xTimes.length ? new Date(Math.max(...xTimes) + padMs) : undefined;
+
+        new Chart(ctxCostTime, {
+            type: 'line',
+            plugins: [ChartDataLabels],
+            data: {
+                datasets: [
+                    {
+                        label: threshold.label,
+                        data: seriesByKey.gpt4,
+                        borderColor: threshold.color,
+                                backgroundColor: 'transparent',
+                                pointBackgroundColor: threshold.color,
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        tension: 0,
+                        stepped: 'before',
+                        fill: false,
+                        datalabels: {
+                            formatter: (value, context) => {
+                                const p = context.dataset.data[context.dataIndex];
+                                if (context.active) {
+                                    const date = p.x instanceof Date ? p.x.toISOString().split('T')[0] : '';
+                                    return `${p.label}: $${Number(p.y).toFixed(2)} on ${date}`;
+                                }
+                                return p.label;
+                            },
+                            font: (context) => ({ size: 9, weight: context.active ? 'bold' : '500' }),
+                            backgroundColor: (context) => context.active ? threshold.color.replace('0.8','1').replace('0.85','1') : null,
+                            borderColor: (context) => context.active ? 'white' : null,
+                            borderRadius: 4,
+                            borderWidth: 1,
+                            color: (context) => context.active ? 'white' : '#333',
+                            padding: 4,
+                            align: 'top',
+                            offset: 8,
+                            anchor: 'center',
+                            clip: false
+                        }
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Cost of GPT-4-level Model',
+                        font: { size: 18 }
+                    },
+                    tooltip: { enabled: false },
+                    legend: { display: true }
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'month',
+                            tooltipFormat: 'yyyy-MM-dd',
+                            displayFormats: { month: 'MMM yyyy' }
+                        },
+                        title: { display: true, text: 'Date' },
+                        min: paddedMinX,
+                        max: paddedMaxX,
+                        grid: { drawBorder: false }
+                    },
+                    y: {
+                        type: 'logarithmic',
+                        min: minY,
+                        max: maxY,
+                        title: { display: true, text: 'Blended Cost ($ per 1M tokens)' },
+                        ticks: {
+                            callback: (val, index, ticks) => {
+                                try {
+                                    const tick = ticks && ticks[index];
+                                    if (!tick || !tick.major) return '';
+                                    const num = Number(val);
+                                    if (!isFinite(num)) return '';
+                                    if (num >= 10) return `$${num.toFixed(0)}`;
+                                    if (num >= 1) return `$${num.toFixed(1)}`;
+                                    return `$${num.toPrecision(1)}`;
+                                } catch {
+                                    return '';
+                                }
+                            }
+                        },
+                        grid: {
+                            drawBorder: false,
+                            color: (ctx) => ctx.tick?.major ? 'rgba(0,0,0,0.15)' : 'rgba(0,0,0,0.06)',
+                            lineWidth: (ctx) => ctx.tick?.major ? 1 : 0.5
+                        }
+                    }
+                },
+                layout: { padding: { right: 12, top: 8, bottom: 8 } }
+            }
+        });
+    });
+    </script>
 
 ## Accuracy vs. Cost
 
@@ -211,13 +720,15 @@ This chart visualizes the model cost vs performance. The x-axis represents a ble
     <canvas id="paretoChart"></canvas>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const ctxPareto = document.getElementById('paretoChart').getContext('2d');
         
         const modelData = [
+            { name: 'GPT-5', accuracy: 67, inputCost: 1.25, outputCost: 10.00, color: 'rgba(0, 114, 178, 0.85)' },
+            { name: 'GPT-5 Mini', accuracy: 45.5, inputCost: 0.25, outputCost: 2.00, color: 'rgba(204, 121, 167, 0.85)' },
+            { name: 'GPT-5 Nano', accuracy: 36, inputCost: 0.05, outputCost: 0.40, color: 'rgba(0, 158, 115, 0.85)' },
             { name: 'o3 (high)', accuracy: 65, inputCost: 2.00, outputCost: 8.00, color: 'rgba(70, 130, 220, 0.8)' },
             { name: 'o3 (low)', accuracy: 63, inputCost: 2.00, outputCost: 8.00, color: 'rgba(75, 192, 192, 0.8)' },
             { name: 'Gemini 2.5 Pro 06-05', accuracy: 57.5, inputCost: 2.50, outputCost: 15.00, color: 'rgba(0, 220, 220, 0.8)' },
@@ -233,17 +744,20 @@ This chart visualizes the model cost vs performance. The x-axis represents a ble
             { name: 'GPT-4o 08-06', accuracy: 41, inputCost: 2.50, outputCost: 10.00, color: 'rgba(153, 102, 255, 0.8)' },
             { name: 'Kimi K2', accuracy: 41, inputCost: 0.55, outputCost: 2.20, color: 'rgba(0, 100, 0, 0.8)' },
             { name: 'Claude Opus 4 (no thinking)', accuracy: 40.5, inputCost: 15.00, outputCost: 75.00, color: 'rgba(205, 133, 63, 0.8)' },
-            { name: 'GPT OSS 120B (high)', accuracy: 40, inputCost: 0.15, outputCost: 0.6, color: 'rgba(255, 215, 0, 0.8)' },
+            { name: 'GPT OSS 120B (high)', accuracy: 40, inputCost: 0.09, outputCost: 0.45, color: 'rgba(255, 215, 0, 0.8)' },
+            { name: 'GPT-4 Turbo 11-06', accuracy: 39.5, inputCost: 10.00, outputCost: 30.00, color: 'rgba(90, 90, 90, 0.8)' },
             { name: 'Claude Sonnet 4 (no thinking)', accuracy: 38, inputCost: 3.00, outputCost: 15.00, color: 'rgba(188, 143, 143, 0.8)' },
             { name: 'Deepseek V3 03-24', accuracy: 37.5, inputCost: 0.27, outputCost: 1.10, color: 'rgba(128, 128, 0, 0.8)' },
             { name: 'Qwen3 235B A22B (thinking)', accuracy: 37, inputCost: 0.13, outputCost: 0.60, color: 'rgba(255, 159, 64, 0.8)' },
             { name: 'Grok 3 Mini (low)', accuracy: 37, inputCost: 0.30, outputCost: 0.50, color: 'rgba(101, 143, 74, 0.8)' },
-            { name: 'GPT OSS 120B (low)', accuracy: 35.5, inputCost: 0.15, outputCost: 0.6, color: 'rgba(255, 192, 203, 0.8)' },
+            { name: 'GPT OSS 120B (low)', accuracy: 35.5, inputCost: 0.09, outputCost: 0.45, color: 'rgba(255, 192, 203, 0.8)' },
             { name: 'Gemini 2.0 Flash', accuracy: 35, inputCost: 0.10, outputCost: 0.40, color: 'rgba(210, 105, 30, 0.8)' },
             { name: 'Mistral 3 Medium', accuracy: 31.5, inputCost: 0.40, outputCost: 2.00, color: 'rgba(0, 128, 128, 0.8)' },
             { name: 'Qwen3 30B A3B (thinking)', accuracy: 28.5, inputCost: 0.08, outputCost: 0.29, color: 'rgba(0, 0, 205, 0.8)' },
             { name: 'Llama 4 Maverick', accuracy: 26.5, inputCost: 0.15, outputCost: 0.60, color: 'rgba(165, 42, 42, 0.8)' },
-            { name: 'Command A', accuracy: 25, inputCost: 2.50, outputCost: 10.00, color: 'rgba(139, 69, 19, 0.8)' },
+            { name: 'Gemini 1.5 Pro', accuracy: 27.5, inputCost: 1.25, outputCost: 5.00, color: 'rgba(60, 179, 113, 0.8)' },
+            { name: 'GPT-3.5 Turbo', accuracy: 26, inputCost: 0.50, outputCost: 1.50, color: 'rgba(106, 90, 205, 0.8)' },
+            { name: 'Command A', accuracy: 25, inputCost: 2.00, outputCost: 8.00, color: 'rgba(139, 69, 19, 0.8)' },
             { name: 'Gemini 1.5 Flash', accuracy: 22.5, inputCost: 0.075, outputCost: 0.30, color: 'rgba(255, 105, 180, 0.8)' },
             { name: 'GPT-4.1 Nano', accuracy: 19.5, inputCost: 0.10, outputCost: 0.40, color: 'rgba(70, 130, 180, 0.8)' },
             { name: 'Llama 3.3 70B', accuracy: 19.5, inputCost: 0.038, outputCost: 0.12, color: 'rgba(128, 0, 128, 0.8)' },
@@ -291,9 +805,46 @@ This chart visualizes the model cost vs performance. The x-axis represents a ble
         const minScore = Math.min(...scores);
         const maxScore = Math.max(...scores);
 
+        // Lightweight background gradient + corner labels plugin (scoped to this chart instance)
+        const paretoOverlayPlugin = {
+            id: 'paretoOverlay',
+            beforeDatasetsDraw(chart) {
+                const { ctx, chartArea } = chart;
+                if (!chartArea) return;
+                const { left, top, right, bottom } = chartArea;
+                const gradient = ctx.createLinearGradient(left, top, right, bottom);
+                gradient.addColorStop(0, 'rgba(46, 125, 50, 0.2)'); // subtle green (favorable)
+                gradient.addColorStop(1, 'rgba(255, 255, 255, 0.06)'); // fade to white
+                ctx.save();
+                ctx.fillStyle = gradient;
+                ctx.fillRect(left, top, right - left, bottom - top);
+                ctx.restore();
+            },
+            afterDraw(chart) {
+                const { ctx, chartArea } = chart;
+                if (!chartArea) return;
+                const { left, top, right, bottom } = chartArea;
+
+                ctx.save();
+                // Upper-left label: Most favorable (low cost, high accuracy)
+                ctx.font = 'bold 12px sans-serif';
+                ctx.fillStyle = 'rgba(46, 125, 50, 0.9)';
+                ctx.textBaseline = 'top';
+                ctx.fillText('Most favorable', left + 8, top + 8);
+
+                // Lower-right label: Least favorable (high cost, low accuracy)
+                const label = 'Least favorable';
+                const width = ctx.measureText(label).width;
+                ctx.fillStyle = 'rgba(183, 28, 28, 0.9)';
+                ctx.textBaseline = 'alphabetic';
+                ctx.fillText(label, right - 8 - width, bottom - 8);
+                ctx.restore();
+            }
+        };
+
         new Chart(ctxPareto, {
             type: 'scatter',
-            plugins: [ChartDataLabels],
+            plugins: [ChartDataLabels, paretoOverlayPlugin],
             data: {
                 datasets: [{
                     label: 'Models',
@@ -477,220 +1028,245 @@ The preliminary results and the design of ManaBench highlight several key streng
 
 *   **Measures Alignment with Human Expert Judgment:** The "golden" answers are derived from decks designed by human players and sourced from MTGTop8, a database of tournament decklists. Success on this benchmark therefore indicates an LLM's ability to make choices that align with established human expertise and strategic consensus.
 
-*   **Clear Performance Differentiation:** When comparing ManaBench scores to other established LLM evaluation metrics like LMArena ELO ratings, ManaBench demonstrates a significantly stronger ability to differentiate between models. While a general positive correlation is observed (as indicated by the trendline in the chart below), ManaBench provides a much wider relative spread in scores. For the models included in the comparison, ManaBench accuracies range from 19.5% to 65% (a spread of 45.5 percentage points, representing an increase of approximately 233% from the minimum observed score to the maximum). In contrast, their LMArena ELO scores range from 1257 to 1470 (a spread of 213 ELO points, representing an increase of approximately 17% from the minimum observed ELO score to the maximum). The significantly larger proportional range in ManaBench allows for a more granular distinction between models.
+*   **Clear Performance Differentiation:** When comparing ManaBench scores to other established LLM evaluation metrics like LMArena ELO ratings, ManaBench demonstrates a significantly stronger ability to differentiate between models. While a general positive correlation is observed (as indicated by the trendline in the chart below), ManaBench provides a much wider relative spread in scores. For the models included in the comparison, ManaBench accuracies range from 19.5% to 67% (a spread of 47.5 percentage points, representing an increase of approximately 244% from the minimum observed score to the maximum). In contrast, their LMArena ELO scores range from 1257 to 1481 (a spread of 224 ELO points, representing an increase of approximately 17.8% from the minimum observed ELO score to the maximum). The significantly larger proportional range in ManaBench allows for a more granular distinction between models.
 
-    <div style="width: 90%; margin: 20px auto;">
-        <canvas id="correlationChart"></canvas>
-    </div>
+<div style="width: 90%; margin: 20px auto; min-height: 600px;">
+    <canvas id="correlationChart"></canvas>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const ctxCorrelation = document.getElementById('correlationChart').getContext('2d');
-            
-            const modelLabels = [
-                'o3 (low)',
-                'Gemini 2.5 Pro 03-25',
-                'Gemini 2.5 Flash',
-                'Claude 3.7 Sonnet (no thinking)',
-                'o4 Mini (low)',
-                'Deepseek R1',
-                'Grok 3',
-                'GPT-4o 08-06',
-                'Qwen3 235B A22B (thinking)',
-                'Grok 3 Mini (low)', // ELO Not available, will be filtered or handled
-                'Gemini 2.0 Flash',
-                'Mistral 3 Medium', // ELO Not available
-                'Llama 4 Maverick',
-                'Command A',
-                'GPT-4.1 Nano',
-                'Llama 3.3 70B',
-                'Gemini 1.5 Flash',
-                'Deepseek V3 03-24',
-                'Gemini 2.5 Pro 06-05',
-                'Deepseek R1 05-28',
-                'Kimi K2'
-            ];
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const ctxCorrelation = document.getElementById('correlationChart').getContext('2d');
+        
+        const modelLabels = [
+            'GPT-5',
+            'o3 (low)',
+            'Gemini 2.5 Pro 03-25',
+            'Gemini 2.5 Flash',
+            'Claude 3.7 Sonnet (no thinking)',
+            'o4 Mini (low)',
+            'Deepseek R1',
+            'Grok 3',
+            'GPT-4o 08-06',
+            'GPT-4 Turbo 11-06',
+            'Qwen3 235B A22B (thinking)',
+            'Grok 3 Mini (low)',
+            'Gemini 2.0 Flash',
+            'Mistral 3 Medium',
+            'Llama 4 Maverick',
+            'Command A',
+            'GPT-4.1 Nano',
+            'Llama 3.3 70B',
+            'Gemini 1.5 Flash',
+            'Deepseek V3 03-24',
+            'Gemini 2.5 Pro 06-05',
+            'Deepseek R1 05-28',
+            'Kimi K2',
+            'Gemini 1.5 Pro',
+            'GPT-3.5 Turbo'
+        ];
 
-            const manaBenchScores = [
-                63, 53, 50, 49.5, 45, 43.5, 41.5, 41, 37, 37, 35, 31.5, 26.5, 25, 19.5, 19.5, 22.5, 37.5, 57.5, 43, 41
-            ];
+        const manaBenchScores = [
+            67, 63, 53, 50, 49.5, 45, 43.5, 41.5, 41, 39.5, 37, 37, 35, 31.5, 26.5, 25, 19.5, 19.5, 22.5, 37.5, 57.5, 43, 41, 27.5, 26
+        ];
 
-            const eloScores = {
-                'Gemini 2.5 Pro 03-25': 1448,
-                'Gemini 2.5 Flash': 1416,
-                'o3 (low)': 1411,
-                'Claude 3.7 Sonnet (no thinking)': 1291,
-                'o4 Mini (low)': 1351,
-                'Deepseek R1': 1359,
-                'Grok 3': 1409,
-                'GPT-4o 08-06': 1265,
-                'Qwen3 235B A22B (thinking)': 1342,
-                'Gemini 2.0 Flash': 1355,
-                'Llama 4 Maverick': 1269,
-                'Command A': 1346,
-                'GPT-4.1 Nano': 1270,
-                'Llama 3.3 70B': 1257,
-                'Gemini 1.5 Flash': 1271,
-                'Deepseek V3 03-24': 1372,
-                'Gemini 2.5 Pro 06-05': 1470,
-                'Kimi K2': 1420
-            };
+        const eloScores = {
+            'GPT-5': 1481,
+            'Gemini 2.5 Pro 03-25': 1448,
+            'Gemini 2.5 Flash': 1416,
+            'o3 (low)': 1411,
+            'Claude 3.7 Sonnet (no thinking)': 1291,
+            'o4 Mini (low)': 1351,
+            'Deepseek R1': 1359,
+            'Grok 3': 1409,
+            'GPT-4o 08-06': 1265,
+            'Qwen3 235B A22B (thinking)': 1342,
+            'Gemini 2.0 Flash': 1355,
+            'Llama 4 Maverick': 1269,
+            'Command A': 1346,
+            'GPT-4.1 Nano': 1270,
+            'Llama 3.3 70B': 1257,
+            'Gemini 1.5 Flash': 1271,
+            'Deepseek V3 03-24': 1372,
+            'Gemini 2.5 Pro 06-05': 1470,
+            'Kimi K2': 1420
+        };
 
-            // Moved color definitions here, before they are used
-            const backgroundColors = [
-                'rgba(75, 192, 192, 0.8)', 
-                'rgba(0, 200, 255, 0.8)', // Gemini 2.5 Pro 03-25
-                'rgba(50, 205, 50, 0.8)',  // Gemini 2.5 Flash
-                'rgba(54, 162, 235, 0.8)', 
-                'rgba(255, 206, 86, 0.8)', 
-                'rgba(255, 99, 132, 0.8)',  
-                'rgba(255, 140, 0, 0.8)',  // Grok 3
-                'rgba(153, 102, 255, 0.8)',
-                'rgba(255, 159, 64, 0.8)', 
-                'rgba(101, 143, 74, 0.8)',  
-                'rgba(210, 105, 30, 0.8)',  
-                'rgba(0, 128, 128, 0.8)',   
-                'rgba(165, 42, 42, 0.8)',   
-                'rgba(139, 69, 19, 0.8)',   // Command A
-                'rgba(70, 130, 180, 0.8)',  
-                'rgba(128, 0, 128, 0.8)',
-                'rgba(255, 105, 180, 0.8)', // Gemini 1.5 Flash
-                'rgba(128, 128, 0, 0.8)',    // Deepseek V3 03-24
-                'rgba(0, 220, 220, 0.8)', // Gemini 2.5 Pro 06-05
-                'rgba(255, 99, 100, 0.8)',  // Deepseek R1 05-28
-                'rgba(0, 100, 0, 0.8)'    // Kimi K2
-            ];
-            const borderColors = backgroundColors.map(color => color.replace('0.8', '1'));
+        // Moved color definitions here, before they are used
+        const backgroundColors = [
+            'rgba(75, 192, 192, 0.8)', 
+            'rgba(0, 200, 255, 0.8)', // Gemini 2.5 Pro 03-25
+            'rgba(50, 205, 50, 0.8)',  // Gemini 2.5 Flash
+            'rgba(54, 162, 235, 0.8)', 
+            'rgba(255, 206, 86, 0.8)', 
+            'rgba(255, 99, 132, 0.8)',  
+            'rgba(255, 140, 0, 0.8)',  // Grok 3
+            'rgba(153, 102, 255, 0.8)',
+            'rgba(255, 159, 64, 0.8)', 
+            'rgba(101, 143, 74, 0.8)',  
+            'rgba(210, 105, 30, 0.8)',  
+            'rgba(0, 128, 128, 0.8)',   
+            'rgba(165, 42, 42, 0.8)',   
+            'rgba(139, 69, 19, 0.8)',   // Command A
+            'rgba(70, 130, 180, 0.8)',  
+            'rgba(128, 0, 128, 0.8)',
+            'rgba(255, 105, 180, 0.8)', // Gemini 1.5 Flash
+            'rgba(128, 128, 0, 0.8)',    // Deepseek V3 03-24
+            'rgba(0, 220, 220, 0.8)', // Gemini 2.5 Pro 06-05
+            'rgba(255, 99, 100, 0.8)',  // Deepseek R1 05-28
+            'rgba(0, 100, 0, 0.8)',    // Kimi K2
+        ];
+        const borderColors = backgroundColors.map(color => color.replace('0.8', '1'));
 
-            const scatterDataPoints = [];
-            const scatterPointBackgroundColors = [];
-            const scatterPointBorderColors = [];
-            const regressionPoints = []; // For calculating trendline
-            const chartLabelsForTooltip = []; // Filtered labels for tooltip
+        const scatterDataPoints = [];
+        const scatterPointBackgroundColors = [];
+        const scatterPointBorderColors = [];
+        const regressionPoints = []; // For calculating trendline
+        const chartLabelsForTooltip = []; // Filtered labels for tooltip
 
-            modelLabels.forEach((label, index) => {
-                if (eloScores[label] !== undefined) {
-                    const point = { x: eloScores[label], y: manaBenchScores[index] };
-                    scatterDataPoints.push(point);
-                    regressionPoints.push(point);
-                    chartLabelsForTooltip.push(label);
-                    scatterPointBackgroundColors.push(backgroundColors[index % backgroundColors.length] || 'rgba(150, 150, 150, 0.8)');
-                    scatterPointBorderColors.push(borderColors[index % borderColors.length] || 'rgba(150, 150, 150, 1)');
-                }
+        modelLabels.forEach((label, index) => {
+            const elo = eloScores[label];
+            const score = manaBenchScores[index];
+            if (elo !== undefined && score !== undefined && score !== null) {
+                const point = { x: elo, y: score };
+                scatterDataPoints.push(point);
+                regressionPoints.push(point);
+                chartLabelsForTooltip.push(label);
+                scatterPointBackgroundColors.push(backgroundColors[index % backgroundColors.length] || 'rgba(150, 150, 150, 0.8)');
+                scatterPointBorderColors.push(borderColors[index % borderColors.length] || 'rgba(150, 150, 150, 1)');
+            }
+        });
+
+        // Calculate trendline
+        let trendlineDataset = {};
+        if (regressionPoints.length >= 2) {
+            let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+            const n = regressionPoints.length;
+            regressionPoints.forEach(p => {
+                sumX += p.x;
+                sumY += p.y;
+                sumXY += p.x * p.y;
+                sumX2 += p.x * p.x;
             });
 
-            // Calculate trendline
-            let trendlineDataset = {};
-            if (regressionPoints.length >= 2) {
-                let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
-                const n = regressionPoints.length;
-                regressionPoints.forEach(p => {
-                    sumX += p.x;
-                    sumY += p.y;
-                    sumXY += p.x * p.y;
-                    sumX2 += p.x * p.x;
-                });
+            const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+            const intercept = (sumY - slope * sumX) / n;
 
-                const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-                const intercept = (sumY - slope * sumX) / n;
+            const minElo = Math.min(...regressionPoints.map(p => p.x));
+            const maxElo = Math.max(...regressionPoints.map(p => p.x));
 
-                const minElo = Math.min(...regressionPoints.map(p => p.x));
-                const maxElo = Math.max(...regressionPoints.map(p => p.x));
-
-                trendlineDataset = {
-                    type: 'line',
-                    label: 'Trendline',
-                    data: [
-                        { x: minElo, y: slope * minElo + intercept },
-                        { x: maxElo, y: slope * maxElo + intercept }
-                    ],
-                    borderColor: 'rgba(255, 0, 0, 0.7)',
-                    borderWidth: 2,
-                    fill: false,
-                    pointRadius: 0,
-                    tension: 0
-                };
-            }
-            
-            const finalDatasets = [
-                {
-                    label: 'Models',
-                    type: 'scatter',
-                    data: scatterDataPoints,
-                    backgroundColor: scatterPointBackgroundColors,
-                    borderColor: scatterPointBorderColors,
-                    pointRadius: 8,
-                    pointHoverRadius: 10
+            trendlineDataset = {
+                type: 'line',
+                label: 'Trendline',
+                data: [
+                    { x: minElo, y: slope * minElo + intercept },
+                    { x: maxElo, y: slope * maxElo + intercept }
+                ],
+                borderColor: 'rgba(255, 0, 0, 0.7)',
+                borderWidth: 2,
+                fill: false,
+                pointRadius: 0,
+                tension: 0,
+                datalabels: { display: false }
+            };
+        }
+        
+        const finalDatasets = [
+            {
+                label: 'Models',
+                type: 'scatter',
+                data: scatterDataPoints,
+                backgroundColor: scatterPointBackgroundColors,
+                borderColor: scatterPointBorderColors,
+                pointRadius: 8,
+                pointHoverRadius: 10,
+                datalabels: {
+                    formatter: (value, context) => {
+                        const modelName = chartLabelsForTooltip[context.dataIndex];
+                        const point = context.dataset.data[context.dataIndex];
+                        if (context.active) {
+                            return `${modelName}: (ELO: ${point.x}, ManaBench: ${point.y}%)`;
+                        }
+                        return modelName;
+                    },
+                    font: function(context) {
+                        return {
+                            size: 9,
+                            weight: context.active ? 'bold' : '500'
+                        };
+                    },
+                    backgroundColor: function(context) {
+                        return context.active ? context.dataset.backgroundColor[context.dataIndex].replace('0.8', '1') : null;
+                    },
+                    borderColor: function(context) {
+                        return context.active ? 'white' : null;
+                    },
+                    borderRadius: 4,
+                    borderWidth: 1,
+                    color: function(context) {
+                        return context.active ? 'white' : '#333';
+                    },
+                    padding: 4,
+                    align: 'top',
+                    offset: 8,
+                    anchor: 'center'
                 }
-            ];
-
-            if (Object.keys(trendlineDataset).length > 0) {
-                finalDatasets.push(trendlineDataset);
             }
+        ];
 
-            new Chart(ctxCorrelation, {
-                type: 'scatter', // Base type, can be overridden by dataset type
-                data: {
-                    // labels: chartLabelsForTooltip, // Not needed directly here for scatter
-                    datasets: finalDatasets
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: {
-                            display: false 
-                        },
-                        title: {
-                            display: true,
-                            text: 'ManaBench Accuracy vs. LMArena ELO',
-                            font: {
-                                size: 18
-                            }
-                        },
-                        tooltip: {
-                            filter: function(tooltipItem) {
-                                // Only show tooltips for the scatter plot dataset (index 0)
-                                return tooltipItem.datasetIndex === 0;
-                            },
-                            callbacks: {
-                                label: function(context) {
-                                    const modelName = chartLabelsForTooltip[context.dataIndex];
-                                    let labelStr = modelName || '';
-                                    if (labelStr) {
-                                        labelStr += ': ';
-                                    }
-                                    if (context.parsed.x !== null && context.parsed.y !== null) {
-                                        labelStr += `(LMArena ELO: ${context.parsed.x}, ManaBench: ${context.parsed.y}%)`;
-                                    }
-                                    return labelStr;
-                                }
-                            }
+        if (Object.keys(trendlineDataset).length > 0) {
+            finalDatasets.push(trendlineDataset);
+        }
+
+        new Chart(ctxCorrelation, {
+            type: 'scatter',
+            plugins: [ChartDataLabels],
+            data: {
+                datasets: finalDatasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+
+                    legend: {
+                        display: false 
+                    },
+                    title: {
+                        display: true,
+                        text: 'ManaBench Accuracy vs. LMArena ELO',
+                        font: {
+                            size: 18
                         }
                     },
-                    scales: {
-                        x: {
-                            type: 'linear',
-                            position: 'bottom',
-                            title: {
-                                display: true,
-                                text: 'LMArena ELO (May 2025)'
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'ManaBench Accuracy (%)'
-                            }
+                    tooltip: {
+                        enabled: false
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom',
+                        title: {
+                            display: true,
+                            text: 'LMArena ELO (May 2025)'
+                        }
+                    },
+                    y: {
+                        min: Math.max(Math.min(...manaBenchScores) - 5, 0),
+                        max: Math.min(Math.max(...manaBenchScores) + 5, 100),
+                        title: {
+                            display: true,
+                            text: 'ManaBench Accuracy (%)'
                         }
                     }
                 }
-            });
+            }
         });
-    </script>
+    });
+</script>
 
-*   **Challenge for Frontier Models:** With the exception of o3, most of the models are far from matching human performance, let alone exceeding it. There is a 3 point gap between the top model (o3 (high) at 65%) and the human baseline, and every model except for o3 remains under 60%. This shows that the benchmark remains unsaturated and presents a significant challenge for frontier models.
+*   **Challenge for Frontier Models:** GPT-5 now reaches 67%, just 1 point shy of the 68% human baseline, with o3 (high) at 65% and o3 (low) at 63%. Only GPT-5 and o3 exceed 60%, indicating the benchmark remains unsaturated and continues to present a significant challenge for frontier models.
 
 *   **Test of Generalization vs. Benchmark Overfitting:** The complexity of MTG deck construction, the private nature of the benchmark questions, and the fact that MTG strategy is unlikely to be a direct optimization target for most LLM labs, collectively make ManaBench a strong test of generalized reasoning. Performance on this benchmark may reveal whether models are truly capable of applying reasoning to novel, complex systems, or if their high scores on common academic benchmarks (like MMLU or MATH) are partly due to overfitting or memorization of those specific test distributions. For example, a model series like Llama 4, which demonstrated strong performance on many standard benchmarks, gave a much weaker showing here, highlighting the value of diverse, specialized evaluations like ManaBench in assessing true generalization. This aligns with the experiences of many users who reported that Llama 4 struggled with real tasks and underperformed expectations.
 
