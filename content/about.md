@@ -1,9 +1,9 @@
 ---
 title: "About me"
 ---
-The name is Jake and I have a snake. Currently wrapping up school at NC State while working full-time at [Endeavor](https://endeavorai.com/).
+The name is Jake and I have a snake. Currently ~~wrapping up~~ dropped out of school at NC State and working full-time at [Endeavor](https://endeavorai.com/).
 
-Just moved to the Bay Area, hit me up if you want to get coffee and chat. Or calzones. I fucking love calzones.
+Still new to the Bay Area, hit me up if you want to get coffee and chat. Or calzones. I fucking love calzones.
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; align-items: flex-start;">
     <img src="/images/jake.jpg" alt="Jake" style="flex: 1 1 200px; max-width: 300px;">
     <img src="/images/snake.jpg" alt="Snake" style="flex: 1 1 200px; max-width: 300px;">

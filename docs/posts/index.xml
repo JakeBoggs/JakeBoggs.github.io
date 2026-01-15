@@ -21,7 +21,7 @@ Update: I got 2nd place with VR-CLImax, my implementation of Verified Rewards vi
       <link>https://boggs.tech/posts/evaluating-llm-reasoning-with-mtg-deck-building/</link>
       <pubDate>Fri, 09 May 2025 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/evaluating-llm-reasoning-with-mtg-deck-building/</guid>
-      <description>Update (2025-08-08): GPT-5, GPT-5 Mini, GPT-5 Nano, GPT-4 Turbo 11-06, and GPT-3.5 Turbo added. View Older Updates Update (2025-08-05): Kimi K2, GPT OSS 120B (low), and GPT OSS 120B (high) added. Update (2025-07-13): Grok 4, Grok 3, Gemini 2.5 Flash, Claude Sonnet 4 (thinking), and Command A added. Update (2025-06-11): o3 (high) added after API cost reduction. Update (2025-06-06): Deepseek R1 05-28 and Gemini 2.5 Pro 06-05 added. Update (2025-05-22): Claude Sonnet 4 and Opus 4 added.</description>
+      <description>Update (2026-01-14): Gemini 3 Pro, Gemini 3 Flash, GPT 5.2 (medium), Claude Opus 4.5, and Grok 4.1 Fast added. View Older Updates Update (2025-08-08): GPT-5, GPT-5 Mini, GPT-5 Nano, GPT-4 Turbo 11-06, and GPT-3.5 Turbo added. Update (2025-08-05): Kimi K2, GPT OSS 120B (low), and GPT OSS 120B (high) added. Update (2025-07-13): Grok 4, Grok 3, Gemini 2.5 Flash, Claude Sonnet 4 (thinking), and Command A added. Update (2025-06-11): o3 (high) added after API cost reduction.</description>
     </item>
     <item>
       <title>Introducing Manamorphosis: A Diffusion Model for MTG Deck Generation</title>
@@ -46,7 +46,7 @@ The script (track.</description>
       <pubDate>Mon, 04 Nov 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/accountabuddy-hacknc-2024/</guid>
       <description>Check out the project on Devpost and view the source code on GitHub.
-I spent a weekend at HackNC building something to help manage all of my other side projects. What started as a simple &amp;ldquo;Wouldn&amp;rsquo;t it be cool if an AI actually rang you to ask if you&amp;rsquo;d done your work?&amp;rdquo; turned into AccountaBuddy, a lightweight app that does more than fire off push notifications - it actually calls you, celebrates your wins, and helps you problem-solve when tasks stall.</description>
+I spent a weekend at HackNC building something to help manage all of my other side projects. What started as &amp;ldquo;Wouldn&amp;rsquo;t it be cool if an AI actually rang you to ask if you&amp;rsquo;d done your work?&amp;rdquo; turned into AccountaBuddy, a lightweight app that does more than fire off push notifications - it actually calls you, celebrates your wins, and helps you problem-solve when tasks stall.</description>
     </item>
     <item>
       <title>Daily Yap: A Synthetically Generated Conversational Audio Dataset</title>

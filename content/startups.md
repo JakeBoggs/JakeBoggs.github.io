@@ -1,21 +1,27 @@
 ---
 title: "Startups I've worked at or invested in"
 ---
-{{< investment img="/images/endeavor.png" url="https://endeavorai.com/" title="Endeavor AI (Researcher)" description="Currently working here on training and deploying LLMs / agents for manufacturing companies" >}}
-{{< investment img="/images/aeternum.png" url="https://aeternumanalytics.com/" title="Aeternum Analytics (Founder)" description="Began with facial recognition, ended up selling trading cards, now it's a B2B prospecting platform. Biggest pivot since The Boring Company switched to flamethrowers" >}}
-{{< investment img="/images/freelunch.png" url="https://freelunch.fund" title="Free Lunch (Cofounder)" description="Small-scale hedgefund from my quant trading arc, yes I know the website is ugly lol" >}}
-{{< investment img="/images/osmos.png" url="https://osmoslearn.com" title="Osmos Learn (Full-stack)" description="Service for K-12 teachers that uses GPT-4V to scan assignments and automatically grade them based on a rubric. Shutdown due to new student privacy regulations. Started by my friend, I built a lot of the backend" >}}
+{{< investment img="/images/endeavor.png" url="https://endeavorai.com/" title="Endeavor AI (Researcher)" description="Currently working here on training and deploying LLMs / agents for manufacturing and distribution companies" >}}
+{{< investment img="/images/aeternum.png" title="Aeternum Analytics (Founder)" description="Began with facial recognition (failed during COVID), ended up selling trading cards (did $1 million in sales during the Pokemon / MTG frenzy), then became a B2B prospecting platform (because why not). Biggest pivot since The Boring Company switched to flamethrowers" >}}
+{{< investment img="/images/freelunch.png" title="Free Lunch (Cofounder)" description="Small-scale hedgefund from my quant trading arc" >}}
+{{< investment img="/images/osmos.png" url="https://osmoslearn.com" title="Osmos Learn (Full-stack)" description="Service for K-12 teachers that scanned assignments and automatically grades them based on a rubric. Shutdown due to new student privacy regulations. Started by my friend, I built a lot of the backend" >}}
 
 # Investments
+UPDATE: After dropping out and getting a clearer picture of the areas I want to work in, the motivations below no longer fully reflect my current thinking. Although I still want to invest in people and ideas that I believe in, I have come to realize that the best way for me to leverage myself is through research and direct focus on the problems I care about. This is now where I am dedicating the bulk of my effort.
+
 Eventually I want to run my own VC fund, so I've been practicing through [Reg-CF](https://www.investor.gov/introduction-investing/investing-basics/glossary/regulation-crowdfunding). Hopefully one day this will serve as a track record when I go to raise money from investors, but in the meantime it's teaching me a lot and reading the quarterly updates is always exciting. I initially set out to make 100 investments by the time I graduated college, so far I'm 3 years in with 51 investments across 49 companies. Been slowing down lately to focus on other projects, so 100 seems unlikely, but I'm satisfied with my progress and I've learned a lot.
+## Exits
+{{< investment img="/images/fueled.png" url="https://fueled.io/" title="Fueled" description="1st-party eCommerce data platform - Invested 2023 - Acquired at the same valuation I invested in" >}}
+
 ## Highlights
 These have been the best performers, with substantial revenue growth and/or follow-on rounds at higher valuations.
-{{< investment img="/images/fueled.png" url="https://fueled.io/" title="Fueled" description="1st-party eCommerce data platform - Invested 2023" >}}
+{{< investment img="/images/substack.png" url="https://substack.com/" title="Substack" description="Blogging or something - Invested 2023" >}}
 {{< investment img="/images/blackbird.png" url="https://www.blackbirdfoods.com/" title="Blackbird Foods" description="Plant-based pizza and meats - Invested 2023" >}}
 {{< investment img="/images/jurny.png" url="https://www.jurny.com/" title="Jurny" description="Automated vacation rental management - Invested 2023" >}}
 {{< investment img="/images/mtailor.png" url="https://www.mtailor.com/" title="MTailor" description="Custom fit clothes from a couple of pictures - Invested 2023" >}}
 {{< investment img="/images/radai.png" url="https://www.radintel.ai/" title="RAD AI" description="AI content optimization and audience targeting - Invested 2023" >}}
 {{< investment img="/images/danielhouseclub.png" url="https://danielhouse.club/" title="Daniel House Club" description="One-stop shop for interior designers - Invested 2023" >}}
+{{< investment img="/images/morari.png" url="https://www.morarimedical.com/" title="Morari Medical" description="Taint zapper - Invested 2023" >}}
 {{< investment img="/images/npcx.png" url="https://npcx.ai/" title="NPCx" description="AI-based motion capture and character animation for video games - Invested 2022" >}}
 {{< investment img="/images/toast.png" url="https://wetoast.com" title="Toast" description="Coca-Cola of weed - Invested 2022" >}}
 {{< investment img="/images/lmnt.png" url="https://drinklmnt.com/" title="LMNT" description="Sugar-free electrolyte drink mix - Invested 2022" >}}
@@ -44,9 +50,7 @@ Still operational but have not yet raised additional rounds. Will be moved to th
 {{< investment img="/images/hevo.png" url="https://hevo.com/" title="HEVO" description="Invested 2023" >}}
 {{< investment img="/images/revival.png" url="https://www.revivalrugs.com/" title="Revival" description="Invested 2023" >}}
 {{< investment img="/images/bloomi.png" url="https://thebloomi.com/" title="Bloomi" description="Invested 2023" >}}
-{{< investment img="/images/substack.png" url="https://substack.com/" title="Substack" description="Invested 2023" >}}
 {{< investment img="/images/superphone.png" url="https://www.superphone.io/" title="Superphone" description="Invested 2023" >}}
-{{< investment img="/images/morari.png" url="https://www.morarimedical.com/" title="Morari Medical" description="Invested 2023" >}}
 {{< investment img="/images/easy-expense.png" url="https://www.easy-expense.com/" title="Easy Expense" description="Invested 2023" >}}
 {{< investment img="" url="https://highwaypharm.com/" title="Highway Pharmaceuticals" description="Invested 2023" >}}
 {{< investment img="/images/phuc.png" url="https://www.phuclabs.com/" title="Phuc Labs" description="Invested 2023" >}}

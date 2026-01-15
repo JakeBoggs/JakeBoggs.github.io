@@ -5,15 +5,15 @@ draft: false
 ---
 Check out the project on **[Devpost](https://devpost.com/software/nudge-4groy0)** and view the source code on **[GitHub](https://github.com/JakeBoggs/AccountaBuddy-HackNC2024)**.
 
-{{< youtube YLjw9UnhMEI >}}
+I spent a weekend at HackNC building something to help manage all of my other side projects. What started as "Wouldn't it be cool if an AI actually rang you to ask if you'd done your work?" turned into AccountaBuddy, a lightweight app that does more than fire off push notifications - it actually calls you, celebrates your wins, and helps you problem-solve when tasks stall.
 
-I spent a weekend at HackNC building something to help manage all of my other side projects. What started as a simple "Wouldn't it be cool if an AI actually rang you to ask if you'd done your work?" turned into AccountaBuddy, a lightweight app that does more than fire off push notifications - it actually calls you, celebrates your wins, and helps you problem-solve when tasks stall.
+{{< youtube YLjw9UnhMEI >}}
 
 ## The Why: When Reminders Aren't Enough
 
 I'm not the only one who's ever ignored yet another notification. A to-do list can feel like a list of obligations, or worse, just noise. AccountaBuddy was born from the idea that human accountability is powerful - so why not let technology step in as a friendly collaborator? Instead of sending one-way reminders, it reaches out, listens to you, and adapts to your situation.
 
-## What It Does, in Practice
+## Features
 
 *   **Task creation & scheduling:** Sign up, add your tasks, and pick check-in times.
 *   **Real-time voice calls:** At each scheduled moment, AccountaBuddy actually rings your phone via [bland.ai](https://www.bland.ai/).
@@ -43,4 +43,4 @@ By the end of the hackathon, AccountaBuddy was already helping us plan the remai
 
 *   **Stripe integration** for a lightweight subscription model
 *   **Live voice conversations** powered by ChatGPT Advanced Voice Mode, so you can brainstorm out loud with your AI buddy in real time
-*   **Deeper analytics,** to show you trends in your productivity rather than just individual tasks
+*   **Deeper analytics** to show you trends in your productivity
