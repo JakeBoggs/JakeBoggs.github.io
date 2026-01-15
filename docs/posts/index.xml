@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on Jake Boggs</title>
     <link>https://boggs.tech/posts/</link>
     <description>Recent content in Posts on Jake Boggs</description>
-    <generator>Hugo</generator>
+    <generator>Hugo -- 0.154.5</generator>
     <language>en</language>
     <lastBuildDate>Fri, 16 May 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://boggs.tech/posts/index.xml" rel="self" type="application/rss+xml" />
@@ -13,14 +13,45 @@
       <link>https://boggs.tech/posts/atropos-guide-reinforcement-learning-with-llms/</link>
       <pubDate>Fri, 16 May 2025 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/atropos-guide-reinforcement-learning-with-llms/</guid>
-      <description>&lt;p&gt;This weekend, I will be in attendance at the &lt;a href=&#34;https://cerebralvalley.ai/e/nous-research-rl-environments-hackathon-9be3062a&#34;&gt;Nous Research – RL Environments Hackathon&lt;/a&gt;, so to prepare I&amp;rsquo;ve been playing around with Atropos, their new RL framework that we will be using for the event. After failing to find any guides online, I decided to write my own.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; I got 2nd place with VR-CLImax, my implementation of Verified Rewards via Completion Likelihood Improvement for improving LLM humor! You can find the code merged into the &lt;a href=&#34;https://github.com/NousResearch/atropos/tree/main/environments/community/punchline_vrcli&#34;&gt;Atropos repository&lt;/a&gt;.&lt;/p&gt;</description>
+      <description>&lt;p&gt;This weekend, I will be in attendance at the &lt;a href=&#34;https://cerebralvalley.ai/e/nous-research-rl-environments-hackathon-9be3062a&#34;&gt;Nous Research – RL Environments Hackathon&lt;/a&gt;, so to prepare I&amp;rsquo;ve been playing around with Atropos, their new RL framework that we will be using for the event. After failing to find any guides online, I decided to write my own.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; I got 2nd place with VR-CLImax, my implementation of Verified Rewards via Completion Likelihood Improvement for improving LLM humor! You can find the code merged into the &lt;a href=&#34;https://github.com/NousResearch/atropos/tree/main/environments/community/punchline_vrcli&#34;&gt;Atropos repository&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Evaluating Reasoning in LLMs Through MTG Deck Building</title>
       <link>https://boggs.tech/posts/evaluating-llm-reasoning-with-mtg-deck-building/</link>
       <pubDate>Fri, 09 May 2025 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/evaluating-llm-reasoning-with-mtg-deck-building/</guid>
-      <description>&lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;&#34;&gt;&#xD;&#xA;  &lt;strong&gt;Update (2026-01-14):&lt;/strong&gt; Gemini 3 Pro, Gemini 3 Flash, GPT 5.2 (medium), Claude Opus 4.5, and Grok 4.1 Fast added.&#xD;&#xA;&lt;/div&gt;&#xD;&#xA;&lt;details style=&#34;margin-bottom: 18px;&#34;&gt;&#xD;&#xA;  &lt;summary style=&#34;cursor: pointer; font-weight: 500;&#34;&gt;View Older Updates&lt;/summary&gt;&#xD;&#xA;  &lt;div style=&#34;padding-top: 10px;&#34;&gt;&#xD;&#xA;    &lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;&#34;&gt;&#xD;&#xA;    &lt;strong&gt;Update (2025-08-08):&lt;/strong&gt; GPT-5, GPT-5 Mini, GPT-5 Nano, GPT-4 Turbo 11-06, and GPT-3.5 Turbo added.&#xD;&#xA;    &lt;/div&gt;&#xD;&#xA;    &lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;&#34;&gt;&#xD;&#xA;      &lt;strong&gt;Update (2025-08-05):&lt;/strong&gt; Kimi K2, GPT OSS 120B (low), and GPT OSS 120B (high) added.&#xD;&#xA;    &lt;/div&gt;&#xD;&#xA;    &lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;&#34;&gt;&#xD;&#xA;      &lt;strong&gt;Update (2025-07-13):&lt;/strong&gt; Grok 4, Grok 3, Gemini 2.5 Flash, Claude Sonnet 4 (thinking), and Command A added.&#xD;&#xA;    &lt;/div&gt;&#xD;&#xA;    &lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;&#34;&gt;&#xD;&#xA;      &lt;strong&gt;Update (2025-06-11):&lt;/strong&gt; o3 (high) added after API cost reduction.&#xD;&#xA;    &lt;/div&gt;&#xD;&#xA;    &lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;&#34;&gt;&#xD;&#xA;      &lt;strong&gt;Update (2025-06-06):&lt;/strong&gt; Deepseek R1 05-28 and Gemini 2.5 Pro 06-05 added.&#xD;&#xA;    &lt;/div&gt;&#xD;&#xA;    &lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;&#34;&gt;&#xD;&#xA;      &lt;strong&gt;Update (2025-05-22):&lt;/strong&gt; Claude Sonnet 4 and Opus 4 added.&#xD;&#xA;    &lt;/div&gt;&#xD;&#xA;    &lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 0; font-size: 1.08em; font-weight: 500;&#34;&gt;&#xD;&#xA;      &lt;strong&gt;Update (2025-05-14):&lt;/strong&gt; Human Baseline, Gemini 2.5 Pro 03-25, Gemini 1.5 Flash, Deepseek V3 03-24, Qwen3 30B 3A added.&#xD;&#xA;    &lt;/div&gt;&#xD;&#xA;  &lt;/div&gt;&#xD;&#xA;&lt;/details&gt;&#xD;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Evaluating the reasoning capabilities of Large Language Models (LLMs) requires specialized benchmarks that move beyond surface-level NLP tasks. I have an obsession with applying AI models to my favorite card game, so I&amp;rsquo;ve created ManaBench, a benchmark designed to probe an LLM&amp;rsquo;s capacity for reasoning using the collectible card game Magic: The Gathering (MTG) as a proxy. MTG, with its intricate interactions and deep strategy, serves as an ideal micro-world to test an LLM&amp;rsquo;s ability to process contextual information, identify patterns, and make judgments that align with expert human choices. This post provides a technical overview of the benchmark&amp;rsquo;s construction and the methodology used for evaluation.&lt;/p&gt;</description>
+      <description>&lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;&#34;&gt;
+  &lt;strong&gt;Update (2026-01-14):&lt;/strong&gt; Gemini 3 Pro, Gemini 3 Flash, GPT 5.2 (medium), Claude Opus 4.5, and Grok 4.1 Fast added.
+&lt;/div&gt;
+&lt;details style=&#34;margin-bottom: 18px;&#34;&gt;
+  &lt;summary style=&#34;cursor: pointer; font-weight: 500;&#34;&gt;View Older Updates&lt;/summary&gt;
+  &lt;div style=&#34;padding-top: 10px;&#34;&gt;
+    &lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;&#34;&gt;
+    &lt;strong&gt;Update (2025-08-08):&lt;/strong&gt; GPT-5, GPT-5 Mini, GPT-5 Nano, GPT-4 Turbo 11-06, and GPT-3.5 Turbo added.
+    &lt;/div&gt;
+    &lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;&#34;&gt;
+      &lt;strong&gt;Update (2025-08-05):&lt;/strong&gt; Kimi K2, GPT OSS 120B (low), and GPT OSS 120B (high) added.
+    &lt;/div&gt;
+    &lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;&#34;&gt;
+      &lt;strong&gt;Update (2025-07-13):&lt;/strong&gt; Grok 4, Grok 3, Gemini 2.5 Flash, Claude Sonnet 4 (thinking), and Command A added.
+    &lt;/div&gt;
+    &lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;&#34;&gt;
+      &lt;strong&gt;Update (2025-06-11):&lt;/strong&gt; o3 (high) added after API cost reduction.
+    &lt;/div&gt;
+    &lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;&#34;&gt;
+      &lt;strong&gt;Update (2025-06-06):&lt;/strong&gt; Deepseek R1 05-28 and Gemini 2.5 Pro 06-05 added.
+    &lt;/div&gt;
+    &lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;&#34;&gt;
+      &lt;strong&gt;Update (2025-05-22):&lt;/strong&gt; Claude Sonnet 4 and Opus 4 added.
+    &lt;/div&gt;
+    &lt;div style=&#34;background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 0; font-size: 1.08em; font-weight: 500;&#34;&gt;
+      &lt;strong&gt;Update (2025-05-14):&lt;/strong&gt; Human Baseline, Gemini 2.5 Pro 03-25, Gemini 1.5 Flash, Deepseek V3 03-24, Qwen3 30B 3A added.
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/details&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Evaluating the reasoning capabilities of Large Language Models (LLMs) requires specialized benchmarks that move beyond surface-level NLP tasks. I have an obsession with applying AI models to my favorite card game, so I&amp;rsquo;ve created ManaBench, a benchmark designed to probe an LLM&amp;rsquo;s capacity for reasoning using the collectible card game Magic: The Gathering (MTG) as a proxy. MTG, with its intricate interactions and deep strategy, serves as an ideal micro-world to test an LLM&amp;rsquo;s ability to process contextual information, identify patterns, and make judgments that align with expert human choices. This post provides a technical overview of the benchmark&amp;rsquo;s construction and the methodology used for evaluation.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Introducing Manamorphosis: A Diffusion Model for MTG Deck Generation</title>
@@ -34,21 +65,33 @@
       <link>https://boggs.tech/posts/gait-analysis-physical-therapy-research/</link>
       <pubDate>Mon, 21 Apr 2025 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/gait-analysis-physical-therapy-research/</guid>
-      <description>&lt;p&gt;Analyzing how people walk using video is common in research and clinical settings, but getting accurate joint angles usually means either expensive equipment or manually annotating frames, which is slow and tedious.&lt;/p&gt;&#xA;&lt;p&gt;Over Easter weekend, I built a Python tool to help my mother with her research study analyzing patient videos. It uses YOLOv11-pose for automatic detection and adds an interactive interface for manual adjustments.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;What it Does&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;The script (&lt;code&gt;track.py&lt;/code&gt;) lets you load a video file (ideally a side-view of someone walking). Here’s the workflow:&lt;/p&gt;</description>
+      <description>&lt;p&gt;Analyzing how people walk using video is common in research and clinical settings, but getting accurate joint angles usually means either expensive equipment or manually annotating frames, which is slow and tedious.&lt;/p&gt;
+&lt;p&gt;Over Easter weekend, I built a Python tool to help my mother with her research study analyzing patient videos. It uses YOLOv11-pose for automatic detection and adds an interactive interface for manual adjustments.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;What it Does&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The script (&lt;code&gt;track.py&lt;/code&gt;) lets you load a video file (ideally a side-view of someone walking). Here’s the workflow:&lt;/p&gt;</description>
     </item>
     <item>
       <title>AccountaBuddy: Your AI Accountability Partner - HackNC 2024</title>
       <link>https://boggs.tech/posts/accountabuddy-hacknc-2024/</link>
       <pubDate>Mon, 04 Nov 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/accountabuddy-hacknc-2024/</guid>
-      <description>&lt;p&gt;Check out the project on &lt;strong&gt;&lt;a href=&#34;https://devpost.com/software/nudge-4groy0&#34;&gt;Devpost&lt;/a&gt;&lt;/strong&gt; and view the source code on &lt;strong&gt;&lt;a href=&#34;https://github.com/JakeBoggs/AccountaBuddy-HackNC2024&#34;&gt;GitHub&lt;/a&gt;&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;I spent a weekend at HackNC building something to help manage all of my other side projects. What started as &amp;ldquo;Wouldn&amp;rsquo;t it be cool if an AI actually rang you to ask if you&amp;rsquo;d done your work?&amp;rdquo; turned into AccountaBuddy, a lightweight app that does more than fire off push notifications - it actually calls you, celebrates your wins, and helps you problem-solve when tasks stall.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Check out the project on &lt;strong&gt;&lt;a href=&#34;https://devpost.com/software/nudge-4groy0&#34;&gt;Devpost&lt;/a&gt;&lt;/strong&gt; and view the source code on &lt;strong&gt;&lt;a href=&#34;https://github.com/JakeBoggs/AccountaBuddy-HackNC2024&#34;&gt;GitHub&lt;/a&gt;&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;I spent a weekend at HackNC building something to help manage all of my other side projects. What started as &amp;ldquo;Wouldn&amp;rsquo;t it be cool if an AI actually rang you to ask if you&amp;rsquo;d done your work?&amp;rdquo; turned into AccountaBuddy, a lightweight app that does more than fire off push notifications - it actually calls you, celebrates your wins, and helps you problem-solve when tasks stall.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Daily Yap: A Synthetically Generated Conversational Audio Dataset</title>
       <link>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</link>
       <pubDate>Sun, 23 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</guid>
-      <description>&lt;p&gt;Training multimodal models often requires large, high-quality conversational audio datasets, which are scarce at the time of writing. This post details the creation of Daily Yap, a dataset I developed to address this gap.&lt;/p&gt;&#xA;&lt;p&gt;Existing conversational audio datasets present several limitations:&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;Content Scope:&lt;/strong&gt; Many datasets focus on assistant-user interactions, lacking the breadth of topics found in general human dialogues.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Audio-Text Alignment:&lt;/strong&gt; Datasets with precise alignment between high-quality audio and accurate transcriptions are uncommon.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Speaker Diversity:&lt;/strong&gt; The use of few speakers limits the generalizability of models trained on these datasets.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Scalability:&lt;/strong&gt; Human recording is resource-intensive, hindering the creation of large-scale datasets.&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;Daily Yap was created to mitigate these challenges by providing a synthetically generated conversational audio resource suitable for training real-time conversational audio models.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Training multimodal models often requires large, high-quality conversational audio datasets, which are scarce at the time of writing. This post details the creation of Daily Yap, a dataset I developed to address this gap.&lt;/p&gt;
+&lt;p&gt;Existing conversational audio datasets present several limitations:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Content Scope:&lt;/strong&gt; Many datasets focus on assistant-user interactions, lacking the breadth of topics found in general human dialogues.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Audio-Text Alignment:&lt;/strong&gt; Datasets with precise alignment between high-quality audio and accurate transcriptions are uncommon.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Speaker Diversity:&lt;/strong&gt; The use of few speakers limits the generalizability of models trained on these datasets.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Scalability:&lt;/strong&gt; Human recording is resource-intensive, hindering the creation of large-scale datasets.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Daily Yap was created to mitigate these challenges by providing a synthetically generated conversational audio resource suitable for training real-time conversational audio models.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Large Language Models for Magic: the Gathering</title>
