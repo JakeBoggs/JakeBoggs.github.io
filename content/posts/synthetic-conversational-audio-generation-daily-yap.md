@@ -3,7 +3,7 @@ title: "Daily Yap: A Synthetically Generated Conversational Audio Dataset"
 date: "2024-06-23"
 draft: false
 ---
-Training multimodal models often requires large, high-quality conversational audio datasets, which are scarce at the time of writing. This post details the creation of Daily Yap, a dataset I developed to address this gap.
+Training multimodal models often requires large, high-quality conversational audio datasets, which are scarce at the time of writing.
 
 Existing conversational audio datasets present several limitations:
 
@@ -20,7 +20,7 @@ The following sections describe the methodology used to develop Daily Yap, resul
 
 The Daily Dialog dataset was selected as the textual foundation due to its range of conversational topics. However, modifications were required to enhance its suitability for audio synthesis.
 
-## Text Preprocessing and Enhancement
+### Text Preprocessing and Enhancement
 
 The Daily Dialog transcripts were initially filtered to remove conversations where any utterance was shorter than 10 characters. The remaining transcripts were then processed using GPT-4o via the OpenAI API with three main objectives:
 
@@ -104,14 +104,6 @@ The resulting Daily Yap dataset contains 9,758 samples, totaling approximately 9
 
 Each sample consists of a JSON-formatted transcript and a corresponding dual-channel WAV audio file, facilitating speaker diarization and multimodal alignment.
 
-## Future Directions
+The dataset is available on HuggingFace: [https://huggingface.co/datasets/jakeBoggs/DailyYap](https://huggingface.co/datasets/jakeBoggs/DailyYap)
 
-Future work may involve generating entirely synthetic dialogues, independent of the Daily Dialog source material, potentially increasing scalability and topical diversity.
-
-Furthermore, updates to the audio generation process will be considered as TTS technology progresses, incorporating newer methods for synthetic speech generation.
-
-## Conclusion
-
-Daily Yap provides a resource for developing and evaluating conversational AI systems. The dataset is available on HuggingFace: [https://huggingface.co/datasets/jakeBoggs/DailyYap](https://huggingface.co/datasets/jakeBoggs/DailyYap)
-
-If any academics want to cite this in a paper, I would be honored and extremely amused. Seeing "Daily Yap" in a works cited section would give me a good laugh and make all of this worth it.
+If any researchers want to cite this in a paper, I would be honored and extremely amused. Seeing "Daily Yap" in a works cited section would give me a good laugh and make all of this worth it.

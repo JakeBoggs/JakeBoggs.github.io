@@ -1,0 +1,127 @@
+/* Investment Grid Styles */
+.investment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+    align-items: stretch;
+}
+
+.investment-grid > * {
+    height: 100%;
+}
+
+.investment-card {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 100%;
+}
+
+.investment-card a,
+.investment-card p,
+.investment-card h4,
+.investment-card span,
+.investment-card img {
+    border: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+.investment-card hr {
+    display: none !important;
+}
+
+.investment-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: var(--tertiary);
+}
+
+[data-theme="dark"] .investment-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.investment-card a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.investment-card a::after,
+.investment-card a::before {
+    display: none;
+}
+
+.investment-card .investment-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 12px;
+    background: var(--theme);
+    padding: 8px;
+    flex-shrink: 0;
+}
+
+.investment-card h4 {
+    margin: 1rem 0 0 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--primary);
+    line-height: 1.3;
+}
+
+.investment-card p {
+    margin: 0.5rem 0 0 0;
+    font-size: 0.875rem;
+    color: var(--secondary);
+    line-height: 1.5;
+    flex: 1;
+    min-height: 0;
+}
+
+.investment-card p:empty {
+    margin: 0;
+    display: none;
+}
+
+.investment-card .investment-meta {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--secondary);
+    opacity: 0.8;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border-top: 1px solid var(--border) !important;
+    width: 100%;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.investment-card .investment-meta.status-exit {
+    color: #22c55e;
+    opacity: 1;
+}
+
+.investment-card .investment-meta.status-loss {
+    color: #ef4444;
+    opacity: 1;
+}
+
+[data-theme="dark"] .investment-card .investment-meta.status-exit {
+    color: #4ade80;
+}
+
+[data-theme="dark"] .investment-card .investment-meta.status-loss {
+    color: #f87171;
+}
+

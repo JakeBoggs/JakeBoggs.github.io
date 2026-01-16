@@ -1,7 +1,7 @@
 ---
 title: "About me"
 ---
-The name is Jake and I have a snake. Currently ~~wrapping up~~ dropped out of school at NC State and working full-time at [Endeavor](https://endeavorai.com/).
+My name is Jake and I have a snake. Currently ~~wrapping up~~ dropped out of school at NC State and working full-time at [Endeavor](https://endeavorai.com/). I post here occassionally to share what I'm working on and improve my writing abilities.
 
 Still new to the Bay Area, hit me up if you want to get coffee and chat. Or calzones. I fucking love calzones.
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; align-items: flex-start;">

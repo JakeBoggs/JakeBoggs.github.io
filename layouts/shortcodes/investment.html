@@ -1,7 +1,8 @@
-<div style="display: inline-block; width: 50%; padding: 10px; vertical-align: top;">
-    <a href="{{ .Get "url" }}" target="_blank">
-        <img src="{{ .Get "img" }}" width="128">
-        <h4>{{ .Get "title"}}</h4>
-        {{ with .Get "description" }}<p>{{ . }}</p>{{ end }}
+<div class="investment-card">
+    <a href="{{ .Get "url" }}" target="_blank" rel="noopener noreferrer">
+        {{ with .Get "img" }}<img class="investment-logo" src="{{ . }}" alt="{{ $.Get "title" }} logo" loading="lazy">{{ end }}
+        <h4>{{ .Get "title" }}</h4>
+        <p>{{ with .Get "description" }}{{ . }}{{ end }}</p>
     </a>
+    {{ with .Get "meta" }}<span class="investment-meta {{ with $.Get "status" }}status-{{ . }}{{ end }}">{{ . }}</span>{{ end }}
 </div>

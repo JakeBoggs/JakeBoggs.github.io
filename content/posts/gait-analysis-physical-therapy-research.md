@@ -7,6 +7,13 @@ Analyzing how people walk using video is common in research and clinical setting
 
 Over Easter weekend, I built a Python tool to help my mother with her research study analyzing patient videos. It uses YOLOv11-pose for automatic detection and adds an interactive interface for manual adjustments.
 
+**Demo**
+
+<video width="100%" controls>
+  <source src="/videos/gait-analyzer.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 **What it Does**
 
 The script (`track.py`) lets you load a video file (ideally a side-view of someone walking). Here’s the workflow:
@@ -70,13 +77,6 @@ The script (`track.py`) lets you load a video file (ideally a side-view of someo
     cv2.setMouseCallback(window_name, mouse_cb) # Register the callback
     ```
 6.  **Save Data:** When you're satisfied with the point placement on a given frame (while paused), press the **'s'** key. This triggers the saving process detailed below.
-
-**Demo**
-
-<video width="100%" controls>
-  <source src="/videos/gait-analyzer.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
 
 **Output: Data Ready for Analysis**
 

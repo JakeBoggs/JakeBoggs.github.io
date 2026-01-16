@@ -67,8 +67,12 @@
       <guid>https://boggs.tech/posts/gait-analysis-physical-therapy-research/</guid>
       <description>&lt;p&gt;Analyzing how people walk using video is common in research and clinical settings, but getting accurate joint angles usually means either expensive equipment or manually annotating frames, which is slow and tedious.&lt;/p&gt;
 &lt;p&gt;Over Easter weekend, I built a Python tool to help my mother with her research study analyzing patient videos. It uses YOLOv11-pose for automatic detection and adds an interactive interface for manual adjustments.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;What it Does&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The script (&lt;code&gt;track.py&lt;/code&gt;) lets you load a video file (ideally a side-view of someone walking). Here’s the workflow:&lt;/p&gt;</description>
+&lt;p&gt;&lt;strong&gt;Demo&lt;/strong&gt;&lt;/p&gt;
+&lt;video width=&#34;100%&#34; controls&gt;
+  &lt;source src=&#34;https://boggs.tech/videos/gait-analyzer.mp4&#34; type=&#34;video/mp4&#34;&gt;
+  Your browser does not support the video tag.
+&lt;/video&gt;
+&lt;p&gt;&lt;strong&gt;What it Does&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>AccountaBuddy: Your AI Accountability Partner - HackNC 2024</title>
@@ -83,7 +87,7 @@
       <link>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</link>
       <pubDate>Sun, 23 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</guid>
-      <description>&lt;p&gt;Training multimodal models often requires large, high-quality conversational audio datasets, which are scarce at the time of writing. This post details the creation of Daily Yap, a dataset I developed to address this gap.&lt;/p&gt;
+      <description>&lt;p&gt;Training multimodal models often requires large, high-quality conversational audio datasets, which are scarce at the time of writing.&lt;/p&gt;
 &lt;p&gt;Existing conversational audio datasets present several limitations:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;Content Scope:&lt;/strong&gt; Many datasets focus on assistant-user interactions, lacking the breadth of topics found in general human dialogues.&lt;/li&gt;
@@ -98,14 +102,16 @@
       <link>https://boggs.tech/posts/large-language-models-for-magic-the-gathering/</link>
       <pubDate>Fri, 24 May 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/large-language-models-for-magic-the-gathering/</guid>
-      <description>&lt;p&gt;Magic: The Gathering (MTG) has always fascinated me with its complexity and strategic depth, thanks to its extensive rulebook and vast array of unique cards. Despite the game&amp;rsquo;s popularity, AI systems specifically designed for MTG have been few and far between, often falling short due to their inability to accurately interpret the intricate rules and interactions between cards. This blog post chronicles my recent endeavor to bridge this gap with large language models (LLMs) by creating a specialized dataset and evaluation metric to improve AI performance in MTG-related tasks.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Context: this was a project from my class CSC 422 - Automated Learning and Data Analysis. I dumped the content from the final paper here with some slight tweaks to make a blogpost.&lt;/p&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Magic: The Gathering (MTG) has always fascinated me with its complexity and strategic depth, thanks to its extensive rulebook and vast array of unique cards. Despite the game&amp;rsquo;s popularity, AI systems specifically designed for MTG have been few and far between, often falling short due to their inability to accurately interpret the intricate rules and interactions between cards. This blog post chronicles my recent endeavor to bridge this gap with large language models (LLMs) by creating a specialized dataset and evaluation metric to improve AI performance in MTG-related tasks.&lt;/p&gt;</description>
     </item>
     <item>
       <title>About me</title>
       <link>https://boggs.tech/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/about/</guid>
-      <description>&lt;p&gt;The name is Jake and I have a snake. Currently &lt;del&gt;wrapping up&lt;/del&gt; dropped out of school at NC State and working full-time at &lt;a href=&#34;https://endeavorai.com/&#34;&gt;Endeavor&lt;/a&gt;.&lt;/p&gt;
+      <description>&lt;p&gt;My name is Jake and I have a snake. Currently &lt;del&gt;wrapping up&lt;/del&gt; dropped out of school at NC State and working full-time at &lt;a href=&#34;https://endeavorai.com/&#34;&gt;Endeavor&lt;/a&gt;. I post here occassionally to share what I&amp;rsquo;m working on and improve my writing abilities.&lt;/p&gt;
 &lt;p&gt;Still new to the Bay Area, hit me up if you want to get coffee and chat. Or calzones. I fucking love calzones.&lt;/p&gt;
 &lt;div style=&#34;display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; align-items: flex-start;&#34;&gt;
     &lt;img src=&#34;https://boggs.tech/images/jake.jpg&#34; alt=&#34;Jake&#34; style=&#34;flex: 1 1 200px; max-width: 300px;&#34;&gt;
@@ -122,18 +128,21 @@ Chances are that if you see me in the wild, I&#39;ll be rocking these bad boys:
       <link>https://boggs.tech/startups/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/startups/</guid>
-      <description>&lt;p&gt;&lt;div style=&#34;display: inline-block; width: 50%; padding: 10px; vertical-align: top;&#34;&gt;
-    &lt;a href=&#34;https://endeavorai.com/&#34; target=&#34;_blank&#34;&gt;
-        &lt;img src=&#34;https://boggs.tech/images/endeavor.png&#34; width=&#34;128&#34;&gt;
+      <description>&lt;div class=&#34;investment-grid&#34;&gt;
+&lt;div class=&#34;investment-card&#34;&gt;
+    &lt;a href=&#34;https://endeavor.ai/&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+        &lt;img class=&#34;investment-logo&#34; src=&#34;https://boggs.tech/images/endeavor.png&#34; alt=&#34;Endeavor AI (Researcher) logo&#34; loading=&#34;lazy&#34;&gt;
         &lt;h4&gt;Endeavor AI (Researcher)&lt;/h4&gt;
         &lt;p&gt;Currently working here on training and deploying LLMs / agents for manufacturing and distribution companies&lt;/p&gt;
     &lt;/a&gt;
+    &lt;span class=&#34;investment-meta &#34;&gt;Current&lt;/span&gt;
 &lt;/div&gt;
-&lt;div style=&#34;display: inline-block; width: 50%; padding: 10px; vertical-align: top;&#34;&gt;
-    &lt;a href=&#34;&#34; target=&#34;_blank&#34;&gt;
-        &lt;img src=&#34;https://boggs.tech/images/aeternum.png&#34; width=&#34;128&#34;&gt;
+
+&lt;div class=&#34;investment-card&#34;&gt;
+    &lt;a href=&#34;&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+        &lt;img class=&#34;investment-logo&#34; src=&#34;https://boggs.tech/images/aeternum.png&#34; alt=&#34;Aeternum Analytics (Founder) logo&#34; loading=&#34;lazy&#34;&gt;
         &lt;h4&gt;Aeternum Analytics (Founder)&lt;/h4&gt;
-        &lt;p&gt;Began with facial recognition (failed during COVID), ended up selling trading cards (did $1 million in sales during the Pokemon / MTG frenzy), then became a B2B prospecting platform (because why not). Biggest pivot since The Boring Company switched to flamethrowers&lt;/p&gt;</description>
+        &lt;p&gt;Began with facial recognition (failed during COVID), ended up selling trading cards (did $1 million in sales during the Pokemon / MTG frenzy), then became a B2B prospecting platform (I found some unique data and thought &amp;#34;surely sales can&amp;#39;t be that hard&amp;#34;🤦‍♂️). Biggest pivot since The Boring Company switched to flamethrowers&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -9,3 +9,8 @@
   document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);
 }("GOYPYHQMLEOX");
 </script>
+
+{{- /* Startups page-only styles */ -}}
+{{- if or (and .File (eq .File.Path "startups.md")) (eq .RelPermalink "/startups/") (eq .RelPermalink "/startups") -}}
+<link rel="stylesheet" href="/css/startups.css">
+{{- end -}}

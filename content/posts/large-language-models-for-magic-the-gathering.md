@@ -3,6 +3,10 @@ title: "Large Language Models for Magic: the Gathering"
 date: "2024-05-24"
 draft: false
 ---
+Context: this was a project from my class CSC 422 - Automated Learning and Data Analysis. I dumped the content from the final paper here with some slight tweaks to make a blogpost.
+
+## Introduction
+
 Magic: The Gathering (MTG) has always fascinated me with its complexity and strategic depth, thanks to its extensive rulebook and vast array of unique cards. Despite the game's popularity, AI systems specifically designed for MTG have been few and far between, often falling short due to their inability to accurately interpret the intricate rules and interactions between cards. This blog post chronicles my recent endeavor to bridge this gap with large language models (LLMs) by creating a specialized dataset and evaluation metric to improve AI performance in MTG-related tasks.
 
 ## The Challenge of MTG for AI
@@ -223,9 +227,9 @@ response = json.loads(requests.post("https://api.openai.com/v1/chat/completions"
 score = float(response['score'])
 ```
 
-## Results and Impact
+## Results
 
-The fine-tuned model demonstrated a 10.5% improvement over the base model, with an average score increase from 1.62 to 1.79 based on the GPT-4 evaluation. This indicates a moderate improvement in the model's understanding of MTG rules and interactions, but both models still have tremendous room to learn.
+The fine-tuned model demonstrated a 10.5% improvement over the base model, with an average score increase from 1.62 to 1.79 based on the GPT-4 evaluation. This indicates a slight improvement in the model's understanding of MTG rules and interactions, but both models still have tremendous room to learn.
 
 ## Future Directions
 
