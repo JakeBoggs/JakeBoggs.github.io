@@ -12,11 +12,9 @@ Existing conversational audio datasets present several limitations:
 3.  **Speaker Diversity:** The use of few speakers limits the generalizability of models trained on these datasets.
 4.  **Scalability:** Human recording is resource-intensive, hindering the creation of large-scale datasets.
 
-Daily Yap was created to mitigate these challenges by providing a synthetically generated conversational audio resource suitable for training real-time conversational audio models.
+Daily Yap was created to overcome these challenges by providing a synthetically generated conversational audio resource suitable for training real-time conversational audio models.
 
-The following sections describe the methodology used to develop Daily Yap, resulting in a dataset comprising 9,758 audio samples with corresponding transcripts.
-
-## Foundational Dataset Selection
+## Foundational Conversation Dataset
 
 The Daily Dialog dataset was selected as the textual foundation due to its range of conversational topics. However, modifications were required to enhance its suitability for audio synthesis.
 
@@ -100,10 +98,8 @@ Finally, the two mono audio segments were combined into a single stereo audio fi
 
 ## Dataset Characteristics
 
-The resulting Daily Yap dataset contains 9,758 samples, totaling approximately 90 hours of audio. The average sample duration is 33 seconds. This resource is intended for use in conversational AI, speech recognition, and related natural language processing tasks.
-
-Each sample consists of a JSON-formatted transcript and a corresponding dual-channel WAV audio file, facilitating speaker diarization and multimodal alignment.
+The resulting Daily Yap dataset contains 9,758 samples, totaling approximately 90 hours of audio. Each sample consists of a JSON-formatted transcript and a corresponding dual-channel WAV audio file. The average sample duration is 33 seconds.
 
 The dataset is available on HuggingFace: [https://huggingface.co/datasets/jakeBoggs/DailyYap](https://huggingface.co/datasets/jakeBoggs/DailyYap)
 
-If any researchers want to cite this in a paper, I would be honored and extremely amused. Seeing "Daily Yap" in a works cited section would give me a good laugh and make all of this worth it.
+If any researchers want to cite this in a paper, I would be both honored and amused. Seeing "Daily Yap" in a works cited section would give me a good laugh.

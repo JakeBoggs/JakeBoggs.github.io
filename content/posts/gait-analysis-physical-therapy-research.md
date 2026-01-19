@@ -14,7 +14,7 @@ Over Easter weekend, I built a Python tool to help my mother with her research s
   Your browser does not support the video tag.
 </video>
 
-**What it Does**
+**How it Works**
 
 The script (`track.py`) lets you load a video file (ideally a side-view of someone walking). Here’s the workflow:
 
@@ -107,7 +107,8 @@ The combination of visual confirmation (PNGs) and structured numerical data (CSV
 
 1.  **Get the code:** It's available on GitHub:
     [https://github.com/JakeBoggs/Gait-Analyzer](https://github.com/JakeBoggs/Gait-Analyzer)
-2.  **Run from terminal:** Assuming you have Python and the necessary libraries set up, navigate to the code directory and run:
+2.  **Install dependencies:** Download [Python](https://www.python.org/downloads/) if you do not already have it, then install the required libraries with `pip install opencv-python numpy ultralytics`
+2.  **Run from the terminal:** Navigate to the repository directory and run:
     ```bash
     python track.py --video <path_to_your_video.mp4> --output <your_results_folder>
     ```

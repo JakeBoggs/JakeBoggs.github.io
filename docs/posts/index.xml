@@ -6,15 +6,23 @@
     <description>Recent content in Posts on Jake Boggs</description>
     <generator>Hugo -- 0.154.5</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 16 May 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 19 Jan 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://boggs.tech/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Translating Historical Manuscripts with Gemini 3</title>
+      <link>https://boggs.tech/posts/translating-manuscripts-with-gemini/</link>
+      <pubDate>Mon, 19 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://boggs.tech/posts/translating-manuscripts-with-gemini/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;ve spent a lot of time working on document understanding for products like &lt;a href=&#34;https://www.endeavor.ai/order-entry-automation&#34;&gt;automated order entry&lt;/a&gt; and so I&amp;rsquo;m always looking for new ways to evaluate the visual capabilities of LLMs. About a month ago, I stumbled across &lt;a href=&#34;https://generativehistory.substack.com/p/the-sugar-loaf-test-how-an-18th-century&#34;&gt;this post&lt;/a&gt; by Mark Humphries about Gemini 3 Pro&amp;rsquo;s impressive ability to transcribe historical texts. This seemed interesting enough to spend an evening building an app around (and I wanted to impress my girlfriend, who majors in anthropology and is interested in medieval medicine).&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Scalable Reinforcement Learning with LLMs - Atropos Guide</title>
       <link>https://boggs.tech/posts/atropos-guide-reinforcement-learning-with-llms/</link>
       <pubDate>Fri, 16 May 2025 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/atropos-guide-reinforcement-learning-with-llms/</guid>
       <description>&lt;p&gt;This weekend, I will be in attendance at the &lt;a href=&#34;https://cerebralvalley.ai/e/nous-research-rl-environments-hackathon-9be3062a&#34;&gt;Nous Research – RL Environments Hackathon&lt;/a&gt;, so to prepare I&amp;rsquo;ve been playing around with Atropos, their new RL framework that we will be using for the event. After failing to find any guides online, I decided to write my own.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; I got 2nd place with VR-CLImax, my implementation of Verified Rewards via Completion Likelihood Improvement for improving LLM humor! You can find the code merged into the &lt;a href=&#34;https://github.com/NousResearch/atropos/tree/main/environments/community/punchline_vrcli&#34;&gt;Atropos repository&lt;/a&gt;.&lt;/p&gt;</description>
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; I got 2nd place with VR-CLImax, my implementation of Verified Rewards via Completion Likelihood Improvement, an RL environment for teaching LLMs how to make jokes! You can find the code merged into the &lt;a href=&#34;https://github.com/NousResearch/atropos/tree/main/environments/community/punchline_vrcli&#34;&gt;Atropos repository&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Evaluating Reasoning in LLMs Through MTG Deck Building</title>
@@ -51,14 +59,14 @@
   &lt;/div&gt;
 &lt;/details&gt;
 &lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;Evaluating the reasoning capabilities of Large Language Models (LLMs) requires specialized benchmarks that move beyond surface-level NLP tasks. I have an obsession with applying AI models to my favorite card game, so I&amp;rsquo;ve created ManaBench, a benchmark designed to probe an LLM&amp;rsquo;s capacity for reasoning using the collectible card game Magic: The Gathering (MTG) as a proxy. MTG, with its intricate interactions and deep strategy, serves as an ideal micro-world to test an LLM&amp;rsquo;s ability to process contextual information, identify patterns, and make judgments that align with expert human choices. This post provides a technical overview of the benchmark&amp;rsquo;s construction and the methodology used for evaluation.&lt;/p&gt;</description>
+&lt;p&gt;I have an obsession with applying AI models to my favorite card game, so I&amp;rsquo;ve created ManaBench, a benchmark designed to probe an LLM&amp;rsquo;s capacity for reasoning using the collectible card game Magic: The Gathering (MTG). With its intricate interactions and deep strategy, MTG serves as an ideal micro-world to test an LLM&amp;rsquo;s ability to process contextual information, identify patterns, and make judgments that align with expert human choices. This post provides an overview of the benchmark&amp;rsquo;s construction and the methodology used for evaluation.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Introducing Manamorphosis: A Diffusion Model for MTG Deck Generation</title>
       <link>https://boggs.tech/posts/manamorphosis/</link>
       <pubDate>Mon, 05 May 2025 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/manamorphosis/</guid>
-      <description>&lt;p&gt;This post details &lt;strong&gt;Manamorphosis&lt;/strong&gt;, a first-of-its-kind diffusion model developed to complete Magic: The Gathering decklists. It takes a set of known cards and fills in the rest to form a 60-card main deck. Subsequently, using the completed main deck as context, it can complete a 15-card sideboard. The core generative mechanism is based on Denoising Diffusion Probabilistic Models (DDPMs), the same family of models powering many image generation systems like Stable Diffusion and Midjourney, but adapted here for the unique domain of card sets. Applying AI models to MTG has long been a pet project of mine and I&amp;rsquo;m exciting to share this model, as I believe it is the state-of-the-art (and only) AI model dedicated to understanding deck construction.&lt;/p&gt;</description>
+      <description>&lt;p&gt;This post details &lt;strong&gt;Manamorphosis&lt;/strong&gt;, a first-of-its-kind diffusion model developed to complete Magic: The Gathering decklists. It takes a set of known cards and fills in the rest to form a 60-card main deck. Subsequently, using the completed main deck as context, it can complete a 15-card sideboard. The core generative mechanism is based on Denoising Diffusion Probabilistic Models (DDPMs), the same family of models powering many image generation systems like Stable Diffusion and Midjourney, but adapted here to produce sets of cards. I&amp;rsquo;m exciting to share this model, as I believe it is the state-of-the-art (and only) AI model trained specifically for decklist generation.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Gait Analysis for Physical Therapy with YOLOv11</title>
@@ -72,7 +80,7 @@
   &lt;source src=&#34;https://boggs.tech/videos/gait-analyzer.mp4&#34; type=&#34;video/mp4&#34;&gt;
   Your browser does not support the video tag.
 &lt;/video&gt;
-&lt;p&gt;&lt;strong&gt;What it Does&lt;/strong&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;strong&gt;How it Works&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>AccountaBuddy: Your AI Accountability Partner - HackNC 2024</title>
@@ -80,7 +88,7 @@
       <pubDate>Mon, 04 Nov 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/accountabuddy-hacknc-2024/</guid>
       <description>&lt;p&gt;Check out the project on &lt;strong&gt;&lt;a href=&#34;https://devpost.com/software/nudge-4groy0&#34;&gt;Devpost&lt;/a&gt;&lt;/strong&gt; and view the source code on &lt;strong&gt;&lt;a href=&#34;https://github.com/JakeBoggs/AccountaBuddy-HackNC2024&#34;&gt;GitHub&lt;/a&gt;&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;I spent a weekend at HackNC building something to help manage all of my other side projects. What started as &amp;ldquo;Wouldn&amp;rsquo;t it be cool if an AI actually rang you to ask if you&amp;rsquo;d done your work?&amp;rdquo; turned into AccountaBuddy, a lightweight app that does more than fire off push notifications - it actually calls you, celebrates your wins, and helps you problem-solve when tasks stall.&lt;/p&gt;</description>
+&lt;p&gt;I spent a weekend at HackNC building something to help manage all of my other side projects. What started as &amp;ldquo;Wouldn&amp;rsquo;t it be cool if an AI actually rang you to ask if you&amp;rsquo;d done your work?&amp;rdquo; turned into AccountaBuddy, a lightweight app that does more than fire off push notifications - it actually calls you, celebrates your wins, and helps you problem-solve when progress stalls.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Daily Yap: A Synthetically Generated Conversational Audio Dataset</title>
@@ -95,16 +103,16 @@
 &lt;li&gt;&lt;strong&gt;Speaker Diversity:&lt;/strong&gt; The use of few speakers limits the generalizability of models trained on these datasets.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Scalability:&lt;/strong&gt; Human recording is resource-intensive, hindering the creation of large-scale datasets.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;Daily Yap was created to mitigate these challenges by providing a synthetically generated conversational audio resource suitable for training real-time conversational audio models.&lt;/p&gt;</description>
+&lt;p&gt;Daily Yap was created to overcome these challenges by providing a synthetically generated conversational audio resource suitable for training real-time conversational audio models.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Large Language Models for Magic: the Gathering</title>
       <link>https://boggs.tech/posts/large-language-models-for-magic-the-gathering/</link>
       <pubDate>Fri, 24 May 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/large-language-models-for-magic-the-gathering/</guid>
-      <description>&lt;p&gt;Context: this was a project from my class CSC 422 - Automated Learning and Data Analysis. I dumped the content from the final paper here with some slight tweaks to make a blogpost.&lt;/p&gt;
+      <description>&lt;p&gt;Context: this was a project from one of my classes. I dumped the content from my final paper here with some slight tweaks to make a blog post.&lt;/p&gt;
 &lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;Magic: The Gathering (MTG) has always fascinated me with its complexity and strategic depth, thanks to its extensive rulebook and vast array of unique cards. Despite the game&amp;rsquo;s popularity, AI systems specifically designed for MTG have been few and far between, often falling short due to their inability to accurately interpret the intricate rules and interactions between cards. This blog post chronicles my recent endeavor to bridge this gap with large language models (LLMs) by creating a specialized dataset and evaluation metric to improve AI performance in MTG-related tasks.&lt;/p&gt;</description>
+&lt;p&gt;Magic: The Gathering (MTG) has always fascinated me with its complexity and depth, thanks to its extensive rulebook and vast array of unique cards. Despite the game&amp;rsquo;s popularity, AI systems specifically designed for MTG have been few and far between, often falling short due to their inability to accurately interpret the intricate rules and interactions between cards. This blog post chronicles my recent endeavor to bridge this gap with large language models (LLMs) by creating a specialized dataset and evaluation metric to improve AI performance in MTG-related tasks.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

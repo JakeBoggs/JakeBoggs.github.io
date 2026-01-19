@@ -5,13 +5,13 @@ draft: false
 ---
 This weekend, I will be in attendance at the [Nous Research – RL Environments Hackathon](https://cerebralvalley.ai/e/nous-research-rl-environments-hackathon-9be3062a), so to prepare I've been playing around with Atropos, their new RL framework that we will be using for the event. After failing to find any guides online, I decided to write my own.
 
-**Update:** I got 2nd place with VR-CLImax, my implementation of Verified Rewards via Completion Likelihood Improvement for improving LLM humor! You can find the code merged into the [Atropos repository](https://github.com/NousResearch/atropos/tree/main/environments/community/punchline_vrcli).
+> **Update:** I got 2nd place with VR-CLImax, my implementation of Verified Rewards via Completion Likelihood Improvement, an RL environment for teaching LLMs how to make jokes! You can find the code merged into the [Atropos repository](https://github.com/NousResearch/atropos/tree/main/environments/community/punchline_vrcli).
 
 ## What is Atropos?
 
 Atropos is a library from [Nous Research](https://nousresearch.com/) for performing reinforcement learning with LLMs. It provides a framework for managing environments and collecting rollouts. The training process is broken into four main components (environments, inference, trainer, orchestration), each running separately, enabling them to be distributed across multiple machines. 
 
-An example of this might look like training a coding agent, where the training script (handling backpropagation, loss calculations, and weight updates) happens on a powerful GPU cluster, while multiple code execution environments run on smaller CPU nodes. The orchestration server manages the communication between them, collecting rollouts (which could be a code update and its execution results in this example) from the environments and batching them to send to the trainer. 
+An example of this might look like training a coding agent, where the training script (handling loss calculations, backpropagation, and weight updates) happens on a powerful GPU cluster, while multiple code execution environments run on smaller CPU nodes. The orchestration server manages the communication between them, collecting rollouts (which could be a code update and its execution results in this example) from the environments and batching them to send to the trainer. 
 
 The recommended configuration provided in the repository uses vLLM running inside the trainer process. The environments can then query this vLLM instance when generating rollouts. These rollouts occur asynchronously, with the results passed to the orchestration server after a rollout is complete. Periodically (e.g. every few training steps), the vLLM server is restarted so that it uses the latest set of model weights from the trainer.
 
