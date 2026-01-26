@@ -207,7 +207,7 @@ The model uses a transformer-based architecture, the same building block behind 
     main_noise_pred = self.main_output_proj(main_encoded)
     ```
 
-5.  **Sideboard Context Path (Encoder):** Processes the *original* main deck embeddings `x0` (noise-free) through a separate, shallow `nn.TransformerEncoder` (`num_layers=1`) to create context (`sb_context_encoded`). This context is used by the sideboard decoder.
+5.  **Sideboard Context Path (Encoder):** Processes the *original* main deck embeddings `x0` (noise-free) through a separate, shallow transformer encoder to create context (`sb_context_encoded`). This context is used by the sideboard decoder.
 
     ```python
     # Within DiffusionModel.__init__
@@ -221,7 +221,7 @@ The model uses a transformer-based architecture, the same building block behind 
     sb_context_encoded = self.sideboard_context_encoder(h_sb_context_proj)
     ```
 
-6.  **Sideboard Path (Decoder):** Processes projected sideboard embeddings `h_sb_proj` using a `nn.TransformerDecoder` (`num_layers=1`), conditioned on `sb_context_encoded` via cross-attention (`memory`). The decoder output is passed through *another* `nn.TransformerEncoder` (`sb_layers=8`) before the final projection back to `EMB_DIM` to predict sideboard noise (`sb_noise_pred`). The use of cross-attention to condition the sideboard generation on the main deck context is conceptually similar to how text-to-image models use cross-attention to condition image generation on a text prompt embedding.
+6.  **Sideboard Path (Decoder):** Processes projected sideboard embeddings `h_sb_proj` using a transformer decoder, conditioned on `sb_context_encoded` via cross-attention. The decoder output is passed through another encoder before the final projection back to `EMB_DIM` to predict sideboard noise (`sb_noise_pred`). The use of cross-attention to condition the sideboard generation on the main deck context is similar to how text-to-image models condition image generation on a text prompt.
 
     ```python
     # Within DiffusionModel.__init__
