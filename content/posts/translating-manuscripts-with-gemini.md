@@ -2,6 +2,7 @@
 title: "Translating Historical Manuscripts with Gemini 3"
 date: "2026-01-19"
 draft: false
+summary: "An app for transcribing and translating historical manuscripts using Gemini 3 and GPT-5.2. Built to impress my girlfriend."
 ---
 I've spent a lot of time working on document understanding for products like [automated order entry](https://www.endeavor.ai/order-entry-automation) and so I'm always looking for new ways to evaluate the visual capabilities of LLMs. About a month ago, I stumbled across [this post](https://generativehistory.substack.com/p/the-sugar-loaf-test-how-an-18th-century) by Mark Humphries about Gemini 3 Pro's impressive ability to transcribe historical texts. This seemed interesting enough to spend an evening building an app around (and I wanted to impress my girlfriend, who majors in anthropology and is interested in medieval medicine).
 
@@ -18,7 +19,9 @@ For example: [Sutro Collection MS 04, Medical recipes](https://archive.org/detai
     </p>
 </div>
 
-Many of these manuscripts have dozens to hundreds of pages, which is too much for current models to handle well all at once. Even when the full document fits inside the context window, performance degrades as the length increases. To prevent this, my initial attempt processed each page in parallel and asked Gemini to translate directly. This worked decently, but it was inconsistent and difficult to tell if issues were due to incorrectly reading the characters or misunderstanding the meaning. My next iteration split the transcription into a separate step before the translation, which improved the quality but made another issue apparent: accurately interpreting the meaning of one page often requires context from the rest of the document. Missing context was the main culprit behind a lot of the poor translations, so I decided to adopt a hybrid approach. Each page is now transcribed in parallel, but all of the transcripts are concatenated for translation. Although this does bloat the context, the transcripts typically don't consume as many tokens as the raw images and this method was more reliable than my prior attempts.
+Many of these manuscripts have dozens to hundreds of pages, which is too much for current models to handle well all at once. Even when the full document fits inside the context window, performance degrades as the length increases. To prevent this, my initial attempt processed each page in parallel and asked Gemini to translate directly. This worked decently, but it was inconsistent and difficult to tell if issues were due to incorrectly reading the characters or misunderstanding the meaning.
+
+My next iteration split the transcription into a separate step before the translation, which improved the quality but made another issue apparent: accurately interpreting the meaning of one page often requires context from the rest of the document. Missing context was the main culprit behind a lot of the poor translations, so I decided to adopt a hybrid approach. Each page is now transcribed in parallel, but all of the transcripts are concatenated for translation. Although this does bloat the context, the transcripts typically don't consume as many tokens as the raw images and this method was more reliable than my prior attempts.
 
 <div style="display: flex; flex-direction: column; align-items: center;">
     <img src="/images/manuscript_transcript.png" alt="Transcribed page" style="max-width: 80%;">

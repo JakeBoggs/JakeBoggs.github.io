@@ -1,0 +1,31 @@
+{{ define "main" }}
+<section class="home-intro">
+  <h1>{{ .Site.Params.homeInfoParams.Title | safeHTML }}</h1>
+  <p>{{ .Site.Params.homeInfoParams.Content | safeHTML }}</p>
+
+  {{ with .Site.Params.socialIcons }}
+  <div class="social-icons">
+    {{- range . -}}
+    <a href="{{ .url }}" target="_blank" rel="noopener noreferrer">{{ .name }}</a>
+    {{- end -}}
+  </div>
+  {{ end }}
+</section>
+
+<section class="posts-section">
+  <h2>Posts</h2>
+  <div class="post-cards">
+    {{- range (where .Site.RegularPages "Section" "posts").ByDate.Reverse -}}
+    <article class="post-card">
+      <a href="{{ .Permalink }}">
+        <div class="post-card-header">
+          <h3 class="post-card-title">{{ .Title }}</h3>
+          <span class="post-card-date">{{ .Date.Format "Jan 2006" }}</span>
+        </div>
+        {{ with .Params.summary }}<p class="post-card-summary">{{ . }}</p>{{ end }}
+      </a>
+    </article>
+    {{- end -}}
+  </div>
+</section>
+{{ end }}

@@ -2,6 +2,7 @@
 title: "Large Language Models for Magic: the Gathering"
 date: "2024-05-24"
 draft: false
+summary: "One of my early attempts at making LLMs understand MTG. Created a dataset of 80k question-answer pairs covering card text, rulings, and combos, then fine-tuned Llama 3 8B with QLoRA."
 ---
 Context: this was a project from one of my classes. I dumped the content from my final paper here with some slight tweaks to make a blog post.
 

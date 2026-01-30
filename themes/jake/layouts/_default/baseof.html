@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {{- partial "head.html" . -}}
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="{{ .Site.BaseURL }}" class="site-title">{{ .Site.Title }}</a>
+      <nav>
+        {{- range .Site.Menus.main -}}
+        <a href="{{ .URL }}">{{ .Name }}</a>
+        {{- end -}}
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      {{- block "main" . }}{{ end -}}
+    </div>
+  </main>
+
+  {{- partial "footer.html" . -}}
+</body>
+</html>

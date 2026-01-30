@@ -2,6 +2,7 @@
 title: "Gait Analysis for Physical Therapy with YOLOv11"
 date: "2025-04-21"
 draft: false
+summary: "Built a video analysis tool for my mom's physical therapy research. Uses YOLOv11-pose for automatic joint detection with a drag-to-correct interface."
 ---
 Analyzing how people walk using video is common in research and clinical settings, but getting accurate joint angles usually means either expensive equipment or manually annotating frames, which is slow and tedious.
 

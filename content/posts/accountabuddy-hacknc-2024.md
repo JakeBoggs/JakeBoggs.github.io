@@ -2,6 +2,7 @@
 title: "AccountaBuddy: Your AI Accountability Partner - HackNC 2024"
 date: "2024-11-04"
 draft: false
+summary: "Weekend hackathon project that calls your phone to check on your tasks."
 ---
 Check out the project on **[Devpost](https://devpost.com/software/nudge-4groy0)** and view the source code on **[GitHub](https://github.com/JakeBoggs/AccountaBuddy-HackNC2024)**.
 

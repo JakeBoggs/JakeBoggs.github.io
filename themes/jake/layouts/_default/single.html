@@ -1,0 +1,16 @@
+{{ define "main" }}
+<article>
+  <h1>{{ .Title }}</h1>
+
+  {{- if eq .Section "posts" -}}
+  <div class="article-meta">
+    <span>{{ .Date.Format "January 2, 2006" }}</span>
+    <span>{{ .ReadingTime }} min read</span>
+  </div>
+  {{- end -}}
+
+  <div class="article-content">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}

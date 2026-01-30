@@ -34,12 +34,20 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
-/* PaperMod adds link underlines via box-shadow; remove that inside cards only */
+/* Remove link styling inside cards */
 .post-content .investment-card a,
-.post-content .investment-card a code {
+.post-content .investment-card a code,
+.article-content .investment-card a,
+.article-content .investment-card a code {
   box-shadow: none !important;
   text-decoration: none;
   background-image: none !important;
+  font-weight: inherit;
+}
+
+/* Only underline the title on hover */
+.investment-card:hover h4 {
+  text-decoration: underline;
 }
 
 .investment-card a {

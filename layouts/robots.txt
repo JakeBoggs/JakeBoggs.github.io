@@ -10,10 +10,16 @@ Allow: /
 User-agent: GPTBot
 Allow: /
 
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
 User-agent: ia_archiver
 Disallow: /
 
 User-agent: *
 Disallow: /
 
-Sitemap: https://boggs.tech/sitemap.xml
+Sitemap: {{ .Site.BaseURL }}sitemap.xml

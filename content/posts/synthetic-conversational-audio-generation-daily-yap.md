@@ -2,6 +2,7 @@
 title: "Daily Yap: A Synthetically Generated Conversational Audio Dataset"
 date: "2024-06-23"
 draft: false
+summary: "Built a 90-hour conversational audio dataset for training multimodal models. Used GPT-4o to clean up Daily Dialog transcripts and XTTS v2 to synthesize speech with 8 different voices. Available on HuggingFace."
 ---
 Training multimodal models often requires large, high-quality conversational audio datasets, which are scarce at the time of writing.
 

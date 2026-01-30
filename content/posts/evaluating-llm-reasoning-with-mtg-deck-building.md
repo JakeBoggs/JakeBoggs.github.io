@@ -2,6 +2,7 @@
 title: "Evaluating Reasoning in LLMs Through MTG Deck Building"
 date: "2025-05-09"
 draft: false
+summary: "ManaBench is my benchmark for testing LLM reasoning using Magic: The Gathering deck building. Models are tasked with picking the best card from 6 options to complete a deck."
 ---
 
 <div style="background: #e0f7fa; color: #006064; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; font-size: 1.08em; font-weight: 500;">

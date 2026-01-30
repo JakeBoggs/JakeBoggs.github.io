@@ -2,6 +2,7 @@
 title: "Scalable Reinforcement Learning with LLMs - Atropos Guide"
 date: "2025-05-16"
 draft: false
+summary: "Quick intro to Atropos, the RL framework from Nous Research. Written while prepping for their hackathon, where I got 2nd place with an environment for teaching LLMs to write jokes."
 ---
 This weekend, I will be in attendance at the [Nous Research – RL Environments Hackathon](https://cerebralvalley.ai/e/nous-research-rl-environments-hackathon-9be3062a), so to prepare I've been playing around with Atropos, their new RL framework that we will be using for the event. After failing to find any guides online, I decided to write my own.
 
