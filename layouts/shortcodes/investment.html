@@ -1,5 +1,9 @@
-<div class="investment-card">
+<div class="investment-card"{{ with .Get "modal" }} data-modal="{{ . }}"{{ end }}>
+    {{ if .Get "modal" }}
+    <a href="#" onclick="openModal('{{ .Get "modal" }}'); return false;">
+    {{ else }}
     <a href="{{ .Get "url" }}" target="_blank" rel="noopener noreferrer">
+    {{ end }}
         {{ with .Get "img" }}<img class="investment-logo" src="{{ . }}" alt="{{ $.Get "title" }} logo" loading="lazy">{{ end }}
         <h4>{{ .Get "title" }}</h4>
         <p>{{ with .Get "description" }}{{ . }}{{ end }}</p>

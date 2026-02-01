@@ -2,7 +2,7 @@
 title: "Translating Historical Manuscripts with Gemini 3"
 date: "2026-01-19"
 draft: false
-summary: "An app for transcribing and translating historical manuscripts using Gemini 3 and GPT-5.2. Built to impress my girlfriend."
+summary: "An app for transcribing and translating historical manuscripts using Gemini 3 and GPT-5.2. Built as an early Christmas present for my girlfriend."
 ---
 I've spent a lot of time working on document understanding for products like [automated order entry](https://www.endeavor.ai/order-entry-automation) and so I'm always looking for new ways to evaluate the visual capabilities of LLMs. About a month ago, I stumbled across [this post](https://generativehistory.substack.com/p/the-sugar-loaf-test-how-an-18th-century) by Mark Humphries about Gemini 3 Pro's impressive ability to transcribe historical texts. This seemed interesting enough to spend an evening building an app around (and I wanted to impress my girlfriend, who majors in anthropology and is interested in medieval medicine).
 
