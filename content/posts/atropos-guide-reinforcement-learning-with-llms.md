@@ -2,11 +2,13 @@
 title: "Scalable Reinforcement Learning with LLMs - Atropos Guide"
 date: "2025-05-16"
 draft: false
-summary: "Quick intro to Atropos, the RL framework from Nous Research. Written while prepping for their hackathon, where I got 2nd place with an environment for teaching LLMs to write jokes."
+summary: "Quick intro to Atropos, the RL framework from Nous Research. Written while prepping for their hackathon, where I got 2nd place with an environment for teaching LLMs how to write jokes."
 ---
 This weekend, I will be in attendance at the [Nous Research – RL Environments Hackathon](https://cerebralvalley.ai/e/nous-research-rl-environments-hackathon-9be3062a), so to prepare I've been playing around with Atropos, their new RL framework that we will be using for the event. After failing to find any guides online, I decided to write my own.
 
-> **Update:** I got 2nd place with VR-CLImax, my implementation of Verified Rewards via Completion Likelihood Improvement, an RL environment for teaching LLMs how to make jokes! You can find the code merged into the [Atropos repository](https://github.com/NousResearch/atropos/tree/main/environments/community/punchline_vrcli).
+> **Update:** I got 2nd place with VR-CLImax, my implementation of Verified Rewards via Completion Likelihood Improvement as an RL environment for teaching LLMs how to make jokes! You can find the code merged into the [Atropos repository](https://github.com/NousResearch/atropos/tree/main/environments/community/punchline_vrcli).
+<br>
+Watch me present: [https://x.com/cerebral_valley/status/1927428235815498036](https://x.com/cerebral_valley/status/1927428235815498036)
 
 ## What is Atropos?
 

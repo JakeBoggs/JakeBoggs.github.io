@@ -1,20 +1,22 @@
 ---
 title: "Startups"
 ---
-This page has been up for a while but I recently realized I had never written an explanation of why it exists: I've always had an intense fear of getting stuck - not just in a claustrophobic sense, but also in life. That's partially why I've been drawn to startups. Every day is something new and you must constantly learn and grow, or die. There are many other more "job-application appropriate" aspects I enjoy too (solving problems, building things, ownership etc are great), but this fear more than anything has been the biggest driver. That, coupled with a strong belief that following conventional wisdom will give you conventional outcomes, motivated me to drop out of college with a semester left when I received an offer from a company I truly believe in. I didn't do it for the sake of being contrarian, but because I could see two futures: one where the company succeeded and the degree wouldn't matter, and another where even if didn't go how I expected, I would still learn more than in my remaining classes. Also, witnessing the speed at which AI is improving at coding (and the other assignments too) has given me a bleak outlook on the long-term value of degrees in general. The remaining alpha for humans seems to be in gaining intuition (another word for taste IMO) for things that are difficult to simulate - anything that can be learned easily online has already or will soon be mastered by LLMs. With that said, here are the startups I'm most proud to be / have been a part of:
+This page has been up for a while but I recently noticed there wasn't an explanation for why it exists: I've always been afraid of getting stuck. I never want to look back and realize I haven't progressed in the last month / year / decade or that I could have achieved more. This is partially why I've been drawn to startups, as "If you're not growing, you're dying" holds true here more than anywhere. There are many other aspects I enjoy too of course (building things, solving problems, ownership etc are great), but the desire to continually learn has been the biggest driver. Couple that with a strong belief following conventional wisdom produces conventional outcomes, and I was motivated to drop out of college with a semester left to join a company I believe is going to win.
+
+I didn't leave school for the sake of being contrarian, but because I believed I would learn more than in my remaining classes. Also, witnessing the speed at which AI is improving at coding (and the other assignments too) has given me a bleak outlook on the long-term economic value of degrees in general. The remaining alpha for humans seems to be in gaining intuition (another word for taste IMO) for things which are difficult to simulate - anything that can be learned easily online has already or will soon be mastered by LLMs. With all this now said, here are the startups I'm most proud to be / have been a part of:
 
 <div class="investment-grid">
-{{< investment img="/images/endeavor.png" url="https://endeavor.ai/" title="Endeavor AI" description="Currently working here on training and deploying LLMs + agents for manufacturing and distribution companies" meta="Research Engineer" >}}
-{{< investment img="/images/aeternum.png" modal="aeternum-gallery" title="Aeternum Analytics" description="Began with facial recognition (failed during COVID), ended up selling trading cards (did $1 million in sales during the Pokemon / MTG frenzy)" meta="Founder" >}}
-{{< investment img="/images/freelunch.png" title="Free Lunch, LP" description="Small-scale hedgefund from my quant trading arc. I got nerdsniped for a while but ended up realizing it's not how I want to spend my time" meta="Cofounder" >}}
-{{< investment img="/images/osmos.png" url="https://osmoslearn.com" title="Osmos Learn" description="Service for K-12 teachers that scans assignments and automatically grades them based on a rubric. Started by my friend, I built a lot of the backend" meta="Full-stack" >}}
+{{< investment img="/images/endeavor.png" url="https://endeavorai.com/" title="Endeavor AI" description="Currently here deploying agents for manufacturing and distribution" meta="Research Engineer" >}}
+{{< investment img="/images/aeternum.png" modal="aeternum-gallery" title="Aeternum Analytics" description="Began with facial recognition (failed during COVID), ended up selling trading cards (did $1 million in sales out of my bedroom during the Pokemon / MTG frenzy)" meta="Founder" >}}
+{{< investment img="/images/freelunch.png" title="Free Lunch, LP" description="Small-scale hedgefund. I got nerd sniped for a while but realized it's not how I want to spend my time. My favorite anecdote is that we placed ~$500 million in trades from a Raspberry Pi" meta="Cofounder" >}}
+{{< investment img="/images/osmos.png" url="https://osmoslearn.com" title="Osmos Learn" description="App for K-12 teachers that scans assignments and automatically grades them based on a rubric. Started by my friend, I built a lot of the backend" meta="Full-stack" >}}
 </div>
 
 ## Investments
 
-> **Update:** After dropping out and getting a clearer picture of the areas I want to work in, the motivations below no longer fully reflect my current thinking. Although I still want to invest in people and ideas that I believe in, I have come to view that the best way for me to leverage myself is by directly focusing on solving the problems I care about.
+> **Update:** After dropping out and gaining a clearer picture of the areas I want to work in, the motivations below no longer fully reflect my current thinking. Although I will still invest in people and ideas that I believe in, I have come to view that the best way for me to leverage myself is by directly focusing on solving the problems I care about.
 
-Eventually I want to run my own VC fund, so I've been practicing through [Reg-CF](https://www.investor.gov/introduction-investing/investing-basics/glossary/regulation-crowdfunding). Hopefully one day this will serve as a track record when I raise money, but in the meantime it's teaching me a lot and reading the quarterly updates is always exciting. I initially set out to make 100 investments by the time I graduated college - so far I'm 3 years in with 51 investments across 49 companies. Been slowing down lately to focus on other projects, so 100 seems unlikely, but I'm satisfied with my progress and I've learned a lot.
+Eventually I plan to run a VC fund, so I've been practicing through [Reg-CF](https://www.investor.gov/introduction-investing/investing-basics/glossary/regulation-crowdfunding). By putting my money where my mouth is, I aimed to force myself to think more critically and prevent hindsight bias by having my choices set in stone. I initially set out to make 100 investments by the time I graduated college (lol) - ending 3 years in with 51 investments across 49 companies. This was less than my target, but I'm not disappointed because my rate slowed down as I became more selective. There just aren't that many companies (especially great ones) pursuing crowdfunding.
 
 ### Exits
 
@@ -24,7 +26,7 @@ Eventually I want to run my own VC fund, so I've been practicing through [Reg-CF
 
 ### Highlights
 
-These have been the best performers, with substantial revenue growth and/or follow-on rounds at higher valuations.
+These have been the best performers, with substantial growth and/or follow-on rounds.
 
 <div class="investment-grid">
 {{< investment img="/images/substack.png" url="https://substack.com/" title="Substack" description="Blogging or something" meta="Invested 2023" >}}
@@ -41,7 +43,7 @@ These have been the best performers, with substantial revenue growth and/or foll
 {{< investment img="/images/evolution-devices.png" url="https://www.evolutiondevices.com/" title="Evolution Devices" description="Tracking software and electrical stimulation device for gait improvement" meta="Invested 2021 & 2023" >}}
 </div>
 
-### "Learning Experiences" (Losses :cry:)
+### "Learning Experiences"
 
 This list will undoubtedly grow.
 
@@ -55,7 +57,7 @@ This list will undoubtedly grow.
 
 ### The Rest
 
-Still operational but have not yet raised additional rounds. Will be moved to the other lists as events unfold.
+Still operational. Will be moved to the other lists as events unfold.
 
 <div class="investment-grid">
 {{< investment img="/images/athyna.png" url="https://www.athyna.com/" title="Athyna" meta="Invested 2024" >}}

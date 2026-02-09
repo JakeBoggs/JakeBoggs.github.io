@@ -228,11 +228,11 @@ This task is difficult because it demands more than just factual recall about in
     });
 </script>
 
-The human baseline has an admittedly small sample size (just myself, it's difficult to find skilled MTG players who want to sit through a 200 question test), but is still a useful reference. As the creator of the benchmark and a player of the game for 10+ years, I scored 68% agreement with the other human deck builders. This could be is a skill issue on my end, but I think it is more likely due to the somewhat subjective nature of questions, along with the presentation format. To provide a fair comparison, I made a script that presents that questions to me exactly as they are shown to the LLMs, but I think I could do better using a deck editor. When I first released this benchmark, I beat most of the models by a wide margin. Several months later, GPT-5 essentially matched my score with 67% accuracy, followed closely by o3 and Gemini 2.5 Pro.
+The human baseline has an admittedly small sample size (just myself, it's difficult to find skilled MTG players who want to sit through a 200 question test), but is still a useful reference. As the creator of the benchmark and a player of the game for more than a decade, I scored 68% agreement with the other human deck builders. This could be is a skill issue on my end, but I think it is more likely due to the somewhat subjective nature of questions, along with the presentation format. To provide a fair comparison, I made a script that presents that questions to me exactly as they are shown to the LLMs, but I think I could do better using a deck editor. When I first released this benchmark, I beat most of the models by a wide margin. Several months later, GPT-5 essentially matched my score with 67% accuracy, followed closely by o3 and Gemini 2.5 Pro.
 
 More recently, I evaluated Gemini 3 Pro, which reached 71.50%. This is impressive and it will be interesting to watch and see how performance continues improving in the near term. My expection is that scores will plateau somewhere in the 80-90% range, as the "most competitive" card for a deck can vary depending on the exact metagame at a specific time. While there many obviously wrong choices given the limited selection of 6 cards, I strongly suspect at least some of the questions in the dataset do not have a clear correct answer. If a model were to score 95%+, I would immediately question if it was overfit.
 
-The results also highlight a discernible gap in performance between the leading American models (o3, Gemini 2.5 Pro, Claude) and Chinese models like Deepseek R1 (43.5%) and Kimi K2 (41%). While these models are undoubtedly powerful, their performance on here suggests that their reasoning capabilities may not be as developed as some of their US counterparts.
+The results also highlight a discernible gap in performance between the leading American models (GPT-5, Gemini Claude) and Chinese models like Deepseek R1 (43.5%) and Kimi K2 (41%). While these models are undoubtedly powerful, their performance on here suggests that their reasoning capabilities may not be as developed as some of their US counterparts.
 
 ## Performance Over Time
 
@@ -971,7 +971,7 @@ This chart visualizes the model cost vs performance. The x-axis represents a ble
 
 ## Benchmark Construction Methodology
 
-The creation of ManaBench involved several stages, from curating source decks to generating challenging multiple-choice questions. The process is designed to be rigorous and reproducible, with a focus on capturing instances of human expert judgment as reflected in competitive deck choices.
+The creation of ManaBench involved several stages, from curating source decks to generating challenging multiple-choice questions. The process is designed to be rigorous and reproducible, with a focus on capturing instances of human expert judgment.
 
 ### Source Data & Deck Curation
 

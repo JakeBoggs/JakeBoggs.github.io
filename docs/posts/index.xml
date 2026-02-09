@@ -20,7 +20,7 @@
       <link>https://boggs.tech/posts/atropos-guide-reinforcement-learning-with-llms/</link>
       <pubDate>Fri, 16 May 2025 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/atropos-guide-reinforcement-learning-with-llms/</guid>
-      <description>Quick intro to Atropos, the RL framework from Nous Research. Written while prepping for their hackathon, where I got 2nd place with an environment for teaching LLMs to write jokes.</description>
+      <description>Quick intro to Atropos, the RL framework from Nous Research. Written while prepping for their hackathon, where I got 2nd place with an environment for teaching LLMs how to write jokes.</description>
     </item>
     <item>
       <title>Evaluating Reasoning in LLMs Through MTG Deck Building</title>
@@ -44,7 +44,7 @@
       <description>Built a video analysis tool for my mom&amp;rsquo;s physical therapy research. Uses YOLOv11-pose for automatic joint detection with a drag-to-correct interface.</description>
     </item>
     <item>
-      <title>AccountaBuddy: Your AI Accountability Partner - HackNC 2024</title>
+      <title>AccountaBuddy: An AI Accountability Partner - HackNC 2024</title>
       <link>https://boggs.tech/posts/accountabuddy-hacknc-2024/</link>
       <pubDate>Mon, 04 Nov 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/accountabuddy-hacknc-2024/</guid>
@@ -55,14 +55,14 @@
       <link>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</link>
       <pubDate>Sun, 23 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</guid>
-      <description>Built a 90-hour conversational audio dataset for training multimodal models. Used GPT-4o to clean up Daily Dialog transcripts and XTTS v2 to synthesize speech with 8 different voices. Available on HuggingFace.</description>
+      <description>90-hour conversational audio dataset. Used GPT-4o to clean up Daily Dialog transcripts and XTTS v2 to synthesize speech with 8 different voices. Available on HuggingFace.</description>
     </item>
     <item>
       <title>Large Language Models for Magic: the Gathering</title>
       <link>https://boggs.tech/posts/large-language-models-for-magic-the-gathering/</link>
       <pubDate>Fri, 24 May 2024 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/large-language-models-for-magic-the-gathering/</guid>
-      <description>One of my early attempts at making LLMs understand MTG. Created a dataset of 80k question-answer pairs covering card text, rulings, and combos, then fine-tuned Llama 3 8B with QLoRA.</description>
+      <description>One of my early attempts at teaching LLMs to understand MTG. Created a dataset of 80k question-answer pairs covering card text, rulings, and combos, then fine-tuned Llama 3 8B with QLoRA.</description>
     </item>
   </channel>
 </rss>

@@ -1,16 +1,16 @@
 ---
-title: "AccountaBuddy: Your AI Accountability Partner - HackNC 2024"
+title: "AccountaBuddy: An AI Accountability Partner - HackNC 2024"
 date: "2024-11-04"
 draft: false
 summary: "Weekend hackathon project that calls your phone to check on your tasks."
 ---
 Check out the project on **[Devpost](https://devpost.com/software/nudge-4groy0)** and view the source code on **[GitHub](https://github.com/JakeBoggs/AccountaBuddy-HackNC2024)**.
 
-I spent a weekend at HackNC building something to help manage all of my other side projects. What started as "Wouldn't it be cool if an AI actually rang you to ask if you'd done your work?" turned into AccountaBuddy, a lightweight app that does more than fire off push notifications - it actually calls you, celebrates your wins, and helps you problem-solve when progress stalls.
+I spent a weekend at HackNC building something to help manage all of my other side projects. What started as "Wouldn't it be cool if an AI actually rang you to ask if you'd done your work?" turned into AccountaBuddy, a app that does more than fire off push notifications - it actually calls you, celebrates your wins, and helps you problem-solve when progress stalls.
 
 {{< youtube YLjw9UnhMEI >}}
 
-I'm not the only one who's ever ignored yet another notification. A to-do list can feel like a list of obligations, or worse, just noise. AccountaBuddy was born from the idea that human accountability is powerful - so why not let technology step in as a friendly collaborator? Instead of sending one-way reminders, it reaches out, listens to you, and adapts to your situation.
+We aren't not the only ones who've ever ignored yet another notification. A to-do list can feel like a list of obligations, or worse, just noise. AccountaBuddy was born from the idea that human accountability is powerful - so why not let technology step in as a friendly collaborator? Instead of sending one-way reminders, it reaches out, listens to you, and adapts to your situation.
 
 ## Features
 

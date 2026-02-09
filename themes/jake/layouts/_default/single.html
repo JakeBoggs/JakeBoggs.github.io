@@ -5,6 +5,7 @@
   {{- if eq .Section "posts" -}}
   <div class="article-meta">
     <span>{{ .Date.Format "January 2, 2006" }}</span>
+    <span>{{ .WordCount }} words</span>
     <span>{{ .ReadingTime }} min read</span>
   </div>
   {{- end -}}

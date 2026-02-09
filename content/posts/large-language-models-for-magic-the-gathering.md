@@ -2,7 +2,7 @@
 title: "Large Language Models for Magic: the Gathering"
 date: "2024-05-24"
 draft: false
-summary: "One of my early attempts at making LLMs understand MTG. Created a dataset of 80k question-answer pairs covering card text, rulings, and combos, then fine-tuned Llama 3 8B with QLoRA."
+summary: "One of my early attempts at teaching LLMs to understand MTG. Created a dataset of 80k question-answer pairs covering card text, rulings, and combos, then fine-tuned Llama 3 8B with QLoRA."
 ---
 Context: this was a project from one of my classes. I dumped the content from my final paper here with some slight tweaks to make a blog post.
 
@@ -10,11 +10,7 @@ Context: this was a project from one of my classes. I dumped the content from my
 
 Magic: The Gathering (MTG) has always fascinated me with its complexity and depth, thanks to its extensive rulebook and vast array of unique cards. Despite the game's popularity, AI systems specifically designed for MTG have been few and far between, often falling short due to their inability to accurately interpret the intricate rules and interactions between cards. This blog post chronicles my recent endeavor to bridge this gap with large language models (LLMs) by creating a specialized dataset and evaluation metric to improve AI performance in MTG-related tasks.
 
-## The Challenge of MTG for AI
-
 MTG presents two primary challenges for players: deck construction and in-game decision-making. With over 27,000 unique cards and a rulebook nearing 300 pages, understanding card interactions and making optimal plays can be daunting. Current AI models often struggle with these aspects, leading to frequent hallucinations and misunderstandings.
-
-## Custom Dataset and MTG-Eval Metric
 
 To address these challenges, I created a custom dataset of MTG-related question-answer pairs, along with an evaluation metric named MTG-Eval. This dataset aims to train and assess language models on their understanding of MTG rules and card interactions. The dataset is divided into three categories:
 

@@ -123,17 +123,23 @@ main {
 .social-icons a {
   color: var(--text-muted);
   text-decoration: none;
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem;
   border: 1px solid var(--border);
   border-radius: 4px;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .social-icons a:hover {
   color: var(--accent);
   border-color: var(--accent);
+}
+
+.social-icons svg {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 /* Posts List */
