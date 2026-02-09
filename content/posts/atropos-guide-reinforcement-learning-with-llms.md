@@ -334,5 +334,3 @@ Once you have installed the dependencies, download the [environment](https://git
 This setup allows for a decoupled system where data generation (environment) and model training (trainer) can happen independently and potentially on different hardware, coordinated by the orchestration server.
 
 The project is actively being developed, so I would not be surprised if this guide quickly becomes outdated. Hopefully it's at least useful for someone else at the hackathon. See you all there!
-
-Twitter: [@JakeABoggs](https://x.com/JakeABoggs)
