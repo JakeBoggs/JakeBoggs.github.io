@@ -6,7 +6,7 @@ summary: "Weekend hackathon project that calls your phone to check on your tasks
 ---
 Check out the project on **[Devpost](https://devpost.com/software/nudge-4groy0)** and view the source code on **[GitHub](https://github.com/JakeBoggs/AccountaBuddy-HackNC2024)**.
 
-I spent a weekend at HackNC building something to help manage all of my other side projects. What started as "Wouldn't it be cool if an AI actually rang you to ask if you'd done your work?" turned into AccountaBuddy, a app that does more than fire off push notifications - it actually calls you, celebrates your wins, and helps you problem-solve when progress stalls.
+I spent a weekend at HackNC building something to help manage all of my other side projects. What started as "Wouldn't it be cool if an AI actually rang you to ask if you'd done your work?" turned into AccountaBuddy, an app that does more than fire off push notifications - it actually calls you, celebrates your wins, and helps you problem-solve when progress stalls.
 
 {{< youtube YLjw9UnhMEI >}}
 

@@ -93,4 +93,4 @@ The resulting Daily Yap dataset contains 9,758 samples, totaling approximately 9
 
 The dataset is available on HuggingFace: [https://huggingface.co/datasets/jakeBoggs/DailyYap](https://huggingface.co/datasets/jakeBoggs/DailyYap)
 
-If any researchers want to cite this in a paper, I would be both honored and amused. Seeing "Daily Yap" in a works cited section would give me a good laugh.
+If anyone wants to cite this in a paper, I would be both honored and amused. Seeing "Daily Yap" in a works cited section would give me a good chuckle.
