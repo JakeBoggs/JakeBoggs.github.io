@@ -44,13 +44,6 @@
       <description>Built a video analysis tool for my mom&amp;rsquo;s physical therapy research. Uses YOLOv11-pose for automatic joint detection with a drag-to-correct interface.</description>
     </item>
     <item>
-      <title>AccountaBuddy: An AI Accountability Partner - HackNC 2024</title>
-      <link>https://boggs.tech/posts/accountabuddy-hacknc-2024/</link>
-      <pubDate>Mon, 04 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://boggs.tech/posts/accountabuddy-hacknc-2024/</guid>
-      <description>Weekend hackathon project that calls your phone to check on your tasks.</description>
-    </item>
-    <item>
       <title>Daily Yap: A Synthetically Generated Conversational Audio Dataset</title>
       <link>https://boggs.tech/posts/synthetic-conversational-audio-generation-daily-yap/</link>
       <pubDate>Sun, 23 Jun 2024 00:00:00 +0000</pubDate>

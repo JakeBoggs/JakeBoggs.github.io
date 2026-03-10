@@ -1,7 +1,7 @@
 ---
 title: "Startups"
 ---
-This page has been up for a while but I recently noticed there wasn't an explanation for why it exists: I've always been afraid of getting stuck. I never want to look back and realize I haven't progressed in the last month / year / decade or that I could have achieved more. This is partially why I've been drawn to startups, as "if you're not growing, you're dying" holds true here more than anywhere. There are of course many other aspects I enjoy too (building things, solving problems, ownership etc are great), but the desire to continually learn has been the biggest driver. With this now said, here are the startups I'm most proud to be / have been a part of:
+Places I've worked:
 
 <div class="investment-grid">
 {{< investment img="/images/endeavor.png" url="https://endeavorai.com/" title="Endeavor AI" description="Deploying agents for ERP automation in manufacturing and distribution" meta="Research Engineer" >}}
@@ -12,9 +12,7 @@ This page has been up for a while but I recently noticed there wasn't an explana
 
 ## Investments
 
-> **Update:** After dropping out and gaining a clearer picture of the areas I want to work in, the motivations below no longer fully reflect my current thinking. Although I will still invest in people and ideas that I believe in, I have come to view that the best way for me to leverage myself is by directly focusing on solving the problems I care about.
-
-Eventually I plan to run a VC fund, so I've been practicing through [Reg-CF](https://www.investor.gov/introduction-investing/investing-basics/glossary/regulation-crowdfunding). By putting my money where my mouth is, I aimed to force myself to think more critically and prevent hindsight bias by having my choices set in stone. I initially set out to make 100 investments by the time I graduated college (lol) - ending 3 years in with 51 investments across 49 companies. This was less than my target, but I'm not disappointed because my rate slowed down as I became more selective. There just aren't that many companies (especially great ones) pursuing crowdfunding.
+Things I've invested in:
 
 ### Exits
 
