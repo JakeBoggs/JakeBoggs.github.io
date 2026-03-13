@@ -6,7 +6,7 @@ summary: "Quick intro to Atropos, the RL framework from Nous Research. Written w
 ---
 This weekend, I will be in attendance at the [Nous Research – RL Environments Hackathon](https://cerebralvalley.ai/e/nous-research-rl-environments-hackathon-9be3062a), so to prepare I've been playing around with Atropos, their new RL framework that we will be using for the event. After failing to find any guides online, I decided to write my own.
 
-> **Update:** I got 2nd place with VR-CLImax, my implementation of Verified Rewards via Completion Likelihood Improvement as an RL environment for teaching LLMs how to make jokes! You can find the code merged into the [Atropos repository](https://github.com/NousResearch/atropos/tree/main/environments/community/punchline_vrcli).
+> **Update:** I got 2nd place with VR-CLImax, my implementation of [Verified Rewards via Completion Likelihood Improvement](https://arxiv.org/abs/2503.22828) as an RL environment for teaching LLMs how to make jokes! You can find the code merged into the [Atropos repository](https://github.com/NousResearch/atropos/tree/main/environments/community/punchline_vrcli).
 <br>
 Watch me present: [https://x.com/cerebral_valley/status/1927428235815498036](https://x.com/cerebral_valley/status/1927428235815498036)
 
