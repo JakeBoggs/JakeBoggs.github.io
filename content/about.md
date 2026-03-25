@@ -8,7 +8,7 @@ My name is Jake and I have a snake. Previously at [Endeavor](https://endeavor.ai
 
 As another example, in my previous role we encountered many documents that used handwritten diagrams or annotations to convey meaning (like a drawing of a pipe with dimensions on it). There are many "correct" ways you could interpret these diagrams as text ("10 ft steel pipe" and "pipe: 10 feet, material: steel" are semantically equivalent), so a good benchmark must measure how well a model understands the intent, rather than the distance from a ground-truth.
 
-**Harnesses.** Models are only useful if you can apply them. Frontier models today have the knowledge and skills to perform many valuable tasks, but are constrained by their ability to interact with other systems. There's lots of low-hanging fruit here.
+**Harnesses.** Models are only useful if you can apply them. Frontier LLMs today have the knowledge and skills to perform many valuable tasks, but are constrained by their ability to interact with other systems. There's lots of low-hanging fruit here.
 
 A few of my favorites:
 * [RuneBench](https://maxbittker.github.io/runebench/). AI plays RuneScape
