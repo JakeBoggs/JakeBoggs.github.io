@@ -21,24 +21,24 @@ Card identity is represented by 128-dimensional vectors. These embeddings are ge
 
 Instead of training the model to directly predict discrete cards from a vocabulary of ~28,000+, Manamorphosis uses pre-trained Doc2Vec embeddings as an intermediate representation. This approach offers several advantages:
 
-1.  **Handling Data Sparsity:** The training dataset (~47,000 decks) contains only a fraction (~5,000) of all legal MTG cards. A model predicting cards directly would struggle to learn meaningful representations or generation logic for the vast majority of cards rarely or never seen during training. The embedding model, trained on *all* card text, provides a representation for every card.
-2.  **Generalization to New/Unseen Cards:** Because the embedding is derived from card text, the system can generate an embedding for *any* card, including newly released ones, without retraining the embedding model (though retraining the diffusion model might improve performance with new metagames). The diffusion model learns to operate on the *semantic meaning* captured in the 128-dimensional embedding space, rather than being limited to the fixed vocabulary seen during its own training.
-3.  **Capturing Semantic Relationships:** Doc2Vec learns vectors where cards with similar functions, costs, types, or textual patterns (e.g., different variations of counterspells, cheap red burn spells, evasive creatures) are closer together in the embedding space. This allows the diffusion model to learn higher-level concepts ("needs more removal," "add card draw") rather than just memorizing specific card co-occurrences, leading to potentially more robust and contextually relevant deck completions. This focus on semantic similarity is analogous to how embedding-based search engines return results that are conceptually related, not just keyword matches.
-4.  **Dimensionality Reduction & Decoupling:** Working with dense 128-dimensional vectors is more computationally manageable for the transformer architecture than using extremely high-dimensional one-hot vectors (one per card). It also decouples the task of understanding card text semantics (Doc2Vec) from the task of generative deck construction (Diffusion Model).
+1.  Handling data sparsity: the training dataset (~47,000 decks) contains only a fraction (~5,000) of all legal MTG cards. A model predicting cards directly would struggle to learn meaningful representations or generation logic for the vast majority of cards rarely or never seen during training. The embedding model, trained on *all* card text, provides a representation for every card.
+2.  Generalization to new and unseen cards: because the embedding is derived from card text, the system can generate an embedding for *any* card, including newly released ones, without retraining the embedding model (though retraining the diffusion model might improve performance with new metagames). The diffusion model learns to operate on the *semantic meaning* captured in the 128-dimensional embedding space, rather than being limited to the fixed vocabulary seen during its own training.
+3.  Capturing semantic relationships: Doc2Vec learns vectors where cards with similar functions, costs, types, or textual patterns (e.g., different variations of counterspells, cheap red burn spells, evasive creatures) are closer together in the embedding space. This allows the diffusion model to learn higher-level concepts ("needs more removal," "add card draw") rather than just memorizing specific card co-occurrences, leading to more contextually relevant deck completions. This focus on semantic similarity is analogous to how embedding-based search engines return results that are conceptually related rather than exact keyword matches.
+4.  Dimensionality reduction and decoupling: working with dense 128-dimensional vectors is more computationally manageable for the transformer architecture than using extremely high-dimensional one-hot vectors (one per card). It also decouples the task of understanding card text semantics (Doc2Vec) from the task of generative deck construction (Diffusion Model).
 
 Before training the Doc2Vec model, a standardized "document" is created for each card by applying the following tranformations to the MTGJSON data:
 
-*   **Mana Cost:** Replaced curly braces `{}` with pipe symbols `|` (`|W|`, `|U|`, etc.) and ensured spacing around symbols (`{W}{U}` -> `|W| |U|`). This treats each mana symbol as a distinct token and distinguishes them from mana symbols in the card text.
-*   **Power/Toughness:** Represented as `$Power$ #Toughness#` (e.g., `$2$ #2#`). This creates unique tokens for P/T values.
-*   **Card Type:** The supertype (e.g., "Creature", "Instant") is split into individual tokens surrounded by pipes (`|Creature|`, `|Instant|`). Subtypes (e.g., "Goblin", "Wizard") are kept as single words.
-*   **Rules Text:**
+*   Mana cost: replaced curly braces `{}` with pipe symbols `|` (`|W|`, `|U|`, etc.) and ensured spacing around symbols (`{W}{U}` -> `|W| |U|`). This treats each mana symbol as a distinct token and distinguishes them from mana symbols in the card text.
+*   Power/toughness: represented as `$Power$ #Toughness#` (e.g., `$2$ #2#`). This creates unique tokens for P/T values.
+*   Card type: the supertype (e.g., "Creature", "Instant") is split into individual tokens surrounded by pipes (`|Creature|`, `|Instant|`). Subtypes (e.g., "Goblin", "Wizard") are kept as single words.
+*   Rules text:
     *   Card name references replaced with `@`. This prevents the model from overfitting to specific card names and focuses on the actions/effects.
     *   Common self-references ("this creature", "this enchantment", etc.) also replaced with `@`.
     *   Line breaks, semicolons replaced with spaces. Colons have spaces added (`:` -> ` :`).
     *   Reminder text (within parentheses) is removed using regex (`re.sub(reminder_remover, '', ...)`).
     *   Special characters like `&`, `−`, `—`, `'`, `,`, `.`, `'`, `"` are handled (replaced or removed).
     *   Text is converted to lowercase.
-*   **Stop Words:** Common English stop words (like "the", "a", "is") are removed using `nltk.corpus.stopwords` to reduce noise and focus on meaningful terms.
+*   Stop words: common English stop words (like "the", "a", "is") are removed using `nltk.corpus.stopwords` to reduce noise and focus on meaningful terms.
 
 ```python
 # From train_embedding_model.py (Illustrative snippet)
@@ -89,7 +89,7 @@ class CardClassifier(nn.Module):
 
 ## Diffusion
 
-1.  **Forward Process (Noise Addition):** Starting with the true deck embeddings `x0`, Gaussian noise is progressively added over `T` timesteps (here, `T=1000`). The noise level at each step is determined by a predefined variance schedule, specifically a cosine schedule (`cosine_beta_schedule`).
+1.  Forward process (noise addition): starting with the true deck embeddings `x0`, Gaussian noise is progressively added over `T` timesteps (here, `T=1000`). The noise level at each step is determined by a predefined variance schedule, specifically a cosine schedule (`cosine_beta_schedule`).
 
     ```python
     # diffusion_model.py
@@ -133,13 +133,13 @@ class CardClassifier(nn.Module):
         return x_t_masked, noise
     ```
 
-2.  **Reverse Process (Denoising):** The model learns to predict the noise `epsilon` added at timestep `t`. Starting from pure noise `x_T`, the model iteratively refines the embeddings by predicting the noise `epsilon_pred = model(x_t, x0, sb_x_t, t, mask, sb_mask)` and estimating `x_{t-1}` until `x0`, the original noise-free main deck, is reached. During inference, the actual denoising step involves sampling `x_{t-1}` by subtracting the predicted noise `epsilon_pred` from `x_t`, then adding a smaller amount of noise for the next timestep.
+2.  Reverse process (denoising): the model learns to predict the noise `epsilon` added at timestep `t`. Starting from pure noise `x_T`, the model iteratively refines the embeddings by predicting the noise `epsilon_pred = model(x_t, x0, sb_x_t, t, mask, sb_mask)` and estimating `x_{t-1}` until `x0`, the original noise-free main deck, is reached. During inference, the actual denoising step involves sampling `x_{t-1}` by subtracting the predicted noise `epsilon_pred` from `x_t`, then adding a smaller amount of noise for the next timestep.
 
 ## Model Architecture
 
-The model uses a transformer-based architecture, the same building block behind Large Language Models like the GPT series and BERT. Manamorphosis lacks positional embeddings, treating decks as unordered sets, which differs from typical NLP or vision transformer usage where sequence order is crucial. It has distinct paths for main deck and sideboard processing. The internal model dimension is `model_dim=384`, and the embedding dimension is `EMB_DIM=128`.
+The model uses a transformer-based architecture, the same building block behind Large Language Models like the GPT series and BERT. Manamorphosis lacks positional embeddings, treating decks as unordered sets, which differs from typical NLP or vision transformer usage where sequence order matters. It has distinct paths for main deck and sideboard processing. The internal model dimension is `model_dim=384`, and the embedding dimension is `EMB_DIM=128`.
 
-1.  **Time Embeddings:** Timestep `t` is encoded using standard sinusoidal embeddings, processed by separate MLPs for main deck and sideboard paths.
+1.  Time embeddings: timestep `t` is encoded using standard sinusoidal embeddings, processed by separate MLPs for main deck and sideboard paths.
 
     ```python
     # diffusion_model.py
@@ -162,7 +162,7 @@ The model uses a transformer-based architecture, the same building block behind 
     )
     ```
 
-2.  **Mask Embeddings:** Binary masks (1.0 for known, 0.0 for unknown) are processed by separate MLPs.
+2.  Mask embeddings: binary masks (1.0 for known, 0.0 for unknown) are processed by separate MLPs.
 
     ```python
     # Within DiffusionModel.__init__
@@ -174,7 +174,7 @@ The model uses a transformer-based architecture, the same building block behind 
     )
     ```
 
-3.  **Input Processing:** Input embeddings `x_t` (main) or `sb_x_t` (sideboard) are combined via addition with their respective time and mask embeddings, then projected to `model_dim`.
+3.  Input processing: input embeddings `x_t` (main) or `sb_x_t` (sideboard) are combined via addition with their respective time and mask embeddings, then projected to `model_dim`.
 
     ```python
     # Within DiffusionModel.forward
@@ -195,7 +195,7 @@ The model uses a transformer-based architecture, the same building block behind 
     h_sb_proj = self.sb_input_proj(h_sb) # Linear(EMB_DIM, model_dim) -> Shape: [Batch, SIDEBOARD_SIZE, model_dim]
     ```
 
-4.  **Main Deck Path (Encoder):** Processes `h_main_proj` through a standard `nn.TransformerEncoder` (`layers=8`, `nhead=8`). The output is projected back to `EMB_DIM` to predict main deck noise (`main_noise_pred`).
+4.  Main deck path (encoder): processes `h_main_proj` through a standard `nn.TransformerEncoder` (`layers=8`, `nhead=8`). The output is projected back to `EMB_DIM` to predict main deck noise (`main_noise_pred`).
 
     ```python
     # Within DiffusionModel.__init__
@@ -208,7 +208,7 @@ The model uses a transformer-based architecture, the same building block behind 
     main_noise_pred = self.main_output_proj(main_encoded)
     ```
 
-5.  **Sideboard Context Path (Encoder):** Processes the *original* main deck embeddings `x0` (noise-free) through a separate, shallow transformer encoder to create context (`sb_context_encoded`). This context is used by the sideboard decoder.
+5.  Sideboard context path (encoder): processes the *original* main deck embeddings `x0` (noise-free) through a separate, shallow transformer encoder to create context (`sb_context_encoded`). This context is used by the sideboard decoder.
 
     ```python
     # Within DiffusionModel.__init__
@@ -222,7 +222,7 @@ The model uses a transformer-based architecture, the same building block behind 
     sb_context_encoded = self.sideboard_context_encoder(h_sb_context_proj)
     ```
 
-6.  **Sideboard Path (Decoder):** Processes projected sideboard embeddings `h_sb_proj` using a transformer decoder, conditioned on `sb_context_encoded` via cross-attention. The decoder output is passed through another encoder before the final projection back to `EMB_DIM` to predict sideboard noise (`sb_noise_pred`). The use of cross-attention to condition the sideboard generation on the main deck context is similar to how text-to-image models condition image generation on a text prompt.
+6.  Sideboard path (decoder): processes projected sideboard embeddings `h_sb_proj` using a transformer decoder, conditioned on `sb_context_encoded` via cross-attention. The decoder output is passed through another encoder before the final projection back to `EMB_DIM` to predict sideboard noise (`sb_noise_pred`). The use of cross-attention to condition the sideboard generation on the main deck context is similar to how text-to-image models condition image generation on a text prompt.
 
     ```python
     # Within DiffusionModel.__init__
@@ -242,10 +242,10 @@ The model uses a transformer-based architecture, the same building block behind 
 
 Conditional generation (deck completion) is handled via masking. Known card embeddings are provided by the user (or determined during training). This mechanism is analogous to providing a starting image and a mask for inpainting in image generation models, or providing a text prompt to guide generation.
 
-*   **Training:** For each training sample (`x0_embeddings`, `x0_indices`, etc.), multiple masks (`masks_per_deck`) are generated dynamically per deck. 
+*   Training: for each training sample (`x0_embeddings`, `x0_indices`, etc.), multiple masks (`masks_per_deck`) are generated dynamically per deck.
     *   The number of known main deck cards `k_main` is sampled from partitioned ranges [1, 59] across the generated masks to ensure diverse `k` values are seen.
     *   Sideboard `k_sb` is sampled randomly from [1, 14], with a 50% chance of being forced to 0. This is done so that the model performs well at generating sideboards from scratch, which I expect to be a common use case.
-*   **Masking Logic:** This function generates a single mask row (shape `[deck_size, 1]`) for a target `k`. It identifies unique available card indices in the current deck (`current_deck_indices`). It samples these unique cards *without replacement* using weights derived from pre-calculated popularity scores (`self.card_popularity`), slightly favoring less popular cards (`0.5 + score`, where score is `1.0 - normalized_count`). It iterates through these weighted, shuffled unique cards. For each unique card, with 85% probability, it attempts to mask all available copies (up to `k` remaining); with 15% probability, it masks a random number of available copies (from 1 up to available, limited by `k` remaining). This process repeats until `k` positions are marked as known (1.0 in the mask). We typically want to mask all instances of a card to make the task harder, so that the model has to learn what cards go together and not just to add additional copies.
+*   Masking logic: this function generates a single mask row (shape `[deck_size, 1]`) for a target `k`. It identifies unique available card indices in the current deck (`current_deck_indices`). It samples these unique cards *without replacement* using weights derived from pre-calculated popularity scores (`self.card_popularity`), slightly favoring less popular cards (`0.5 + score`, where score is `1.0 - normalized_count`). It iterates through these weighted, shuffled unique cards. For each unique card, with 85% probability, it attempts to mask all available copies (up to `k` remaining); with 15% probability, it masks a random number of available copies (from 1 up to available, limited by `k` remaining). This process repeats until `k` positions are marked as known (1.0 in the mask). We typically want to mask all instances of a card to make the task harder, so that the model has to learn what cards go together and not just add additional copies.
 
     ```python
     # diffusion_model.py: DiffusionTrainer._create_mask_row (Simplified Pseudocode)
@@ -294,7 +294,7 @@ Conditional generation (deck completion) is handled via masking. Known card embe
         return mask_row
     ```
 
-*   **Loss Calculation:** The MSE loss is computed only between the predicted noise (`main_noise_pred`, `sb_noise_pred`) and the true noise (`noise`, `sb_noise` from `q_sample`) for the *unknown* (mask value 0.0) card slots. This focuses the model on learning to generate the missing parts.
+*   Loss calculation: the MSE loss is computed only between the predicted noise (`main_noise_pred`, `sb_noise_pred`) and the true noise (`noise`, `sb_noise` from `q_sample`) for the *unknown* (mask value 0.0) card slots. This focuses the model on learning to generate the missing parts.
 
     ```python
     # diffusion_model.py: DiffusionTrainer.p_losses
@@ -302,7 +302,7 @@ Conditional generation (deck completion) is handled via masking. Known card embe
     sb_loss = ((sb_noise - sb_noise_pred) * (1 - sb_mask.expand_as(sb_noise))).pow(2).mean()
     total_loss = main_loss + sb_loss
     ```
-*   **Inference:** During the reverse diffusion process (sampling `x_{t-1}` from `x_t`), the known card embeddings `x0_known` (provided by the user) are reapplied at each step to guide the generation towards the desired completion. A common approach (simplified):
+*   Inference: during the reverse diffusion process (sampling `x_{t-1}` from `x_t`), the known card embeddings `x0_known` (provided by the user) are reapplied at each step to guide the generation towards the desired completion. A common approach (simplified):
     1.  Predict noise: `epsilon_pred = model(x_t, x0_context, sb_x_t, t, mask, sb_mask)`
     2.  Calculate the parameters (mean, variance) of the distribution `p(x_{t-1} | x_t)` using `x_t`, `t`, and `epsilon_pred` according to the diffusion schedule.
     3.  Sample the potential next state `x_{t-1}_sample` from this distribution (adding noise if `t > 0`, otherwise using the mean).
@@ -312,27 +312,27 @@ Conditional generation (deck completion) is handled via masking. Known card embe
 
 ## Training
 
-The current model was trained using ~47,000 decks scraped from MTGTop8 and is format agnostic, with the training data covering Standard, Modern, Pioneer, Pauper, Legacy, and Vintage. The full model contains ~56 million parameters. Due to its small size, training was feasible on consumer hardware, specifically a single Nvidia 3050 Laptop GPU with 4GB of VRAM, taking roughly 4 days to complete 100 epochs.
+The current model was trained using ~47,000 decks scraped from MTGTop8 and is format agnostic, with training data covering formats from Standard through Vintage. The full model contains ~56 million parameters. Due to its small size, training was feasible on consumer hardware, specifically a single Nvidia 3050 Laptop GPU with 4GB of VRAM, taking roughly 4 days to complete 100 epochs.
 
-*   **Dataset:** `DeckDataset` loads decks and filters for exact 60 main deck / 15 sideboard card counts. It converts card names to the pre-trained Doc2Vec embeddings and retrieves corresponding integer indices using the mapping from the linear classifier. Decks with cards missing from embeddings or the classifier map are skipped. It also calculates card popularity scores based on deck frequency for the masking strategy.
-*   **Optimizer:** AdamW with weight decay.
-*   **Objective:** Minimize the combined MSE loss `total_loss` described above, calculated over `masks_per_deck` different masks for each deck in the batch.
-*   **Process:** Standard PyTorch training loop: iterates epochs, loads batches via DataLoader, calculates loss using `p_losses`, performs backpropagation, clips gradients, and updates optimizer. Checkpoints containing model state dict, epoch, and config are saved periodically.
+*   Dataset: `DeckDataset` loads decks and filters for exact 60 main deck / 15 sideboard card counts. It converts card names to the pre-trained Doc2Vec embeddings and retrieves corresponding integer indices using the mapping from the linear classifier. Decks with cards missing from embeddings or the classifier map are skipped. It also calculates card popularity scores based on deck frequency for the masking strategy.
+*   Optimizer: AdamW with weight decay.
+*   Objective: minimize the combined MSE loss `total_loss` described above, calculated over `masks_per_deck` different masks for each deck in the batch.
+*   Process: standard PyTorch training loop that iterates through epochs, loads batches via `DataLoader`, calculates loss using `p_losses`, performs backpropagation, clips gradients, and updates the optimizer. Checkpoints save the model state together with the epoch number and config.
 
 ## Inference: Enforcing Deck Rules with Iterative Refinement
 
 While the diffusion model learns the underlying patterns of deck construction from the training data, it doesn't inherently guarantee adherence to strict game rules like the 4-copy limit for non-basic cards or format legality during the raw generation process. To address this, the inference functions employ an iterative refinement strategy after the initial denoising pass:
 
-1.  **Initial Generation:** The standard reverse diffusion process is performed once to generate initial embeddings for all unknown card slots, conditioned on any user-provided cards.
-2.  **Classification & Rule Check:** The resulting embeddings (both originally known and newly generated) are converted back to card names using the trained linear classifier. The system then checks for violations:
-    *   **4-Copy Limit:** It counts occurrences of each non-basic card name. For sideboard generation, this count considers cards in both the main deck and the current sideboard iteration.
-    *   **Format Legality:** Each *generated* card is checked for legality in the specified format (e.g., 'Modern', 'Standard'). Basic lands are exempt from this check.
-3.  **Identify Violations:** The system identifies the specific *generated* card slots that violate either the 4-copy limit or format legality. User-provided cards are never marked for regeneration.
-4.  **Mask Update & Regeneration:** A new mask is created. User-provided cards and *valid* generated cards from the current iteration are marked as "known". Slots corresponding to rule violations are marked as "unknown".
-5.  **Re-run Diffusion:** The reverse diffusion sampling process is run *again*, using the updated mask and the embeddings of the known cards (including the valid generated ones) as fixed context. The model only needs to generate new embeddings for the slots marked as unknown due to rule violations.
-6.  **Repeat:** Steps 2-5 are repeated up to a fixed number of maximum refinement iterations. This loop continues until no rule violations are found among the generated cards or the iteration limit is reached.
+1.  Initial generation: the standard reverse diffusion process is performed once to generate initial embeddings for all unknown card slots, conditioned on any user-provided cards.
+2.  Classification and rule check: the resulting embeddings (both originally known and newly generated) are converted back to card names using the trained linear classifier. The system then checks for violations:
+    *   4-copy limit: it counts occurrences of each non-basic card name. For sideboard generation, this count considers cards in both the main deck and the current sideboard iteration.
+    *   Format legality: each *generated* card is checked for legality in the specified format (e.g., 'Modern', 'Standard'). Basic lands are exempt from this check.
+3.  Identify violations: the system identifies the specific *generated* card slots that violate either the 4-copy limit or format legality. User-provided cards are never marked for regeneration.
+4.  Mask update and regeneration: a new mask is created. User-provided cards and *valid* generated cards from the current iteration are marked as "known". Slots corresponding to rule violations are marked as "unknown".
+5.  Re-run diffusion: the reverse diffusion sampling process is run *again*, using the updated mask and the embeddings of the known cards (including the valid generated ones) as fixed context. The model only needs to generate new embeddings for the slots marked as unknown due to rule violations.
+6.  Repeat: steps 2-5 are repeated up to a fixed number of maximum refinement iterations. This loop continues until no rule violations are found among the generated cards or the iteration limit is reached.
 
-This refinement loop significantly improves the likelihood of producing legal deck completions by correcting rule violations after the initial generation, leveraging the classifier and external card data to guide the process without needing to bake these complex constraints directly into the diffusion model's training objective. The final deck combines the original user input with the cards generated and through this process.
+This refinement loop makes legal deck completions more likely by correcting rule violations after the initial generation, leveraging the classifier and external card data to guide the process without needing to bake these complex constraints directly into the diffusion model's training objective. The final deck combines the original user input with the cards generated through this process.
 
 ## Final Thoughts
 

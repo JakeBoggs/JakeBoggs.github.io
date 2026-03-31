@@ -4,7 +4,7 @@ date: "2026-01-19"
 draft: false
 summary: "An app for transcribing and translating historical manuscripts using Gemini 3 and GPT-5.2. Built as an early Christmas present for my girlfriend."
 ---
-I've spent a lot of time working on document understanding for products like [automated order entry](https://www.endeavorai.com/order-entry-automation) and so I'm always looking for new ways to evaluate the visual capabilities of LLMs. About a month ago, I stumbled across [this post](https://generativehistory.substack.com/p/the-sugar-loaf-test-how-an-18th-century) by Mark Humphries about Gemini 3 Pro's impressive ability to transcribe historical texts. This seemed interesting enough to spend an evening building an app around (and I wanted to impress my girlfriend, who majors in anthropology and is interested in medieval medicine).
+I've spent a lot of time working on document understanding for products like [automated order entry](https://www.endeavor.ai/product/order-entry-automation) and so I'm always looking for new ways to evaluate the visual capabilities of LLMs. About a month ago, I stumbled across [this post](https://generativehistory.substack.com/p/the-sugar-loaf-test-how-an-18th-century) by Mark Humphries about Gemini 3 Pro's impressive ability to transcribe historical texts. This seemed interesting enough to spend an evening building an app around (and I wanted to impress my girlfriend, who majors in anthropology and is interested in medieval medicine).
 
 I had never worked with manuscripts before, but I wanted something special: documents without public translations. After some quick research, we found the [Digital Scriptorium](https://digital-scriptorium.org/), which seemed to have what I needed.
 
@@ -71,4 +71,4 @@ As a final touch, I added a button to download the full document with the origin
 
 Anthropology is certainly not my main area of interest, but I do enjoy seeing the progress frontier models are making in fields outside of programming and basic knowledge work. I'm far from an industry veteran (just 22 years old), but I do remember learning about CNNs back when people still cared about MNIST / CIFAR and YOLO was a new thing. We live in extraordinary times and I'm incredibly optimistic about the potential for frontier models in all types of research. Even if the promises of automated researchers or "superintelligence" do not come to pass, the existing models still have so much untapped potential and I expect we'll see many breakthroughs as adoption increases.
 
-If you want to try it out, the code is [available on Github](https://github.com/JakeBoggs/Manuscript-Translator)
+If you want to try it out, the code is [available on GitHub](https://github.com/JakeBoggs/Manuscript-Translator)

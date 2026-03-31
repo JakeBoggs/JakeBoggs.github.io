@@ -1,7 +1,7 @@
 ---
 title: "About me"
 ---
-My name is Jake and I have a snake. Previously at [Endeavor](https://endeavor.ai/), and before that I studied computer science and math at NC State, before leaving my senior year to move to San Francisco. I post here occassionally to share thoughts and projects.
+My name is Jake and I have a snake. Previously at [Endeavor](https://endeavor.ai/), and before that I studied computer science and math at NC State, which I left senior year to move to San Francisco. I post here occassionally to share thoughts and projects.
 
 ### Research Interests
 **Training objectives & evals.** Specifically, designing metrics and datasets that match an intended use-case as closely as possible. To give a concrete example, suppose you are training an LSTM to trade a stock given its last 30 days of price data. A naive method would be to minimize the MSE of the next day's closing price and use this prediction to decide whether to go long or short. If you try this, you might get excited as you see the validation loss drop sharply. However, trading with this model is unlikely to be successful due to your objective being poorly formulated. Stocks typically move little from day to day, so you can easily reduce your error to within a couple percent, but this isn't enough to gain a meaningful signal. You need to optimize for something with a stronger correlation to your profitability.

@@ -67,7 +67,7 @@ To address these challenges, I created a custom dataset of MTG-related question-
     });
     ```
 
-3.  **Card Interactions**: Involves questions about combos and card synergies, such as "What is a combo with card X?" or "How can I achieve Y?" The data for this category comes from [Commander Spellbook](https://commanderspellbook.com/), a comprehensive MTG combo database. The prompt guided the LLM to create conversational questions and detailed answers based on the combo data:
+3.  **Card Interactions**: Involves questions about combos and card synergies, such as "What is a combo with card X?" or "How can I achieve Y?" The data for this category comes from [Commander Spellbook](https://commanderspellbook.com/), an MTG combo database. The prompt guided the LLM to create conversational questions and detailed answers based on the combo data:
 
     ```javascript
     // From generateInteractions.js - Inside the generation loop
@@ -98,7 +98,7 @@ To address these challenges, I created a custom dataset of MTG-related question-
 
 ### Data Generation
 
-Data from [MTGJSON](https://mtgjson.com/) and Commander Spellbook was used to generate over 80,000 question-answer pairs. The generation process involved using ChatGPT 3.5 to reformat existing data into conversational questions and answers, as shown in the snippets above. This synthetic dataset covers a wide range of possible game states and interactions, providing a robust foundation for training.
+Data from [MTGJSON](https://mtgjson.com/) and Commander Spellbook was used to generate over 80,000 question-answer pairs. The generation process involved using ChatGPT 3.5 to reformat existing data into conversational questions and answers, as shown in the snippets above. This synthetic dataset covers a wide range of possible game states and interactions, giving the model broad training coverage.
 
 ### Training Process
 

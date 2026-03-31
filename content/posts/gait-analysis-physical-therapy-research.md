@@ -17,9 +17,9 @@ Analyzing how people walk using video is common in research and clinical setting
 
 The script lets you load a video file (specifically a side-view of someone walking) and capture joint angles at various points. Here's the workflow:
 
-1.  **Load & Play:** Open the video. You can play/pause with `Space` and move frame-by-frame using the `Left`/`Right` arrow keys or `p`/`n`.
-2.  **Automatic Detection:** When the video is paused or you step to a new frame, the script runs the YOLOv11-pose model on the frame.
-3.  **Key Points:** The model identifies the most prominent person and then 5 key points relevant for side-view gait are calculated from the resulting keypoints. For example, calculating the hip center:
+1.  Load and play: open the video. You can play/pause with `Space` and move frame-by-frame using the `Left`/`Right` arrow keys or `p`/`n`.
+2.  Automatic detection: when the video is paused or you step to a new frame, the script runs the YOLOv11-pose model on the frame.
+3.  Key points: the model identifies the most prominent person and then 5 key points relevant for side-view gait are calculated from the resulting keypoints. For example, calculating the hip center:
     ```python
     # kps holds the keypoints for the detected person
     Lh = kps[KP['left_hip']][:2] # Get x,y for left hip
@@ -38,7 +38,7 @@ The script lets you load a video file (specifically a side-view of someone walki
     T = T_np.tolist()
     ```
     These points (S, H, K, A, T) are drawn on the video frame.
-4.  **Angle Calculation:** It also computes and displays three angles: Shoulder-Hip-Knee, Hip-Knee-Ankle, and Knee-Ankle-Toe.
+4.  Angle calculation: it also computes and displays three angles: Shoulder-Hip-Knee, Hip-Knee-Ankle, and Knee-Ankle-Toe.
     ```python
     # Simplified angle calculation within recompute_angles()
     S, H, K, A, T = [np.array(p) for p in points]
@@ -50,8 +50,8 @@ The script lets you load a video file (specifically a side-view of someone walki
     angles[0] = 180.0 - angle_SHK_internal # Store final angle
     # ... similar calculations for HKA and KAT ...
     ```
-5.  **Interactive Correction:** If the automatically detected joints aren't quite right, you can **click and drag** them directly on the video frame.
-6.  **Save Data:** Once you're satisfied with the point placement on a given frame (while paused), press the **'s'** key. This triggers the saving process detailed below.
+5.  Interactive correction: if the automatically detected joints aren't quite right, you can **click and drag** them directly on the video frame.
+6.  Save data: once you're satisfied with the point placement on a given frame (while paused), press the **'s'** key. This triggers the saving process detailed below.
 
 **Output Data**
 
@@ -61,19 +61,19 @@ When you run the script, you can specify an output directory (or it defaults to 
 
 This keeps results from different runs or videos organized. Inside this folder, you'll find:
 
-*   **Cropped Images (PNGs):** Every time you press 's', a PNG file is saved, named like `my_gait_video_0123.png` (where `0123` is the frame number). This isn't the whole video frame, but a cropped image focused on the detected person's bounding box. The 5 points (S, H, K, A, T) and the calculated angles are drawn directly onto this image. These are useful for visual checks, qualitative assessments, or including specific examples in reports.
-*   **Angle Data (CSV):** A single CSV file, named after the original video (e.g., `my_gait_video.csv`), is created for the session. Each time you press 's', a new row is added to this file. The columns are:
+*   Cropped images (PNGs): every time you press 's', a PNG file is saved, named like `my_gait_video_0123.png` (where `0123` is the frame number). This isn't the whole video frame, but a cropped image focused on the detected person's bounding box. The 5 points (S, H, K, A, T) and the calculated angles are drawn directly onto this image. These are useful for visual checks, qualitative assessments, or including specific examples in reports.
+*   Angle data (CSV): a single CSV file, named after the original video (e.g., `my_gait_video.csv`), is created for the session. Each time you press 's', a new row is added to this file. The columns are:
     `Frame, S-H-K, H-K-A, K-A-T`
     So, a row might look like: `123, 165.23, 170.51, 85.90`
 
-**Important Note on Privacy:** The YOLO model needs to be downloaded on first use, but after that, all video processing and analysis happens **locally on your machine**. No video data is sent anywhere.
+Privacy note: the YOLO model needs to be downloaded on first use, but after that, all video processing and analysis happens **locally on your machine**. No video data is sent anywhere.
 
 **How to Use It**
 
-1.  **Get the code:** It's available on GitHub:
+1.  Get the code: it's available on GitHub:
     [https://github.com/JakeBoggs/Gait-Analyzer](https://github.com/JakeBoggs/Gait-Analyzer)
-2.  **Install dependencies:** Download [Python](https://www.python.org/downloads/) if you do not already have it, then install the required libraries with `pip install opencv-python numpy ultralytics`
-2.  **Run from the terminal:** Navigate to the repository directory and run:
+2.  Install dependencies: download [Python](https://www.python.org/downloads/) if you do not already have it, then install the required libraries with `pip install opencv-python numpy ultralytics`
+3.  Run from the terminal: open the repository directory in a terminal and run:
     ```bash
     python track.py --video <path_to_your_video.mp4> --output <your_results_folder>
     ```

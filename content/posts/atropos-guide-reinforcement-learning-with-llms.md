@@ -14,7 +14,7 @@ Watch me present: [https://x.com/cerebral_valley/status/1927428235815498036](htt
 
 Atropos is a library from [Nous Research](https://nousresearch.com/) for performing reinforcement learning with LLMs. It provides a framework for managing environments and collecting rollouts. The training process is broken into four main components (environments, inference, trainer, orchestration), each running separately, enabling them to be distributed across multiple machines. 
 
-An example of this might look like training a coding agent, where the training script (handling loss calculations, backpropagation, and weight updates) happens on a powerful GPU cluster, while multiple code execution environments run on smaller CPU nodes. The orchestration server manages the communication between them, collecting rollouts (which could be a code update and its execution results in this example) from the environments and batching them to send to the trainer. 
+An example of this might look like training a coding agent, where the training script calculates the loss and updates weights on a GPU cluster, while multiple code execution environments run on smaller CPU nodes. The orchestration server manages the communication between them, collecting rollouts (which could be a code update and its execution results in this example) from the environments and batching them to send to the trainer. 
 
 The recommended configuration provided in the repository uses vLLM running inside the trainer process. The environments can then query this vLLM instance when generating rollouts. These rollouts occur asynchronously, with the results passed to the orchestration server after a rollout is complete. Periodically (e.g. every few training steps), the vLLM server is restarted so that it uses the latest set of model weights from the trainer.
 
@@ -24,12 +24,12 @@ The recommended configuration provided in the repository uses vLLM running insid
 
 There are already plenty of reinforcement learning libraries such as [TRL](https://huggingface.co/docs/trl/en/index), but the structure of Atropos makes it particularly useful for large training setups.
 
-*   **Scalability and Efficiency:** By separating the environments, inference, and training, each component can be scaled independently. For example, you can run numerous environments in parallel on cost-effective CPU instances and maximize the utilization of your inference hardware. This distributed approach and significantly speeds up the data collection and training cycle.
-*   **Flexibility:** Atropos allows for heterogeneous hardware setups. Environments can run on different operating systems or hardware configurations without impacting the trainer.
-*   **Real-World Use Cases:**
-    *   **Coding Agents:** As mentioned earlier, training an AI to write or debug code can involve numerous sandboxed execution environments. Atropos can manage these environments, collect the outcomes of code execution (success, failure, errors), and feed this data back to the trainer.
-    *   **Game AI:** Developing AI for complex games can require simulating many game instances simultaneously. Each game instance acts as an environment, and Atropos can orchestrate the collection of gameplay data (actions, states, rewards).
-    *   **Robotics:** Training robots often involves physical or simulated environments. Atropos can help manage these diverse environments, allowing for parallel data collection from multiple robots or simulations.
+*   Scalability and efficiency: by separating the environments, inference, and training, each component can be scaled independently. For example, you can run numerous environments in parallel on cost-effective CPU instances and maximize the utilization of your inference hardware. This distributed approach speeds up the data collection and training cycle.
+*   Flexibility: Atropos allows for heterogeneous hardware setups. Environments can run on different operating systems or hardware configurations without impacting the trainer.
+*   Real-world use cases:
+    *   Coding agents: training an AI to write or debug code can involve numerous sandboxed execution environments. Atropos can manage these environments, collect the outcomes of code execution (success, failure, errors), and feed this data back to the trainer.
+    *   Game AI: developing AI for complex games can require simulating many game instances simultaneously. Each game instance acts as an environment, and Atropos can coordinate the collection of gameplay data (actions, states, rewards).
+    *   Robotics: training robots often involves physical or simulated environments. Atropos can help manage these diverse environments, allowing for parallel data collection from multiple robots or simulations.
 
 To drive continued performance gains, future models are likely to spend a larger portion of their compute budget on RL instead of pretraining. This will necessitate scalable frameworks.
 
@@ -58,9 +58,9 @@ With that out of the way, here are the important files and functions:
 ### [`gsm8k_environment.py`](https://github.com/NousResearch/atropos/blob/main/environments/gsm8k_server.py)
 This script defines the `GSM8kEnv` class, which is responsible for interacting with the GSM8k dataset, generating prompts, collecting model completions, and scoring them.
 
-**Key Components:**
+Key components:
 
-1.  **`GSM8kEnv(BaseEnv)`**:
+1.  `GSM8kEnv(BaseEnv)`:
     *   Inherits from `BaseEnv` in the `atroposlib`.
     *   Manages the GSM8k environment, including data loading, interaction with the LLM server for completions, and scoring.
     *   Handles wandb logging for metrics like percent correct.
@@ -84,7 +84,7 @@ This script defines the `GSM8kEnv` class, which is responsible for interacting w
             self.completion_lengths = []
     ```
 
-2.  **`config_init()`**:
+2.  `config_init()`:
     *   A class method to define default configurations for the environment (`BaseEnvConfig`) and the API server(s) (`APIServerConfig`) it interacts with. This includes tokenizer name, batch sizes, wandb settings, and model details for the inference server.
 
     ```python
@@ -112,7 +112,7 @@ This script defines the `GSM8kEnv` class, which is responsible for interacting w
         return env_config, server_configs
     ```
 
-3.  **`setup()`**:
+3.  `setup()`:
     *   Loads and preprocesses the GSM8k dataset (train and test splits).
 
     ```python
@@ -133,7 +133,7 @@ This script defines the `GSM8kEnv` class, which is responsible for interacting w
         self.iter = 0
     ```
 
-4.  **`collect_trajectories(item: GSM8kRow)`**:
+4.  `collect_trajectories(item: GSM8kRow)`:
     *   Takes a data item (question and answer).
     *   Formats the prompt.
     *   Sends requests to vLLM to get `n` completions (rollouts) for the question.
@@ -157,7 +157,7 @@ This script defines the `GSM8kEnv` class, which is responsible for interacting w
         return to_postprocess, to_backlog
     ```
 
-5.  **`score(rollout_group_data)`**:
+5.  `score(rollout_group_data)`:
     *   Takes a group of rollouts.
     *   Parses the generated answers and the gold answer using `latex2sympy2_extended` and `math_verify`.
     *   Assigns a reward (1.0 for correct, -1.0 for incorrect).
@@ -179,15 +179,15 @@ This script defines the `GSM8kEnv` class, which is responsible for interacting w
         return scores
     ```
 
-6.  **`get_next_item()`**:
+6.  `get_next_item()`:
     *   Provides the next training item from the dataset.
 
 ### [`trainer.py`](https://github.com/NousResearch/atropos/blob/main/example_trainer/grpo.py)
 This script is responsible for the actual model training process. It initializes the model and tokenizer, sets up the optimizer, fetches data batches from the orchestration server (which gets them from `gsm8k_environment.py`), performs the training steps, and manages the vLLM inference server.
 
-**Key Components:**
+Key components:
 
-1.  **`TrainingConfig(BaseModel)`**:
+1.  `TrainingConfig(BaseModel)`:
     *   A Pydantic model defining all necessary configurations for training, such as model name, learning rate, batch size, sequence length, device, save paths, and vLLM specific settings.
 
     ```python
@@ -201,7 +201,7 @@ This script is responsible for the actual model training process. It initializes
         use_wandb: bool = Field(False, description="Whether to use Weights & Biases for logging")
     ```
 
-2.  **`register_trainer(config: TrainingConfig)`**:
+2.  `register_trainer(config: TrainingConfig)`:
     *   Sends a POST request to the orchestration server (`http://localhost:8000/register`) to register itself, providing its configuration details. This allows the orchestration server to know about the trainer and its requirements.
 
     ```python
@@ -218,7 +218,7 @@ This script is responsible for the actual model training process. It initializes
         )
     ```
 
-3.  **`get_data(batch_size: int, seq_len: int)`**:
+3.  `get_data(batch_size: int, seq_len: int)`:
     *   Continuously polls the orchestration server (`http://localhost:8000/batch`) for new batches of data.
 
     ```python
@@ -236,16 +236,16 @@ This script is responsible for the actual model training process. It initializes
                 time.sleep(1)
     ```
 
-4.  **`train(config: TrainingConfig)`**:
-    *   **Initialization**:
+4.  `train(config: TrainingConfig)`:
+    *   Initialization:
         *   Sets up Weights & Biases (wandb) if configured.
         *   Loads the tokenizer and model from Hugging Face (`AutoTokenizer`, `AutoModelForCausalLM`).
         *   Sets up the AdamW optimizer.
         *   Registers the trainer with the orchestration server.
-    *   **vLLM Management**:
+    *   vLLM management:
         *   Launches an initial vLLM server instance as a subprocess using the base model.
         *   The `vllm_process` global variable tracks this subprocess.
-    *   **Training Loop**:
+    *   Training loop:
         *   Iterates for `config.training_steps`.
         *   Fetches data using `get_data()`.
         *   For each batch:
@@ -253,7 +253,7 @@ This script is responsible for the actual model training process. It initializes
             *   Calculates the GRPO loss. The loss encourages actions with positive advantages and discourages those with negative advantages.
             *   Performs backpropagation and optimizer step.
             *   Logs metrics (loss, learning rate, gradient norm, log probabilities) to the console and wandb.
-        *   **vLLM Restart and Checkpointing**:
+        *   vLLM restart and checkpointing:
             *   Periodically (defined by `config.vllm_restart_interval`) or on the last step:
                 *   Saves a model checkpoint (weights and tokenizer).
                 *   Terminates the current vLLM process.
@@ -301,7 +301,7 @@ This script is responsible for the actual model training process. It initializes
 
 Once you have installed the dependencies, download the [environment](https://github.com/NousResearch/atropos/blob/main/environments/gsm8k_server.py) and [training](https://github.com/NousResearch/atropos/blob/main/example_trainer/grpo.py) scripts (you might need to rename them), then complete the steps below:
 
-1.  **Start Orchestration Server**:
+1.  Start the orchestration server:
     Open a terminal, activate your environment, and run:
     ```bash
     mkdir empty
@@ -310,14 +310,14 @@ Once you have installed the dependencies, download the [environment](https://git
     ```
     This server listens on `http://localhost:8000` and coordinates between the environment and trainer. We're doing this inside an empty folder because Atropos listens for files changes for some reason and will restart the server every time a checkpoint is saved, breaking the training process.
 
-2.  **Start Environment**:
+2.  Start the environment:
     Open another terminal, activate the environment, and run:
     ```bash
     python gsm8k_environment.py serve --slurm false
     ```
     The environment will attempt to connect to the orchestration server. Initially, it might wait if the trainer hasn't registered yet.
 
-3.  **Start Trainer**:
+3.  Launch the training run:
     Open a third terminal, activate the environment, and run:
     ```bash
     python trainer.py

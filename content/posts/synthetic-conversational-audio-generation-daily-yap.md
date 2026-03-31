@@ -8,10 +8,10 @@ Training conversational audio models requires large, high-quality datasets, whic
 
 There are many limitations with existing audio datasets:
 
-1.  **Content Scope:** Most focus on assistant-user interactions, lacking the breadth of topics found in general human dialogues.
-2.  **Audio-Text Alignment:** Datasets with precise alignment between high-quality audio and accurate transcriptions are uncommon.
-3.  **Speaker Diversity:** The use of few speakers limits the generalizability of models trained on these datasets.
-4.  **Scalability:** Human recording is resource-intensive, hindering the creation of large-scale datasets.
+1.  Content scope: most focus on assistant-user interactions, lacking the breadth of topics found in general human dialogues.
+2.  Audio-text alignment: datasets with precise alignment between high-quality audio and accurate transcriptions are uncommon.
+3.  Speaker diversity: using only a few speakers limits how well models trained on these datasets generalize.
+4.  Scalability: human recording is resource-intensive, which makes large-scale dataset creation harder.
 
 Daily Yap was created to overcome these challenges by synthetically generating conversational audio from an existing text-only dataset. This ensures a large diversity of topics and perfect annotation. Daily Dialog was selected as the foundation for this, with some modifications to enhance its suitability for audio synthesis.
 
