@@ -4,15 +4,16 @@ title: "Startups"
 Places I've worked:
 
 <div class="investment-grid">
-{{< investment img="/images/endeavor.png" url="https://endeavorai.com/" title="Endeavor AI" description="Deploying agents for ERP automation in manufacturing and distribution" meta="Research Engineer" >}}
-{{< investment img="/images/aeternum.png" modal="aeternum-gallery" title="Aeternum Analytics" description="Began with facial recognition (failed during COVID), ended up selling trading cards (did $1 million in sales out of my bedroom during the Pokemon / MTG frenzy)" meta="Founder" >}}
+{{< investment img="/images/tzafon.png" url="https://www.tzafon.ai/" title="Tzafon" description="Corporate says I'm only allowed to vaguepost..." meta="Member of Technical Staff" >}}
+{{< investment img="/images/endeavor.png" url="https://endeavor.ai/" title="Endeavor" description="Agents for ERP automation in manufacturing and distribution" meta="Research Engineer" >}}
+{{< investment img="/images/aeternum.png" modal="aeternum-gallery" title="Aeternum Analytics" description="Began with facial recognition (failed during COVID), ended up selling ~$1 million in trading cards out of my bedroom during the Pokemon / MTG frenzy" meta="Founder" >}}
 {{< investment img="/images/freelunch.png" title="Free Lunch, LP" description="Small-scale hedgefund. I got nerd sniped for a while but realized it's not how I want to spend my time. My favorite anecdote is that we placed ~$500 million in trades from a Raspberry Pi" meta="Cofounder" >}}
 {{< investment img="/images/osmos.png" url="https://osmoslearn.com" title="Osmos Learn" description="App for K-12 teachers that scans assignments and automatically grades them based on a rubric. Started by my friend, I built a lot of the backend" meta="Full-stack" >}}
 </div>
 
 ## Investments
 
-Things I've invested in:
+Back in college I did Reg CF as a hobby. Things I've invested in:
 
 ### Exits
 
@@ -25,6 +26,7 @@ Things I've invested in:
 These have been the best performers, with substantial growth and/or follow-on rounds.
 
 <div class="investment-grid">
+{{< investment img="/images/fathom.png" url="https://www.fathom.ai/" title="Fathom AI" description="AI notetaker" meta="Invested 2024" >}}
 {{< investment img="/images/substack.png" url="https://substack.com/" title="Substack" description="Blogging or something" meta="Invested 2023" >}}
 {{< investment img="/images/blackbird.png" url="https://www.blackbirdfoods.com/" title="Blackbird Foods" description="Plant-based pizza and meats" meta="Invested 2023" >}}
 {{< investment img="/images/jurny.png" url="https://www.jurny.com/" title="Jurny" description="Automated vacation rental management" meta="Invested 2023" >}}
