@@ -1,0 +1,36 @@
+<div class="benchmarks-dashboard" data-benchmark-dashboard>
+  <div class="benchmarks-dashboard__inner">
+    <section class="dashboard-panel">
+      <div class="dashboard-panel__header">
+        <div class="dashboard-panel__title">
+          <h2 data-ranking-title>Capability Index</h2>
+          <span class="dashboard-panel__meta" data-ranking-meta></span>
+        </div>
+        <div class="dashboard-panel__actions">
+          <a class="dashboard-source-link" data-source-link href="#" target="_blank" rel="noopener" aria-label="View source" title="View source" hidden>
+            <span>View source</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 3h6v6"></path>
+              <path d="M10 14 21 3"></path>
+              <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"></path>
+            </svg>
+          </a>
+          <div class="dashboard-segmented" aria-label="Capability view">
+            <button type="button" class="segmented-button is-active" data-ranking-view="bar">Bars</button>
+            <button type="button" class="segmented-button" data-ranking-view="time">Time</button>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard-chart dashboard-chart--ranking" data-view-pane="bar">
+        <canvas data-chart="ranking"></canvas>
+        <span class="dashboard-chart__updated" data-chart-updated></span>
+      </div>
+      <p class="dashboard-empty" data-empty="ranking" data-view-pane="bar" hidden>No models match the current filters.</p>
+      <div class="dashboard-chart dashboard-chart--scatter" data-view-pane="time" hidden>
+        <canvas data-chart="time"></canvas>
+        <span class="dashboard-chart__updated" data-chart-updated></span>
+      </div>
+      <p class="dashboard-empty" data-empty="time" data-view-pane="time" hidden>No models with release dates match the current filters.</p>
+    </section>
+  </div>
+</div>

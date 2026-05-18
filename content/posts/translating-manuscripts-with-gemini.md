@@ -36,7 +36,7 @@ After testing both Gemini 3 Pro and Gemini 3 Flash, I went with the Flash model 
 
 The last problem was handling pages where the scans were taken from too far away. Although the images are typically very high resolution (e.g. 6000x4000), they are scaled down to a standard input shape by the model provider before processing. This causes a lot of the details to be lost for pages that are zoomed out. My solution was to add a preprocessing step which asks Gemini 3 Flash to output a bounding box around the main area of text, then cropping to that section.
 
-Additionally, it runs a blended Sauvola filter, a sharpness filter, converts to the CIELAB color space, and applies CLAHE to the L channel. These filters aren't strictly necessary, but they made it easier for me to read the text and slightly helped the model too. I won't go into too much detail here, as image processing is not focus of this post, but the basic idea is that they separate the text from the background and even the lighting and contrast across the image.
+Additionally, it runs a blended Sauvola filter, a sharpness filter, converts to the CIELAB color space, and applies CLAHE to the L channel. These filters aren't strictly necessary, but they made it easier for me to read the text and slightly helped the model too. I won't go into too much detail here, but the basic idea is that they separate the text from the background and even the lighting and contrast across the image.
 
 <div style="display: flex; flex-direction: column; align-items: center;">
     <img src="/images/manuscript_enhanced.png" alt="Enhanced text" style="max-width: 80%;">
@@ -69,6 +69,6 @@ As a final touch, I added a button to download the full document with the origin
     </p>
 </div>
 
-Anthropology is certainly not my main area of interest, but I do enjoy seeing the progress frontier models are making in fields outside of programming and basic knowledge work. I'm far from an industry veteran (just 22 years old), but I do remember learning about CNNs back when people still cared about MNIST / CIFAR and YOLO was a new thing. We live in extraordinary times and I'm incredibly optimistic about the potential for frontier models in all types of research. Even if the promises of automated researchers or "superintelligence" do not come to pass, the existing models still have so much untapped potential and I expect we'll see many breakthroughs as adoption increases.
+Anthropology is certainly not my main area of interest, but I do enjoy seeing the progress frontier models are making in fields outside of programming and basic knowledge work. I'm far from an industry veteran (just 22 years old), but I remember learning about CNNs back when people still cared about MNIST / CIFAR and YOLO was a new thing. We live in extraordinary times and I'm incredibly optimistic about the potential for AI in all types of research. Even if the promises of automated researchers or "superintelligence" do not come to pass (although I personally wouldn't bet against it), the existing models still have so much untapped potential and I expect we'll see many breakthroughs as adoption increases.
 
 If you want to try it out, the code is [available on GitHub](https://github.com/JakeBoggs/Manuscript-Translator)

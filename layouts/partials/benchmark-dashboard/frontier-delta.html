@@ -1,0 +1,22 @@
+<div class="benchmarks-dashboard" data-benchmark-dashboard>
+  <div class="benchmarks-dashboard__inner">
+    <section class="dashboard-panel" data-frontier-delta-panel>
+      <div class="dashboard-panel__header">
+        <div class="dashboard-panel__title">
+          <h2>US-China Frontier Delta</h2>
+        </div>
+        <div class="dashboard-panel__actions">
+          <div class="dashboard-segmented" aria-label="US-China gap mode">
+            <button class="segmented-button is-active" type="button" data-frontier-delta-mode="time">Time</button>
+            <button class="segmented-button" type="button" data-frontier-delta-mode="score">Score</button>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard-chart dashboard-chart--scatter">
+        <canvas data-chart="frontierDelta"></canvas>
+        <span class="dashboard-chart__updated" data-chart-updated></span>
+      </div>
+      <p class="dashboard-empty" data-empty="frontierDelta" hidden>Need overlapping dated US and China frontier points for the current filters.</p>
+    </section>
+  </div>
+</div>

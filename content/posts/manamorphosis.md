@@ -4,7 +4,7 @@ date: "2025-05-05"
 draft: false
 summary: "I trained a diffusion model to complete Magic: The Gathering decklists. Give it some cards, it fills in the rest. Trained on 47k tournament decks."
 ---
-This post details **Manamorphosis**, a first-of-its-kind diffusion model developed to complete Magic: The Gathering decklists. It takes a set of known cards and fills in the rest to form a 60-card main deck. Subsequently, using the completed main deck as context, it can complete a 15-card sideboard. The core generative mechanism is based on Denoising Diffusion Probabilistic Models (DDPMs), the same family of models powering many image generation systems like Stable Diffusion and Midjourney, but adapted here to produce sets of cards. I'm exciting to share this model, as I believe it is the state-of-the-art (and only) AI model trained specifically for decklist generation.
+This post details **Manamorphosis**, a first-of-its-kind diffusion model I developed to complete Magic: The Gathering decklists. It takes a partial list and fills in the rest to form a 60-card main deck. Subsequently, using the completed main deck as context, it can complete a 15-card sideboard. The core generative mechanism is based on Denoising Diffusion Probabilistic Models (DDPMs), the same family of models powering image generation systems like Stable Diffusion and Midjourney, but adapted here to produce sets of cards. As far as I know, this is the state-of-the-art (and only) AI model trained specifically for this task.
 
 The complete code is [available on GitHub](https://github.com/JakeBoggs/Manamorphosis) if you'd like to run it yourself or see the full implementation.
 
@@ -26,7 +26,7 @@ Instead of training the model to directly predict discrete cards from a vocabula
 3.  Capturing semantic relationships: Doc2Vec learns vectors where cards with similar functions, costs, types, or textual patterns (e.g., different variations of counterspells, cheap red burn spells, evasive creatures) are closer together in the embedding space. This allows the diffusion model to learn higher-level concepts ("needs more removal," "add card draw") rather than just memorizing specific card co-occurrences, leading to more contextually relevant deck completions. This focus on semantic similarity is analogous to how embedding-based search engines return results that are conceptually related rather than exact keyword matches.
 4.  Dimensionality reduction and decoupling: working with dense 128-dimensional vectors is more computationally manageable for the transformer architecture than using extremely high-dimensional one-hot vectors (one per card). It also decouples the task of understanding card text semantics (Doc2Vec) from the task of generative deck construction (Diffusion Model).
 
-Before training the Doc2Vec model, a standardized "document" is created for each card by applying the following tranformations to the MTGJSON data:
+Before training the Doc2Vec model, a standardized "document" is created for each card by applying the following transformations to the MTGJSON data:
 
 *   Mana cost: replaced curly braces `{}` with pipe symbols `|` (`|W|`, `|U|`, etc.) and ensured spacing around symbols (`{W}{U}` -> `|W| |U|`). This treats each mana symbol as a distinct token and distinguishes them from mana symbols in the card text.
 *   Power/toughness: represented as `$Power$ #Toughness#` (e.g., `$2$ #2#`). This creates unique tokens for P/T values.
@@ -336,4 +336,4 @@ This refinement loop makes legal deck completions more likely by correcting rule
 
 ## Final Thoughts
 
-This was a fun, but time-consuming project (two weeks of me procrastinating before finals). Some day I'll probably train v2 to address some of the many remaining issues, but until then you can keep up with what I'm up to on Twitter: [@JakeABoggs](https://x.com/JakeABoggs)
+This was a fun but time-consuming project (two weeks of me procrastinating before finals). Some day I'll probably train v2, but until then you can keep up with what I'm up to on Twitter: [@JakeABoggs](https://x.com/JakeABoggs)

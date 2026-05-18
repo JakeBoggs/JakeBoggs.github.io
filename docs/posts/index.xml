@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Jake Boggs</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 19 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 18 May 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://boggs.tech/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Benchmark Dashboard</title>
+      <link>https://boggs.tech/posts/benchmarks/</link>
+      <pubDate>Mon, 18 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://boggs.tech/posts/benchmarks/</guid>
+      <description>My own version of the Epoch Capabilities Index for tracking niche benchmarks and my takes on how to identify ones worth paying attention to.</description>
+    </item>
     <item>
       <title>Translating Historical Manuscripts with Gemini 3</title>
       <link>https://boggs.tech/posts/translating-manuscripts-with-gemini/</link>
