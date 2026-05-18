@@ -265,12 +265,41 @@ html, body {
   }
 
   .benchmarks-dashboard {
-    margin-left: -1rem;
-    margin-right: -1rem;
-    padding: 0 1rem;
+    margin-left: calc(50% - 50vw + 14px);
+    margin-right: calc(50% - 50vw + 14px);
+    padding: 0 0.3rem;
+    width: calc(100vw - 28px);
+  }
+
+  .dashboard-chart {
+    padding-left: 0.45rem;
+    padding-right: 0.45rem;
   }
 
   .dashboard-chart--scatter {
     height: 380px;
+  }
+}
+
+@media (max-width: 560px) {
+  .benchmarks-dashboard {
+    margin-left: calc(50% - 50vw + 12px);
+    margin-right: calc(50% - 50vw + 12px);
+    padding: 0 0.25rem;
+    width: calc(100vw - 24px);
+  }
+
+  .dashboard-panel__header {
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
+  }
+
+  .dashboard-chart {
+    padding-left: 0.15rem;
+    padding-right: 0.15rem;
+  }
+
+  .dashboard-chart--scatter {
+    height: 340px;
   }
 }

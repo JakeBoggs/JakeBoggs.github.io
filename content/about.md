@@ -23,15 +23,16 @@ My initial approach combines a couple of genes to boost anthocyanin production i
 
 > **MAY UPDATE:** <a href="/about#plants">the plants</a> survived the initial transformation and the pigment doesn't appear to be leaking into the wrong tissues. This is a big win. The next test will be if they flower and show any color at all.
 
-### Gallery
+<h3 id="gallery" style="text-align: center;">Gallery</h3>
+<div style="text-align: center;">
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; align-items: flex-start;">
     <div style="width: 300px; min-width: 250px; max-width: 90%;">
         <img src="/images/jake.png" alt="Jake" style="width: 100%; margin: 0; display: block;">
-        <div style="text-align: center; font-size: 0.8rem; color: #888; margin-top: 0.25rem;">Jake</div>
+        <div style="font-size: 0.8rem; color: #888; margin-top: 0.25rem;">Jake</div>
     </div>
     <div style="width: 300px; min-width: 250px; max-width: 90%;">
         <img src="/images/snake.jpg" alt="Snake" style="width: 100%; margin: 0; display: block;">
-        <div style="text-align: center; font-size: 0.8rem; color: #888; margin-top: 0.25rem;">Snake</div>
+        <div style="font-size: 0.8rem; color: #888; margin-top: 0.25rem;">Snake</div>
     </div>
 </div>
 <span id="crocs"></span>
@@ -58,3 +59,4 @@ My initial approach combines a couple of genes to boost anthocyanin production i
     </div>
 </div>
 <span id="plants"></span>
+</div>

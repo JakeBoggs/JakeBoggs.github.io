@@ -106,6 +106,47 @@
     }
   }
 
+  function isMobileChart() {
+    return window.innerWidth <= 700;
+  }
+
+  function chartPadding() {
+    if (window.innerWidth <= 560) return { left: 0, right: 0, top: 6, bottom: 0 };
+    if (window.innerWidth <= 900) return { left: 6, right: 6, top: 10, bottom: 2 };
+    return { left: 60, right: 60, top: 16, bottom: 4 };
+  }
+
+  function axisTitle(text) {
+    return { display: !isMobileChart(), text };
+  }
+
+  function yAxisTicks(options = {}) {
+    return {
+      maxTicksLimit: isMobileChart() ? 5 : 8,
+      padding: isMobileChart() ? 1 : 3,
+      font: { size: isMobileChart() ? 10 : 11 },
+      ...options,
+    };
+  }
+
+  function compactRange(values, fraction = 0.025) {
+    if (!isMobileChart()) return {};
+    const finite = values.filter((value) => Number.isFinite(value));
+    if (!finite.length) return {};
+    const min = Math.min(...finite);
+    const max = Math.max(...finite);
+    const span = max - min || Math.max(Math.abs(max), 1);
+    const pad = span * fraction;
+    return { min: min - pad, max: max + pad };
+  }
+
+  function rankingTickOptions() {
+    if (window.innerWidth <= 560) {
+      return { autoSkip: true, maxTicksLimit: 12, maxRotation: 65, minRotation: 45, font: { size: 10 } };
+    }
+    return { autoSkip: false, maxRotation: 70, minRotation: 60, font: { size: 11 } };
+  }
+
   function initControls() {
     const data = state.data;
     const categoryOpts = uniqueSorted(data.categories || data.results.flatMap((r) => rowCategories(r)));
@@ -442,7 +483,7 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        layout: { padding: { left: 60, right: 60, top: 16, bottom: 4 } },
+        layout: { padding: chartPadding() },
         plugins: {
           legend: {
             position: "top",
@@ -460,12 +501,14 @@
         },
         scales: {
           x: {
-            title: { display: true, text: capabilityIndexLabel() },
+            ...compactRange(points.map((point) => point.x)),
+            title: axisTitle(capabilityIndexLabel()),
+            ticks: { maxTicksLimit: isMobileChart() ? 5 : 8 },
           },
           y: {
             type: "logarithmic",
-            title: { display: true, text: "METR p50 time horizon" },
-            ticks: { callback: (value) => formatMinutes(Number(value)) },
+            title: axisTitle("METR p50 time horizon"),
+            ticks: yAxisTicks({ callback: (value) => formatMinutes(Number(value)) }),
           },
         },
       },
@@ -551,6 +594,7 @@
         indexAxis: "x",
         responsive: true,
         maintainAspectRatio: false,
+        layout: { padding: chartPadding() },
         plugins: {
           legend: { display: false },
           tooltip: {
@@ -564,12 +608,12 @@
         },
         scales: {
           x: {
-            ticks: { autoSkip: false, maxRotation: 70, minRotation: 60, font: { size: 11 } },
+            ticks: rankingTickOptions(),
           },
           y: {
             beginAtZero: isBenchmark ? true : false,
-            title: { display: true, text: isBenchmark ? "Normalized score (%)" : "Capability index" },
-            ticks: isBenchmark ? { callback: (v) => `${v}%` } : {},
+            title: axisTitle(isBenchmark ? "Normalized score (%)" : "Capability index"),
+            ticks: yAxisTicks(isBenchmark ? { callback: (v) => `${v}%` } : {}),
           },
         },
       },
@@ -700,7 +744,7 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        layout: { padding: { left: 60, right: 60, top: 16, bottom: 4 } },
+        layout: { padding: chartPadding() },
         plugins: {
           legend: {
             position: "top",
@@ -718,13 +762,16 @@
         },
         scales: {
           x: {
+            ...compactRange(points.map((point) => point.x), 0.01),
             type: "time",
+            bounds: "data",
             time: { unit: "month", tooltipFormat: "MMM yyyy" },
-            title: { display: true, text: "Release date" },
+            title: axisTitle("Release date"),
+            ticks: { maxTicksLimit: isMobileChart() ? 4 : 8 },
           },
           y: {
-            title: { display: true, text: isBenchmark ? "Normalized score (%)" : "Capability index" },
-            ticks: isBenchmark ? { callback: (v) => `${v}%` } : {},
+            title: axisTitle(isBenchmark ? "Normalized score (%)" : "Capability index"),
+            ticks: yAxisTicks(isBenchmark ? { callback: (v) => `${v}%` } : {}),
           },
         },
       },
@@ -846,7 +893,7 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        layout: { padding: { left: 60, right: 60, top: 16, bottom: 4 } },
+        layout: { padding: chartPadding() },
         plugins: {
           legend: {
             position: "top",
@@ -863,13 +910,16 @@
         },
         scales: {
           x: {
+            ...compactRange(usPoints.concat(chinaPoints).map((point) => point.x), 0.01),
             type: "time",
+            bounds: "data",
             time: { unit: "month", tooltipFormat: "MMM yyyy" },
-            title: { display: true, text: "Release date" },
+            title: axisTitle("Release date"),
+            ticks: { maxTicksLimit: isMobileChart() ? 4 : 8 },
           },
           y: {
-            title: { display: true, text: isBenchmark ? "Normalized score (%)" : "Capability index" },
-            ticks: isBenchmark ? { callback: (v) => `${v}%` } : {},
+            title: axisTitle(isBenchmark ? "Normalized score (%)" : "Capability index"),
+            ticks: yAxisTicks(isBenchmark ? { callback: (v) => `${v}%` } : {}),
           },
         },
       },
@@ -1055,7 +1105,7 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        layout: { padding: { left: 60, right: 60, top: 16, bottom: 4 } },
+        layout: { padding: chartPadding() },
         plugins: {
           legend: {
             position: "top",
@@ -1087,18 +1137,18 @@
         },
         scales: {
           x: {
+            ...compactRange(deltaPoints.map((point) => point.x), 0.01),
             type: "time",
+            bounds: "data",
             time: { unit: "month", tooltipFormat: "MMM yyyy" },
-            title: { display: true, text: "Frontier date" },
+            title: axisTitle("Frontier date"),
+            ticks: { maxTicksLimit: isMobileChart() ? 4 : 8 },
           },
           y: {
-            title: {
-              display: true,
-              text: isTimeMode ? "US lead over China (years)" : (isBenchmark ? "US lead over China (pp)" : "US lead over China (score)"),
-            },
+            title: axisTitle(isTimeMode ? "US lead over China (years)" : (isBenchmark ? "US lead over China (pp)" : "US lead over China (score)")),
             ticks: isTimeMode
-              ? { callback: (value) => `${value}y` }
-              : (isBenchmark ? { callback: (value) => `${value}pp` } : {}),
+              ? yAxisTicks({ callback: (value) => `${value}y` })
+              : yAxisTicks(isBenchmark ? { callback: (value) => `${value}pp` } : {}),
           },
         },
       },
