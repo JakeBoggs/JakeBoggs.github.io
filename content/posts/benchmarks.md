@@ -27,6 +27,6 @@ For fun, I've calculated the correlation between the indices and the [METR Time 
 
 {{< benchmark-dashboard-frontier >}}
 
-I've also made a tracker for the US-China gap, which has shrunk and currently stands at ~5 months. This is slightly shorter than [Epoch's calculation](https://epoch.ai/data-insights/us-vs-china-eci) of 7 months in January and the fit line does show the gap narrowing, but looking closer at the data I do not see a clear trend. I also remain skeptical it will narrow further due to capital constraints and export controls. Currently, Chinese labs seem to lack the ability to secure the necessary compute and data. I will of course revisit this assumption as we get updates.
+I've also made a tracker for the US-China gap, which has shrunk and currently stands at ~5 months. This is slightly shorter than [Epoch's calculation](https://epoch.ai/data-insights/us-vs-china-eci) of 7 months in January.
 
 {{< benchmark-dashboard-frontier-delta >}}
