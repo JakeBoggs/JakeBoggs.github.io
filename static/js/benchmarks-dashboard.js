@@ -36,6 +36,7 @@
     "Kimi": "#7E22CE",
     "Cohere": "#E879F9",
     "NVIDIA": "#76B900",
+    "OpenBMB": "#F59E0B",
     "Microsoft": "#5E5E5E",
     "Tencent": "#1F8AE0",
     "Reka": "#FF4081",
@@ -44,7 +45,7 @@
     "Human": "#16A34A",
   };
   const US_LABS = new Set(["OpenAI", "Anthropic", "Google", "Google DeepMind", "xAI", "Meta", "Meta AI", "Microsoft", "Amazon", "Cohere", "AI21 Labs", "NVIDIA"]);
-  const CHINA_LABS = new Set(["DeepSeek", "Alibaba", "Qwen", "Z.ai", "Zhipu", "Zhipu AI", "GLM", "Moonshot AI", "Moonshot", "Kimi", "MiniMax", "Xiaomi", "ByteDance", "Tencent", "01.AI", "StepFun"]);
+  const CHINA_LABS = new Set(["DeepSeek", "Alibaba", "Qwen", "Z.ai", "Zhipu", "Zhipu AI", "GLM", "Moonshot AI", "Moonshot", "Kimi", "MiniMax", "Xiaomi", "ByteDance", "Tencent", "01.AI", "StepFun", "OpenBMB"]);
   const BENCHMARK_TRANSFORMS = {
     "bullshitbench": "Score = green classifications / scored samples.",
     "eqbench": "Score = 2 * P(win vs top Elo).",
@@ -56,7 +57,8 @@
     "programbench-extended": "Score = mean per-run task score.",
     "vending-bench-2": "Score = profit / $62.5k target profit, capped at 1.",
     "contextarena": "Score = 8-needle MRCRv2 AUC @1M.",
-    "mls-bench": "Score = MLS-Bench-Lite average normalized score.",
+    "lisanbench": "Score = mean path length / current leaderboard maximum.",
+    "game-arena": "Score = 2 * P(win vs top Bradley-Terry rating).",
   };
 
   function labColor(lab) {
