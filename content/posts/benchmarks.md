@@ -13,7 +13,7 @@ I found myself refreshing ~30 different leaderboards whenever a new model droppe
 
 The index is fixed so that GPT-4.1 will always be at 100 and GPT-5 will always be at 150. The other values might drift as the benchmark composition changes. Epoch's model requires scores to range from 0-1, so I apply normalization to Elo-based evals such that the top model scores 100% and each other model x's score equals `2 * P(model_x wins against top_model)`. To reduce noise from models with low benchmark coverage, I require that each model be on at least eight benchmarks and at least 1/3rd of the benchmarks that have data on or before that model's release date. For sub-indices, I apply the same 1/3rd rule to the category but reduce the lower bound to four across the full dataset.
 
-Expect that I will add / remove benchmarks and adjust the formulas over time. The main objective is to strongly differentiate between the latest models, and less to track long-term progress. It's a non-exhaustive compilation of evals that I think are high-signal and roughly correlate with my personal experiences and anecdotes I hear from others.
+Expect that I will add / remove benchmarks and adjust the formulas over time. The main objective is to strongly differentiate between the latest models, and less to track long-term progress. As a result, some older models are likely to be missing.
 
 How did I decide what to include? My main concerns with most benchmarks fall into three categories: data quality, memorization, and relevance. Data quality is perhaps the biggest peristent issue across benchmarks and can be broken down into sub-categories like incorrect answer keys, faulty automated graders, impossible tasks, and many more. The best way to prevent quality issues is simple but boring: look at the data. Ideally you will have a human, or multiple, attempt each task in your benchmark. If this is impractical, you better have a good automated pipeline and do manual validation of that. When I evaluate a benchmark, I either look at the data myself, or I judge whether the authors or someone with domain knowledge have done this thoroughly.
 
@@ -27,6 +27,6 @@ For fun, I've calculated the correlation between the indices and the [METR Time 
 
 {{< benchmark-dashboard-frontier >}}
 
-I've also made a tracker for the US-China gap, which has shrunk and currently stands at ~6 months. This is slightly longer than [Epoch's calculation](https://epoch.ai/data-insights/open-closed-eci-gap).
+I've also made a tracker for the US-China gap, which I estimate currently stands at ~6 months. This is slightly longer than [Epoch's calculation](https://epoch.ai/data-insights/open-closed-eci-gap).
 
 {{< benchmark-dashboard-frontier-delta >}}
