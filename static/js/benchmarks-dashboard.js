@@ -400,30 +400,66 @@
     return "GPT-4.1 = 100, GPT-5 = 150";
   }
 
-  function metrCorrelationPairs() {
-    const timeHorizons = new Map((state.data.metr_time_horizons || []).map((row) => [row.model_id, row]));
+  function selectedBenchmarkMetricRows() {
+    const best = new Map();
+    filteredResults().forEach((row) => {
+      const score = Number(row.normalized_score);
+      if (!Number.isFinite(score)) return;
+      const modelId = row.capability_model_id || row.model_id;
+      const current = best.get(modelId);
+      if (!current || score > Number(current.normalized_score)) best.set(modelId, row);
+    });
+    return Array.from(best.values()).map((row) => ({
+      model: row.capability_model || row.model,
+      model_id: row.capability_model_id || row.model_id,
+      lab: row.lab,
+      value: Number(row.normalized_score) * 100,
+      valueText: pct(row.normalized_score),
+    }));
+  }
+
+  function selectedCapabilityMetricRows() {
     const allowed = new Set(filteredResults().map((row) => row.capability_model_id || row.model_id));
     return selectedCapabilityRows()
       .filter((row) => allowed.has(row.model_id))
+      .map((row) => ({
+        model: row.model,
+        model_id: row.model_id,
+        lab: row.lab,
+        value: Number(row.index),
+        valueText: row.index.toFixed(1),
+      }));
+  }
+
+  function metrComparisonLabel() {
+    if (state.filters.benchmark) return `${state.filters.benchmark} score`;
+    return capabilityIndexLabel();
+  }
+
+  function metrCorrelationPairs() {
+    const timeHorizons = new Map((state.data.metr_time_horizons || []).map((row) => [row.model_id, row]));
+    const metricRows = state.filters.benchmark ? selectedBenchmarkMetricRows() : selectedCapabilityMetricRows();
+    return metricRows
       .map((row) => {
         const horizon = timeHorizons.get(row.model_id);
         if (!horizon || !Number.isFinite(Number(horizon.log2_time_horizon)) || !Number.isFinite(Number(horizon.p50_minutes))) return null;
         return {
           model: row.model,
           lab: row.lab,
-          index: Number(row.index),
+          xValue: Number(row.value),
+          valueText: row.valueText,
           log2TimeHorizon: Number(horizon.log2_time_horizon),
           p50Minutes: Number(horizon.p50_minutes),
         };
       })
-      .filter((pair) => pair && Number.isFinite(pair.index) && pair.p50Minutes > 0);
+      .filter((pair) => pair && Number.isFinite(pair.xValue) && pair.p50Minutes > 0);
   }
 
   function pearsonCorrelation(pairs) {
-    const xMean = pairs.reduce((sum, pair) => sum + pair.index, 0) / pairs.length;
+    const xMean = pairs.reduce((sum, pair) => sum + pair.xValue, 0) / pairs.length;
     const yMean = pairs.reduce((sum, pair) => sum + pair.log2TimeHorizon, 0) / pairs.length;
-    const numerator = pairs.reduce((sum, pair) => sum + (pair.index - xMean) * (pair.log2TimeHorizon - yMean), 0);
-    const xVariance = pairs.reduce((sum, pair) => sum + (pair.index - xMean) ** 2, 0);
+    const numerator = pairs.reduce((sum, pair) => sum + (pair.xValue - xMean) * (pair.log2TimeHorizon - yMean), 0);
+    const xVariance = pairs.reduce((sum, pair) => sum + (pair.xValue - xMean) ** 2, 0);
     const yVariance = pairs.reduce((sum, pair) => sum + (pair.log2TimeHorizon - yMean) ** 2, 0);
     const denominator = Math.sqrt(xVariance * yVariance);
     return denominator ? numerator / denominator : 0;
@@ -431,27 +467,29 @@
 
   function renderMetrCorrelation() {
     const pairs = metrCorrelationPairs();
-    if (state.filters.benchmark || pairs.length < 3) {
+    const title = $("[data-metr-title]");
+    const meta = $("[data-metr-meta]");
+    const sourceLink = $("[data-metr-source-link]");
+    if (title) title.textContent = `METR Time Horizon vs ${metrComparisonLabel()}`;
+    if (sourceLink) sourceLink.href = state.data.metr_time_horizon_metadata?.source_url || "https://metr.org/time-horizons/";
+    if (pairs.length < 3) {
+      if (meta) meta.textContent = "";
       setEmpty("metr", true);
       return;
     }
     setEmpty("metr", false);
 
     const points = pairs.map((pair) => ({
-      x: pair.index,
+      x: pair.xValue,
       y: pair.p50Minutes,
       label: pair.model,
       lab: pair.lab,
+      valueText: pair.valueText,
       p50Minutes: pair.p50Minutes,
       log2TimeHorizon: pair.log2TimeHorizon,
     }));
     const trend = logYTrend(points);
-    const title = $("[data-metr-title]");
-    const meta = $("[data-metr-meta]");
-    const sourceLink = $("[data-metr-source-link]");
-    if (title) title.textContent = `METR Time Horizon vs ${capabilityIndexLabel()}`;
     if (meta) meta.textContent = `Pearson r = ${pearsonCorrelation(pairs).toFixed(2)} (n = ${pairs.length})`;
-    if (sourceLink) sourceLink.href = state.data.metr_time_horizon_metadata?.source_url || "https://metr.org/time-horizons/";
 
     const canvas = document.querySelector("canvas[data-chart='metr']");
     if (!canvas) return;
@@ -496,7 +534,7 @@
               label: (ctx) => {
                 if (ctx.dataset.label === "Fit") return `Fit: ${formatMinutes(ctx.parsed.y)}`;
                 const point = ctx.dataset.data[ctx.dataIndex];
-                return `${point.label} (${point.lab}): index ${point.x.toFixed(1)}, time horizon ${formatMinutes(point.p50Minutes)}`;
+                return `${point.label} (${point.lab}): ${metrComparisonLabel()} ${point.valueText}, time horizon ${formatMinutes(point.p50Minutes)}`;
               },
             },
           },
@@ -504,7 +542,7 @@
         scales: {
           x: {
             ...compactRange(points.map((point) => point.x)),
-            title: axisTitle(capabilityIndexLabel()),
+            title: axisTitle(metrComparisonLabel()),
             ticks: { maxTicksLimit: isMobileChart() ? 5 : 8 },
           },
           y: {
@@ -1003,11 +1041,32 @@
     }));
   }
 
+  function currentDateTime() {
+    const now = new Date();
+    return Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  }
+
+  function frontierDeltaStepSeries(points, endX = currentDateTime()) {
+    if (!points.length) return [];
+    const series = [{ ...points[0] }];
+    for (let index = 1; index < points.length; index += 1) {
+      const previous = points[index - 1];
+      const point = points[index];
+      series.push({ ...previous, x: point.x, isStepHelper: true });
+      series.push({ ...point });
+    }
+    const last = points[points.length - 1];
+    if (Number.isFinite(endX) && endX > last.x) {
+      series.push({ ...last, x: endX, isExtension: true });
+    }
+    return series;
+  }
+
   function frontierDeltaColor(value) {
     return value >= 0 ? "#2563eb" : "#dc2626";
   }
 
-  function trendLine(points) {
+  function trendLine(points, endX = null) {
     if (points.length < 2) return [];
     const firstX = points[0].x;
     const xs = points.map((point) => (point.x - firstX) / 86400000);
@@ -1019,7 +1078,8 @@
 
     const slope = xs.reduce((sum, value, index) => sum + (value - xMean) * (ys[index] - yMean), 0) / denominator;
     const intercept = yMean - slope * xMean;
-    const endpoints = [points[0], points[points.length - 1]];
+    const last = points[points.length - 1];
+    const endpoints = [points[0], { ...last, x: endX && endX > last.x ? endX : last.x }];
     return endpoints.map((point) => {
       const x = (point.x - firstX) / 86400000;
       return { x: point.x, y: intercept + slope * x };
@@ -1038,7 +1098,11 @@
     }
     setEmpty("frontierDelta", false);
 
-    const trend = trendLine(deltaPoints);
+    const endX = currentDateTime();
+    const deltaSeries = frontierDeltaStepSeries(deltaPoints, endX);
+    const positiveSeries = frontierDeltaFillPoints(deltaSeries, "positive");
+    const negativeSeries = frontierDeltaFillPoints(deltaSeries, "negative");
+    const trend = trendLine(deltaPoints, endX);
 
     const canvas = document.querySelector("canvas[data-chart='frontierDelta']");
     if (!canvas) return;
@@ -1049,9 +1113,8 @@
           {
             type: "line",
             label: "US lead",
-            data: frontierDeltaFillPoints(deltaPoints, "positive"),
+            data: positiveSeries,
             parsing: false,
-            stepped: "after",
             borderColor: "transparent",
             borderWidth: 0,
             pointRadius: 0,
@@ -1062,9 +1125,8 @@
           {
             type: "line",
             label: "China lead",
-            data: frontierDeltaFillPoints(deltaPoints, "negative"),
+            data: negativeSeries,
             parsing: false,
-            stepped: "after",
             borderColor: "transparent",
             borderWidth: 0,
             pointRadius: 0,
@@ -1075,19 +1137,18 @@
           {
             type: "line",
             label: "US lead over China",
-            data: deltaPoints,
+            data: deltaSeries,
             parsing: false,
-            stepped: "after",
             borderColor: "#2563eb",
             borderWidth: 2,
             fill: false,
-            pointRadius: 4,
-            pointHoverRadius: 7,
-            pointBackgroundColor: deltaPoints.map((point) => frontierDeltaColor(point.y)),
+            pointRadius: (ctx) => ctx.raw?.isStepHelper || ctx.raw?.isExtension ? 0 : 4,
+            pointHoverRadius: (ctx) => ctx.raw?.isStepHelper || ctx.raw?.isExtension ? 0 : 7,
+            pointBackgroundColor: deltaSeries.map((point) => frontierDeltaColor(point.y)),
             pointBorderColor: "#ffffff",
             pointBorderWidth: 1.5,
             segment: {
-              borderColor: (ctx) => frontierDeltaColor(ctx.p0.parsed.y),
+              borderColor: (ctx) => frontierDeltaColor(ctx.p1.parsed.y),
             },
             deltaRole: "line",
           },
@@ -1118,7 +1179,10 @@
             },
           },
           tooltip: {
-            filter: (ctx) => ctx.dataset.deltaRole !== "area",
+            filter: (ctx) => {
+              const point = ctx.dataset.data[ctx.dataIndex];
+              return ctx.dataset.deltaRole !== "area" && !point?.isStepHelper && !point?.isExtension;
+            },
             callbacks: {
               label: (ctx) => {
                 if (ctx.dataset.label === "Trend") return `Trend: ${frontierDeltaValueText(ctx.parsed.y)}`;
@@ -1139,7 +1203,7 @@
         },
         scales: {
           x: {
-            ...compactRange(deltaPoints.map((point) => point.x), 0.01),
+            ...compactRange(deltaSeries.map((point) => point.x), 0.01),
             type: "time",
             bounds: "data",
             time: { unit: "month", tooltipFormat: "MMM yyyy" },
