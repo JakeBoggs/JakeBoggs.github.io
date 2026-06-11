@@ -59,6 +59,7 @@
     "contextarena": "Score = 8-needle MRCRv2 AUC @1M.",
     "lisanbench": "Score = mean path length / current leaderboard maximum.",
     "game-arena": "Score = 2 * P(win vs top Bradley-Terry rating).",
+    "zerobench": "Score = main-question pass@5.",
   };
 
   function labColor(lab) {
