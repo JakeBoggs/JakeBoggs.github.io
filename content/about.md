@@ -15,7 +15,7 @@ A few of my favorites:
 * [Remote Labor Index](https://www.remotelabor.ai/). CUA harness for measuring progress towards full automation of standard online freelance work. Still very unsaturated, no model gets above 5%
 * [Kosmos](https://edisonscientific.com/articles/announcing-kosmos). This one helped with research for the genetic engineering project below
 
-**Reinforcement learning.** A the combination of the above. Make a harness to do a task, an evaluation to measure the output quality, and now you have an RL environment.
+**Reinforcement learning.** A combination of the above. Make a harness for a task, an evaluation to measure the output quality, and now you have an RL environment.
 
 **My current pet project:** engineering a real-life <a href="/about#lotus">Black Lotus</a>. There are two primary motivations here:
 * It's cool and I want one

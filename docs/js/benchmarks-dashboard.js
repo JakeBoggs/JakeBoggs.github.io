@@ -6,7 +6,7 @@
     rankingView: "bar",
     frontierDeltaMode: "time",
     filters: { benchmark: "", category: "", lab: "", openness: "" },
-    charts: { ranking: null, time: null, metr: null, frontier: null, frontierDelta: null },
+    charts: { ranking: null, time: null, metr: null, eci: null, frontier: null, frontierDelta: null },
   };
 
   const fmt = new Intl.NumberFormat("en-US");
@@ -46,6 +46,10 @@
   };
   const US_LABS = new Set(["OpenAI", "Anthropic", "Google", "Google DeepMind", "xAI", "Meta", "Meta AI", "Microsoft", "Amazon", "Cohere", "AI21 Labs", "NVIDIA"]);
   const CHINA_LABS = new Set(["DeepSeek", "Alibaba", "Qwen", "Z.ai", "Zhipu", "Zhipu AI", "GLM", "Moonshot AI", "Moonshot", "Kimi", "MiniMax", "Xiaomi", "ByteDance", "Tencent", "01.AI", "StepFun", "OpenBMB"]);
+  const METR_ESTIMATE_MIN_INDEX = 150;
+  const METR_ESTIMATE_LIMIT = 12;
+  const ECI_PROJECTION_MIN_INDEX = 150;
+  const ECI_PROJECTION_LIMIT = 12;
   const BENCHMARK_TRANSFORMS = {
     "bullshitbench": "Score = green classifications / scored samples.",
     "eqbench": "Score = 2 * P(win vs top Elo).",
@@ -132,8 +136,8 @@
     };
   }
 
-  function compactRange(values, fraction = 0.025) {
-    if (!isMobileChart()) return {};
+  function compactRange(values, fraction = 0.025, always = false) {
+    if (!always && !isMobileChart()) return {};
     const finite = values.filter((value) => Number.isFinite(value));
     if (!finite.length) return {};
     const min = Math.min(...finite);
@@ -327,6 +331,10 @@
     return state.filters.category ? `${titleCase(state.filters.category)} Capability Index` : "Capability Index";
   }
 
+  function jakeCapabilityIndexLabel() {
+    return state.filters.category ? `Jake's ${titleCase(state.filters.category)} Capability Index` : "Jake's Capability Index";
+  }
+
   function titleCase(value) {
     return String(value || "")
       .split(/[-_\s]+/)
@@ -446,28 +454,71 @@
         if (!horizon || !Number.isFinite(Number(horizon.log2_time_horizon)) || !Number.isFinite(Number(horizon.p50_minutes))) return null;
         return {
           model: row.model,
+          model_id: row.model_id,
           lab: row.lab,
           xValue: Number(row.value),
           valueText: row.valueText,
           log2TimeHorizon: Number(horizon.log2_time_horizon),
           p50Minutes: Number(horizon.p50_minutes),
+          estimated: false,
         };
       })
       .filter((pair) => pair && Number.isFinite(pair.xValue) && pair.p50Minutes > 0);
   }
 
-  function pearsonCorrelation(pairs) {
+  function pearsonCorrelation(pairs, yKey = "log2TimeHorizon") {
     const xMean = pairs.reduce((sum, pair) => sum + pair.xValue, 0) / pairs.length;
-    const yMean = pairs.reduce((sum, pair) => sum + pair.log2TimeHorizon, 0) / pairs.length;
-    const numerator = pairs.reduce((sum, pair) => sum + (pair.xValue - xMean) * (pair.log2TimeHorizon - yMean), 0);
+    const yMean = pairs.reduce((sum, pair) => sum + pair[yKey], 0) / pairs.length;
+    const numerator = pairs.reduce((sum, pair) => sum + (pair.xValue - xMean) * (pair[yKey] - yMean), 0);
     const xVariance = pairs.reduce((sum, pair) => sum + (pair.xValue - xMean) ** 2, 0);
-    const yVariance = pairs.reduce((sum, pair) => sum + (pair.log2TimeHorizon - yMean) ** 2, 0);
+    const yVariance = pairs.reduce((sum, pair) => sum + (pair[yKey] - yMean) ** 2, 0);
     const denominator = Math.sqrt(xVariance * yVariance);
     return denominator ? numerator / denominator : 0;
   }
 
+  function logYRegression(points) {
+    const logPoints = points
+      .filter((point) => point.y > 0)
+      .map((point) => ({ x: point.x, y: Math.log2(point.y) }));
+    if (logPoints.length < 2) return null;
+    const xMean = logPoints.reduce((sum, point) => sum + point.x, 0) / logPoints.length;
+    const yMean = logPoints.reduce((sum, point) => sum + point.y, 0) / logPoints.length;
+    const denominator = logPoints.reduce((sum, point) => sum + (point.x - xMean) ** 2, 0);
+    if (!denominator) return null;
+    const slope = logPoints.reduce((sum, point) => sum + (point.x - xMean) * (point.y - yMean), 0) / denominator;
+    return { slope, intercept: yMean - slope * xMean };
+  }
+
+  function metrEstimatedPairs(officialPairs) {
+    if (state.filters.benchmark || officialPairs.length < 3) return [];
+    const model = logYRegression(officialPairs.map((pair) => ({ x: pair.xValue, y: pair.p50Minutes })));
+    if (!model) return [];
+    const officialIds = new Set(officialPairs.map((pair) => pair.model_id));
+    return selectedCapabilityMetricRows()
+      .filter((row) => !officialIds.has(row.model_id))
+      .filter((row) => Number(row.value) >= METR_ESTIMATE_MIN_INDEX)
+      .sort((a, b) => b.value - a.value)
+      .slice(0, METR_ESTIMATE_LIMIT)
+      .map((row) => {
+        const log2TimeHorizon = model.intercept + model.slope * row.value;
+        const p50Minutes = 2 ** log2TimeHorizon;
+        return {
+          model: row.model,
+          model_id: row.model_id,
+          lab: row.lab,
+          xValue: row.value,
+          valueText: row.valueText,
+          log2TimeHorizon,
+          p50Minutes,
+          estimated: true,
+        };
+      })
+      .filter((pair) => Number.isFinite(pair.p50Minutes) && pair.p50Minutes > 0);
+  }
+
   function renderMetrCorrelation() {
     const pairs = metrCorrelationPairs();
+    const estimatedPairs = metrEstimatedPairs(pairs);
     const title = $("[data-metr-title]");
     const meta = $("[data-metr-meta]");
     const sourceLink = $("[data-metr-source-link]");
@@ -489,6 +540,16 @@
       p50Minutes: pair.p50Minutes,
       log2TimeHorizon: pair.log2TimeHorizon,
     }));
+    const estimatedPoints = estimatedPairs.map((pair) => ({
+      x: pair.xValue,
+      y: pair.p50Minutes,
+      label: pair.model,
+      lab: pair.lab,
+      valueText: pair.valueText,
+      p50Minutes: pair.p50Minutes,
+      log2TimeHorizon: pair.log2TimeHorizon,
+      estimated: true,
+    }));
     const trend = logYTrend(points);
     if (meta) meta.textContent = `Pearson r = ${pearsonCorrelation(pairs).toFixed(2)} (n = ${pairs.length})`;
 
@@ -500,13 +561,24 @@
       data: {
         datasets: [
           {
-            label: "Models",
+            label: "Official METR",
             data: points,
             parsing: false,
             backgroundColor: points.map((point) => withAlpha(labColor(point.lab), 0.85)),
             borderColor: points.map((point) => labColor(point.lab)),
             pointRadius: 5,
             pointHoverRadius: 8,
+          },
+          {
+            label: "Estimated",
+            data: estimatedPoints,
+            parsing: false,
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            borderColor: estimatedPoints.map((point) => labColor(point.lab)),
+            pointStyle: "triangle",
+            pointRadius: 6,
+            pointHoverRadius: 9,
+            pointBorderWidth: 2,
           },
           {
             type: "line",
@@ -535,14 +607,15 @@
               label: (ctx) => {
                 if (ctx.dataset.label === "Fit") return `Fit: ${formatMinutes(ctx.parsed.y)}`;
                 const point = ctx.dataset.data[ctx.dataIndex];
-                return `${point.label} (${point.lab}): ${metrComparisonLabel()} ${point.valueText}, time horizon ${formatMinutes(point.p50Minutes)}`;
+                const source = point.estimated ? "estimated time horizon" : "time horizon";
+                return `${point.label} (${point.lab}): ${metrComparisonLabel()} ${point.valueText}, ${source} ${formatMinutes(point.p50Minutes)}`;
               },
             },
           },
         },
         scales: {
           x: {
-            ...compactRange(points.map((point) => point.x)),
+            ...compactRange(points.concat(estimatedPoints).map((point) => point.x)),
             title: axisTitle(metrComparisonLabel()),
             ticks: { maxTicksLimit: isMobileChart() ? 5 : 8 },
           },
@@ -556,18 +629,186 @@
     });
   }
 
+  function epochEciMap() {
+    return new Map((state.data.epoch_eci_scores || []).map((row) => [row.model_id, row]));
+  }
+
+  function eciCorrelationPairs() {
+    if (state.filters.benchmark) return [];
+    const epochScores = epochEciMap();
+    return selectedCapabilityMetricRows()
+      .map((row) => {
+        const epoch = epochScores.get(row.model_id);
+        if (!epoch || !Number.isFinite(Number(epoch.eci))) return null;
+        return {
+          model: row.model,
+          model_id: row.model_id,
+          lab: row.lab,
+          xValue: Number(row.value),
+          yValue: Number(epoch.eci),
+          valueText: row.valueText,
+          epochText: Number(epoch.eci).toFixed(1),
+        };
+      })
+      .filter((pair) => pair && Number.isFinite(pair.xValue) && Number.isFinite(pair.yValue));
+  }
+
+  function eciProjectedPairs(officialPairs) {
+    if (state.filters.benchmark || officialPairs.length < 3) return [];
+    const fit = linearRegression(officialPairs.map((pair) => ({ x: pair.xValue, y: pair.yValue })));
+    if (!fit) return [];
+    const officialIds = new Set(officialPairs.map((pair) => pair.model_id));
+    return selectedCapabilityMetricRows()
+      .filter((row) => !officialIds.has(row.model_id))
+      .filter((row) => Number(row.value) >= ECI_PROJECTION_MIN_INDEX)
+      .sort((a, b) => b.value - a.value)
+      .slice(0, ECI_PROJECTION_LIMIT)
+      .map((row) => {
+        const projectedEci = fit.intercept + fit.slope * row.value;
+        return {
+          model: row.model,
+          model_id: row.model_id,
+          lab: row.lab,
+          xValue: row.value,
+          yValue: projectedEci,
+          valueText: row.valueText,
+          epochText: projectedEci.toFixed(1),
+          projected: true,
+        };
+      })
+      .filter((pair) => Number.isFinite(pair.yValue));
+  }
+
+  function renderEciCorrelation() {
+    const title = $("[data-eci-title]");
+    const meta = $("[data-eci-meta]");
+    const sourceLink = $("[data-eci-source-link]");
+    if (title) title.textContent = `${jakeCapabilityIndexLabel()} vs ECI`;
+    if (sourceLink) sourceLink.href = state.data.epoch_eci_metadata?.source_url || "https://epoch.ai/eci";
+
+    const pairs = eciCorrelationPairs();
+    const projectedPairs = eciProjectedPairs(pairs);
+    if (pairs.length < 3) {
+      if (meta) meta.textContent = "";
+      setEmpty("eci", true);
+      return;
+    }
+    setEmpty("eci", false);
+
+    const points = pairs.map((pair) => ({
+      x: pair.xValue,
+      y: pair.yValue,
+      label: pair.model,
+      lab: pair.lab,
+      valueText: pair.valueText,
+      epochText: pair.epochText,
+    }));
+    const projectedPoints = projectedPairs.map((pair) => ({
+      x: pair.xValue,
+      y: pair.yValue,
+      label: pair.model,
+      lab: pair.lab,
+      valueText: pair.valueText,
+      epochText: pair.epochText,
+      projected: true,
+    }));
+    const trend = linearTrend(points);
+    if (meta) meta.textContent = `Pearson r = ${pearsonCorrelation(pairs, "yValue").toFixed(2)} (n = ${pairs.length})`;
+
+    const canvas = document.querySelector("canvas[data-chart='eci']");
+    if (!canvas) return;
+    destroyChart("eci");
+    state.charts.eci = new Chart(canvas.getContext("2d"), {
+      type: "scatter",
+      data: {
+        datasets: [
+          {
+            label: "Models",
+            data: points,
+            parsing: false,
+            backgroundColor: points.map((point) => withAlpha(labColor(point.lab), 0.85)),
+            borderColor: points.map((point) => labColor(point.lab)),
+            pointRadius: 5,
+            pointHoverRadius: 8,
+          },
+          {
+            label: "Projected",
+            data: projectedPoints,
+            parsing: false,
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            borderColor: projectedPoints.map((point) => labColor(point.lab)),
+            pointStyle: "triangle",
+            pointRadius: 6,
+            pointHoverRadius: 9,
+            pointBorderWidth: 2,
+          },
+          {
+            type: "line",
+            label: "Fit",
+            data: trend,
+            parsing: false,
+            borderColor: "#111827",
+            borderWidth: 2,
+            borderDash: [5, 4],
+            pointRadius: 0,
+            fill: false,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: chartPadding() },
+        plugins: {
+          legend: {
+            position: "top",
+            labels: { boxWidth: 14, font: { size: 11 } },
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                if (ctx.dataset.label === "Fit") return `Fit: ECI ${ctx.parsed.y.toFixed(1)}`;
+                const point = ctx.dataset.data[ctx.dataIndex];
+                const eciLabel = point.projected ? "projected ECI" : "ECI";
+                return `${point.label} (${point.lab}): ${jakeCapabilityIndexLabel()} ${point.valueText}, ${eciLabel} ${point.epochText}`;
+              },
+            },
+          },
+        },
+        scales: {
+          x: {
+            ...compactRange(points.concat(projectedPoints).map((point) => point.x), 0.05, true),
+            title: axisTitle(jakeCapabilityIndexLabel()),
+            ticks: { maxTicksLimit: isMobileChart() ? 5 : 8 },
+          },
+          y: {
+            ...compactRange(points.concat(projectedPoints).map((point) => point.y), 0.05, true),
+            title: axisTitle("ECI"),
+            ticks: yAxisTicks(),
+          },
+        },
+      },
+    });
+  }
+
   function linearTrend(points) {
-    if (points.length < 2) return [];
+    const fit = linearRegression(points);
+    if (!fit) return [];
+    const xs = points.map((point) => point.x);
+    const endpoints = [Math.min(...xs), Math.max(...xs)];
+    return endpoints.map((x) => ({ x, y: fit.intercept + fit.slope * x }));
+  }
+
+  function linearRegression(points) {
+    if (points.length < 2) return null;
     const xs = points.map((point) => point.x);
     const ys = points.map((point) => point.y);
     const xMean = xs.reduce((sum, value) => sum + value, 0) / xs.length;
     const yMean = ys.reduce((sum, value) => sum + value, 0) / ys.length;
     const denominator = xs.reduce((sum, value) => sum + (value - xMean) ** 2, 0);
-    if (!denominator) return [];
+    if (!denominator) return null;
     const slope = xs.reduce((sum, value, index) => sum + (value - xMean) * (ys[index] - yMean), 0) / denominator;
-    const intercept = yMean - slope * xMean;
-    const endpoints = [Math.min(...xs), Math.max(...xs)];
-    return endpoints.map((x) => ({ x, y: intercept + slope * x }));
+    return { slope, intercept: yMean - slope * xMean };
   }
 
   function logYTrend(points) {
@@ -1226,6 +1467,7 @@
     if (state.rankingView === "bar") renderRanking();
     else renderTime();
     renderMetrCorrelation();
+    renderEciCorrelation();
     renderFrontier();
     renderFrontierDelta();
   }
