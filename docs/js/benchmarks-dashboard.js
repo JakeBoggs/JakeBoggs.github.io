@@ -634,9 +634,9 @@
   }
 
   function eciCorrelationPairs() {
-    if (state.filters.benchmark) return [];
     const epochScores = epochEciMap();
-    return selectedCapabilityMetricRows()
+    const metricRows = state.filters.benchmark ? selectedBenchmarkMetricRows() : selectedCapabilityMetricRows();
+    return metricRows
       .map((row) => {
         const epoch = epochScores.get(row.model_id);
         if (!epoch || !Number.isFinite(Number(epoch.eci))) return null;
@@ -683,7 +683,8 @@
     const title = $("[data-eci-title]");
     const meta = $("[data-eci-meta]");
     const sourceLink = $("[data-eci-source-link]");
-    if (title) title.textContent = `${jakeCapabilityIndexLabel()} vs ECI`;
+    const comparisonLabel = state.filters.benchmark ? `${state.filters.benchmark} score` : jakeCapabilityIndexLabel();
+    if (title) title.textContent = `${comparisonLabel} vs ECI`;
     if (sourceLink) sourceLink.href = state.data.epoch_eci_metadata?.source_url || "https://epoch.ai/eci";
 
     const pairs = eciCorrelationPairs();
@@ -770,7 +771,7 @@
                 if (ctx.dataset.label === "Fit") return `Fit: ECI ${ctx.parsed.y.toFixed(1)}`;
                 const point = ctx.dataset.data[ctx.dataIndex];
                 const eciLabel = point.projected ? "projected ECI" : "ECI";
-                return `${point.label} (${point.lab}): ${jakeCapabilityIndexLabel()} ${point.valueText}, ${eciLabel} ${point.epochText}`;
+                return `${point.label} (${point.lab}): ${comparisonLabel} ${point.valueText}, ${eciLabel} ${point.epochText}`;
               },
             },
           },
@@ -778,7 +779,7 @@
         scales: {
           x: {
             ...compactRange(points.concat(projectedPoints).map((point) => point.x), 0.05, true),
-            title: axisTitle(jakeCapabilityIndexLabel()),
+            title: axisTitle(comparisonLabel),
             ticks: { maxTicksLimit: isMobileChart() ? 5 : 8 },
           },
           y: {
