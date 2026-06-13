@@ -5,7 +5,7 @@ draft: false
 summary: "Evaluating LLM benchmarks by analyzing how they correlate with OpenRouter market share."
 ---
 
-The purpose of a benchmark is to help answer two questions: For users, **"which model is best for my use-case?"** and for labs, **"which checkpoint should I release and how should I price it?"**
+The purpose of a benchmark is to help answer two questions: For users, **"which model is best for my use-case?"** and for labs, **"which checkpoint should we release and how should we price it?"**
 
 One way to test whether a benchmark is useful is to ask whether it predicts revealed preference. When two models are available at roughly the same price, does the model with the higher benchmark score get used more? If the answer is usually yes, the benchmark is probably measuring something users value. If the answer is no, either the benchmark is missing the real capability, or other factors are dominating.
 
