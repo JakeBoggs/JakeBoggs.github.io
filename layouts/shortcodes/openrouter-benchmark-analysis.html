@@ -1,0 +1,97 @@
+{{- if not (.Page.Scratch.Get "openrouterBenchmarkAnalysisAssetsLoaded") -}}
+{{- .Page.Scratch.Set "openrouterBenchmarkAnalysisAssetsLoaded" true -}}
+<link rel="stylesheet" href="/css/openrouter-benchmark-analysis.css?v=20260613-11">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script defer src="/js/openrouter-benchmark-analysis.js?v=20260613-11"></script>
+{{- end -}}
+{{- $mode := .Get 0 | default "charts" -}}
+<section class="openrouter-analysis openrouter-analysis--{{ $mode }}" data-openrouter-benchmark-analysis data-openrouter-mode="{{ $mode }}">
+  <p class="openrouter-status" data-openrouter-status>Loading OpenRouter benchmark analysis...</p>
+
+  {{- if eq $mode "pricing" }}
+  <p class="openrouter-calculator-note">Only capability-index-covered models are listed in the calculator, so the shown shares do not sum to 100%.</p>
+  <div class="openrouter-pricing-tool" data-openrouter-pricing hidden>
+    <div class="openrouter-section-heading">
+      <h3>Model Pricing Calculator</h3>
+      <p>Estimate paid-token share and price tradeoffs from capability-adjusted OpenRouter demand.</p>
+    </div>
+    <div class="openrouter-controls">
+      <label>
+        <span>Model</span>
+        <select data-pricing-model></select>
+      </label>
+      <label>
+        <span>Input price ($/M)</span>
+        <input data-input-price type="number" min="0.000001" step="any">
+      </label>
+      <label>
+        <span>Output price ($/M)</span>
+        <input data-output-price type="number" min="0.000001" step="any">
+      </label>
+      <label>
+        <span>Input/output token ratio</span>
+        <input data-token-ratio type="number" min="0.001" step="any">
+      </label>
+      <label>
+        <span>Effective price ($/M)</span>
+        <input data-effective-price type="number" min="0.000001" step="any">
+      </label>
+      <label>
+        <span>Paid-token share (%)</span>
+        <input data-market-share type="number" min="0.000001" max="99.999" step="any">
+      </label>
+      <label>
+        <span>Capability index</span>
+        <input data-capability-index type="number" step="any">
+      </label>
+    </div>
+    <div class="openrouter-pricing-chart">
+      <canvas data-openrouter-chart="demand-curve"></canvas>
+    </div>
+  </div>
+  {{- end }}
+
+  {{- if eq $mode "charts" }}
+  <div class="openrouter-charts" data-openrouter-charts hidden>
+    <div class="openrouter-chart-panel">
+      <div class="openrouter-section-heading">
+        <h3>Price Baseline</h3>
+        <p data-price-baseline-copy></p>
+      </div>
+      <div class="openrouter-chart-wrap openrouter-chart-wrap-small">
+        <canvas data-openrouter-chart="price-bands"></canvas>
+      </div>
+    </div>
+
+    <div class="openrouter-chart-panel">
+      <div class="openrouter-section-heading">
+        <h3>Score-Only R^2</h3>
+        <p>How much log usage each benchmark explains before adjusting for price.</p>
+      </div>
+      <div class="openrouter-chart-wrap openrouter-chart-wrap-large">
+        <canvas data-openrouter-chart="score-r2"></canvas>
+      </div>
+    </div>
+
+    <div class="openrouter-chart-panel">
+      <div class="openrouter-section-heading">
+        <h3>Incremental R^2 After Price</h3>
+        <p>Extra explanatory power from adding benchmark score to the price-only model.</p>
+      </div>
+      <div class="openrouter-chart-wrap openrouter-chart-wrap-large">
+        <canvas data-openrouter-chart="incremental-r2"></canvas>
+      </div>
+    </div>
+
+    <div class="openrouter-chart-panel">
+      <div class="openrouter-section-heading">
+        <h3>Pairwise Accuracy Within 2x Price</h3>
+        <p>Share of similarly priced model pairs where the higher-scoring model has more usage.</p>
+      </div>
+      <div class="openrouter-chart-wrap openrouter-chart-wrap-large">
+        <canvas data-openrouter-chart="pairwise-accuracy"></canvas>
+      </div>
+    </div>
+  </div>
+  {{- end }}
+</section>

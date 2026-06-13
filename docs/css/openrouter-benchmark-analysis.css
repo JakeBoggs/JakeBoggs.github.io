@@ -1,0 +1,153 @@
+.openrouter-analysis {
+  margin: 2rem 0;
+  font-size: 0.95rem;
+}
+
+.openrouter-analysis * {
+  box-sizing: border-box;
+}
+
+.openrouter-analysis--charts {
+  --openrouter-bleed: calc(50% - min(640px, 50vw - 12px));
+  margin: 2rem var(--openrouter-bleed);
+  padding: 0 1.5rem;
+}
+
+.openrouter-status {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+.openrouter-section-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+}
+
+.openrouter-section-heading h3 {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+}
+
+.openrouter-section-heading p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-align: right;
+}
+
+.openrouter-pricing-tool {
+  margin: 1.75rem 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+  background: #fff;
+}
+
+.openrouter-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.openrouter-controls label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+}
+
+.openrouter-controls select,
+.openrouter-controls input[type="number"],
+.openrouter-controls input[type="range"] {
+  width: 100%;
+}
+
+.openrouter-controls select,
+.openrouter-controls input[type="number"] {
+  min-height: 2.35rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.35rem 0.45rem;
+  background: #fff;
+  color: var(--text);
+}
+
+.openrouter-calculator-note {
+  margin: 0 0 0.65rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+
+.openrouter-controls output {
+  float: right;
+  font-family: var(--font-mono);
+  color: var(--text);
+}
+
+.openrouter-pricing-chart {
+  height: 320px;
+  margin-top: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.75rem;
+  background: #fff;
+}
+
+.openrouter-charts {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.openrouter-chart-panel {
+  max-width: 100%;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.openrouter-chart-wrap {
+  min-width: 42rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.75rem;
+  background: #fff;
+}
+
+.openrouter-chart-wrap-small {
+  height: 320px;
+}
+
+.openrouter-chart-wrap-large {
+  height: 440px;
+}
+
+@media (max-width: 700px) {
+  .openrouter-analysis--charts {
+    margin-left: calc(50% - 50vw + 12px);
+    margin-right: calc(50% - 50vw + 12px);
+    padding: 0;
+    width: calc(100vw - 24px);
+  }
+
+  .openrouter-section-heading {
+    display: block;
+  }
+
+  .openrouter-section-heading p {
+    margin-top: 0.35rem;
+    text-align: left;
+  }
+
+  .openrouter-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .openrouter-chart-wrap {
+    min-width: 38rem;
+  }
+}

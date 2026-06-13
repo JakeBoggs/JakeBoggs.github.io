@@ -2,13 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://boggs.tech/posts/benchmarks/</loc>
-    <lastmod>2026-05-18T00:00:00+00:00</lastmod>
+    <loc>https://boggs.tech/posts/can-we-predict-model-usage-from-benchmarks/</loc>
+    <lastmod>2026-06-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://boggs.tech/</loc>
-    <lastmod>2026-05-18T00:00:00+00:00</lastmod>
+    <lastmod>2026-06-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://boggs.tech/posts/</loc>
+    <lastmod>2026-06-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://boggs.tech/posts/benchmarks/</loc>
     <lastmod>2026-05-18T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://boggs.tech/posts/translating-manuscripts-with-gemini/</loc>
