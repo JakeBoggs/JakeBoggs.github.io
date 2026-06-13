@@ -47,6 +47,8 @@
   }
 
   function metricName(row) {
+    if (row.id === "capability-index" || row.name === "Jake Capability Index") return "Jake's Index";
+    if (row.id === "epoch-eci" || row.name === "Epoch ECI") return "ECI";
     return row.benchmark_id ? row.name : row.name.replace(" Capability Index", " Index");
   }
 
@@ -62,7 +64,7 @@
     return "#0f8f70";
   }
 
-  function setChartWidth(canvas, rowCount, base = 160, columnWidth = 42, min = 680, max = 2200) {
+  function setChartWidth(canvas, rowCount, base = 96, columnWidth = 28, min = 0, max = 1280) {
     const wrap = canvas.closest(".openrouter-chart-wrap");
     if (!wrap) return;
     wrap.style.minWidth = `${Math.max(min, Math.min(max, base + rowCount * columnWidth))}px`;
@@ -123,9 +125,6 @@
     const price = data.price_usage_relationship || {};
     const rawRows = data.score_usage_examples?.top_raw_correlations || [];
     const adjustedRows = data.score_usage_examples?.top_incremental_r2_after_price || [];
-    const pairwiseRows = [...(data.metric_evaluations || [])]
-      .filter((row) => row.pairwise_accuracy != null)
-      .sort((a, b) => b.pairwise_accuracy - a.pairwise_accuracy);
 
     const priceCopy = root.querySelector("[data-price-baseline-copy]");
     if (priceCopy) {
@@ -139,8 +138,8 @@
       tooltip: (row) => `${pct(row.token_share)} of tokens across ${fmt.format(row.model_count || 0)} models`,
       tick: (value) => `${value}%`,
       max: 60,
-      minWidth: 680,
-      columnWidth: 92,
+      minWidth: 420,
+      columnWidth: 58,
       backgroundColor: () => "rgba(99, 102, 241, 0.72)",
       borderColor: () => "#4f46e5",
     });
@@ -152,7 +151,7 @@
       tooltip: (row) => `R^2 ${pct(row.score_only_r2)}; raw r ${num(row.score_log_usage_pearson, 2)}; ${fmt.format(row.matched_model_count || 0)} models`,
       tick: (value) => `${value}%`,
       max: 100,
-      columnWidth: 46,
+      columnWidth: 28,
       backgroundColor: colorFor,
       borderColor: borderFor,
     });
@@ -164,19 +163,7 @@
       tooltip: (row) => `${pp(row.incremental_r2_after_price)}; partial r ${num(row.score_log_usage_price_adjusted_partial_pearson, 2)}`,
       tick: (value) => `${value} pp`,
       max: 100,
-      columnWidth: 46,
-      backgroundColor: colorFor,
-      borderColor: borderFor,
-    });
-
-    renderVerticalChart(root.querySelector("canvas[data-openrouter-chart='pairwise-accuracy']"), pairwiseRows, {
-      datasetLabel: "Pairwise accuracy",
-      label: metricName,
-      value: (row) => (row.pairwise_accuracy || 0) * 100,
-      tooltip: (row) => `${pct(row.pairwise_accuracy)} across ${fmt.format(row.pair_count || 0)} price-matched pairs`,
-      tick: (value) => `${value}%`,
-      max: 100,
-      columnWidth: 46,
+      columnWidth: 28,
       backgroundColor: colorFor,
       borderColor: borderFor,
     });
