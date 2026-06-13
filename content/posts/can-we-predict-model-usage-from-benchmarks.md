@@ -7,13 +7,11 @@ summary: "Evaluating LLM benchmarks by analyzing how they correlate with OpenRou
 
 The purpose of a benchmark is to help answer two questions: For users, **"which model is best for my use-case?"** and for labs, **"which checkpoint should I release and how should I price it?"**
 
-One way to test whether a benchmark is useful is to ask whether it predicts revealed preference. When two models are available at roughly the same price, does the model with the higher benchmark score get used more? If the answer is usually yes, the benchmark is probably measuring something users value. If the answer is no, either the benchmark is missing the real capability, or other factors such dominating.
-
-This framing is useful because [OpenRouter](https://openrouter.ai/rankings) exposes both model prices and token usage. I already have a [benchmark dashboard](/posts/benchmarks/) with normalized model IDs and benchmark scores, so this analysis is mostly a join between those two datasets.
+One way to test whether a benchmark is useful is to ask whether it predicts revealed preference. When two models are available at roughly the same price, does the model with the higher benchmark score get used more? If the answer is usually yes, the benchmark is probably measuring something users value. If the answer is no, either the benchmark is missing the real capability, or other factors are dominating.
 
 ## Method
 
-I pull prompt and completion pricing from OpenRouter's [public model catalog](https://openrouter.ai/docs/api/api-reference/models/get-models) and I scrape token usage (over the past week) from their public rankings endpoints. This is combined with my existing benchmark data, including the aggregate capability index, Epoch ECI, category sub-indices, and individual benchmark scores.
+I pull input and output pricing from OpenRouter's [public model catalog](https://openrouter.ai/docs/api/api-reference/models/get-models) and I scrape token usage (over the past week) from their public rankings endpoints. This is combined with my existing benchmark data, including the aggregate capability index, Epoch ECI, category sub-indices, and individual benchmark scores.
 
 The price variable is an **effective observed price**, not just the listed input-token price or output-token price. Models have very different input/output mixes, so I estimate dollars per million served tokens from the observed token mix in OpenRouter's ranking rows:
 
