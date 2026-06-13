@@ -13,7 +13,7 @@ Measuring this perfectly would require private data from each of the labs, so I'
 
 ## Method
 
-I pull input and output pricing from OpenRouter's [public model catalog](https://openrouter.ai/docs/api/api-reference/models/get-models) and I scrape token usage (over the past week) from their public rankings endpoints. This is combined with [my existing benchmark data](/posts/benchmarks), including my aggregate capability index, the ECI, category sub-indices, and individual benchmark scores.
+I pull input and output pricing from OpenRouter's [public model catalog](https://openrouter.ai/docs/api/api-reference/models/get-models) and I scrape token usage (over the past week) from their public rankings endpoints. This is combined with [my existing benchmark data](/posts/benchmarks), including my own aggregate capability index, the ECI, and individual benchmark scores.
 
 The price variable is an **effective observed price**, not just the listed input-token price or output-token price. Models have very different input/output mixes, so I estimate dollars per million served tokens from the observed token mix in OpenRouter's ranking rows:
 
@@ -75,21 +75,21 @@ Price matters, but it is far from the whole story. Across the current OpenRouter
 
 The price bands are useful context. Models below $0.50 per million effective tokens account for about 70% of paid token volume, but the $2-$10 band still accounts for about one fifth because high-end models like Claude Sonnet and Opus get substantial use despite much higher prices. The very expensive $10+ band has less than 1% token share.
 
-Raw benchmark correlations are stronger than the price baseline. The agentic capability index has a raw score-to-log-usage correlation of about **0.60**; the full capability index is about **0.49**. Among individual benchmarks, HiL-Bench, GSO-Bench, Terminal-Bench Hard, FrontierCode Main, and Humanity's Last Exam are near the top.
+Raw benchmark correlations are stronger than the price baseline. My [capability index](/posts/benchmarks) has a raw score-to-log-usage correlation of about **0.49**. Among individual benchmarks, HiL-Bench, GSO-Bench, Terminal-Bench Hard, FrontierCode Main, and Humanity's Last Exam are near the top.
 
-The more important result is the price-adjusted one. Adding the capability index to a price-only usage model adds about **53 percentage points** of R^2 on its matched model set. The agentic index adds about **56 percentage points**, which makes sense when you consider that OpenClaw deployments are one of OpenRouter's most popular use-cases. GSO-Bench and Terminal-Bench Hard also add large amounts of explanatory power after price.
+The more important result is the price-adjusted one. Adding the capability index to a price-only usage model adds about **53 percentage points** of R^2 on its model set. GSO-Bench and Terminal-Bench Hard also add large amounts of explanatory power after price.
 
 Not every benchmark looks predictive. SlopCodeBench, Kaggle Game Arena, SpatialBench, DeepSWE, and Blueprint-Bench 2 have raw score-to-usage correlations near zero and add essentially no explanatory power after price. That doesn't necessarily make them bad benchmarks, but they don't explain the majority of usage here.
 
 ## Robustness and Out-of-Sample Tests
 
-The numbers above come from a single week, which invites two objections. First, the relationship could be a one-week fluke, and second, because I check around forty benchmarks and indices and then report the ones that score highest, a few could look predictive just by luck.
+The numbers above come from a single week, which invites two objections. First, the relationship could be a one-week fluke, and second, because I check around thirty benchmarks and then report the ones that score highest, a few could look predictive just by luck.
 
-To address both, I pulled each matched model's daily usage from OpenRouter's per-model activity endpoint and built a four-week panel. (The daily endpoint only goes back about a month, and the 52-week chart covers just the top few models, almost none of which have benchmark scores, so four weeks is as far as I can go.) Each week recomputes effective price from that week's own token mix, so price is not held fixed.
+To address both, I pulled each model's daily usage from OpenRouter's per-model activity endpoint and built a four-week panel. (The daily endpoint only goes back about a month, and the 52-week chart covers just the top few models, almost none of which have benchmark scores, so four weeks is as far as I can go.) Each week recomputes effective price from that week's own token mix, so price is not held fixed.
 
 The relationship is stable across the four weeks, with about 45 models in each. The raw capability-to-log-usage correlation stays around **+0.47**, the partial correlation after price around **+0.69**, the price elasticity around **-1.16**, and the capability coefficient around **+0.044**. Adding capability to the price-only model raises R^2 by about **42 percentage points** each week, a bit under the single-week figure of 53 (this panel fixes the cache-token accounting and measures usage slightly differently). The steady **-1.16** elasticity matches the coefficient the calculator uses, so the gap from the simple **-0.56** is frontier models versus the full sample, not week-to-week instability.
 
-The out-of-sample tests matter more. First, walk-forward: fit the model on one week, then predict the next week's token shares for those models. Price alone gives an out-of-sample R^2 around **0.10**; price plus capability gives about **0.54**. Second, a harder test that holds out models instead of weeks: in 5-fold cross-validation on the current week, price alone scores about **0.00**, no better than guessing the mean, while price plus capability reaches **0.47** and price plus the agentic index **0.42**. For models the fit has never seen, price on its own predicts almost nothing, but capability predicts close to half the variance.
+The out-of-sample tests matter more. First, walk-forward: fit the model on one week, then predict the next week's token shares for those models. Price alone gives an out-of-sample R^2 around **0.10**; price plus capability gives about **0.54**. Second, a harder test that holds out models instead of weeks: in 5-fold cross-validation on the current week, price alone scores about **0.00**, no better than guessing the mean, while price plus capability reaches **0.47**. For models the fit has never seen, price on its own predicts almost nothing, but capability predicts close to half the variance.
 
 These checks have limits. Four weeks is not much, the weeks overlap heavily so the tight ranges look more precise than they are, and prices are current even though each week's token mix is historical. Still, the main result holds: capability tracks usage beyond price, and it does so out-of-sample.
 
