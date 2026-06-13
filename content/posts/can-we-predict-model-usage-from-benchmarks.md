@@ -19,9 +19,9 @@ The price variable is an **effective observed price**, not just the listed input
 
 ```text
 estimated_cost =
-  prompt_tokens * prompt_price
-  + completion_tokens * completion_price
+  (prompt_tokens - cached_tokens) * prompt_price
   + cached_tokens * cache_read_price
+  + completion_tokens * completion_price
 
 served_tokens =
   prompt_tokens + completion_tokens
@@ -30,7 +30,7 @@ effective_price_per_million =
   estimated_cost / served_tokens * 1,000,000
 ```
 
-Reasoning tokens are billed at the output rate and are already counted inside `completion_tokens`, so they are not added separately. If OpenRouter does not expose a cache-read price, I fall back to the prompt-token price for cached tokens. This effective price is still approximate, but it is much closer to the user's actual economic tradeoff than comparing models by input price alone.
+Cached tokens are a subset of the prompt tokens that were served from cache, so only the non-cached prompt is billed at the full prompt price and the cached portion at the cache-read rate. Reasoning tokens are billed at the output rate and are already counted inside `completion_tokens`, so they are not added separately. If OpenRouter does not expose a cache-read price, I fall back to the prompt-token price for cached tokens. This effective price is still approximate, but it is much closer to the user's actual economic tradeoff than comparing models by input price alone.
 
 The analysis then runs in three passes.
 
@@ -77,19 +77,21 @@ The price bands are useful context. Models below $0.50 per million effective tok
 
 Raw benchmark correlations are stronger than the price baseline. The agentic capability index has a raw score-to-log-usage correlation of about **0.60**; the full capability index is about **0.49**. Among individual benchmarks, HiL-Bench, GSO-Bench, Terminal-Bench Hard, FrontierCode Main, and Humanity's Last Exam are near the top.
 
-The more important result is the price-adjusted one. Adding the capability index to a price-only usage model adds about **53 percentage points** of R^2 on its matched model set. The agentic index adds about **56 percentage points**, which makes sense when you consider that OpenClaw deployments are one of OpenRouter's most popular use-cases. GSO-Bench and Terminal-Bench Hard also add large amounts of explanatory power after price. One caveat worth keeping in mind: each metric is scored on a different set of models, with different price baselines, so these increments are best read as "does score help here," not as a precise head-to-head ranking.
+The more important result is the price-adjusted one. Adding the capability index to a price-only usage model adds about **53 percentage points** of R^2 on its matched model set. The agentic index adds about **56 percentage points**, which makes sense when you consider that OpenClaw deployments are one of OpenRouter's most popular use-cases. GSO-Bench and Terminal-Bench Hard also add large amounts of explanatory power after price.
 
-Not every benchmark looks predictive. SlopCodeBench, Kaggle Game Arena, SpatialBench, DeepSWE, and Blueprint-Bench 2 have raw score-to-usage correlations near zero and add essentially no explanatory power after price. That doesn't make them bad benchmarks—they may be measuring something real that OpenRouter's particular workloads simply don't reward—but they don't track the majority of usage here.
+Not every benchmark looks predictive. SlopCodeBench, Kaggle Game Arena, SpatialBench, DeepSWE, and Blueprint-Bench 2 have raw score-to-usage correlations near zero and add essentially no explanatory power after price. That doesn't necessarily make them bad benchmarks, but they don't explain the majority of usage here.
 
 ## Robustness and Out-of-Sample Tests
 
-The headline numbers above come from a single week, which raises two fair objections: that the relationship is a one-week fluke, and that it is fit in-sample, so a search over benchmarks could be rewarding noise. To check both, I pulled each matched model's daily usage from OpenRouter's per-model activity endpoint and built a four-week panel. (The daily endpoint caps at about a month of history; the longer 52-week rankings chart only covers the few top models, too few of which carry benchmark scores to fit a cross-section, so four weeks is the honest ceiling.) Each week uses that week's own token mix to recompute effective price, so price is not held fixed.
+The numbers above come from a single week, which invites two objections. First, the relationship could be a one-week fluke, and second, because I check around forty benchmarks and indices and then report the ones that score highest, a few could look predictive just by luck.
 
-The relationship barely moves week to week. Across the four most recent weeks (about 45 matched models each), the raw capability-to-log-usage correlation stays at **+0.47** (range +0.45 to +0.49), the partial correlation after price at **+0.69** (+0.68 to +0.72), the price elasticity at **-1.16** (-1.03 to -1.20), and the capability coefficient at **+0.044** (+0.041 to +0.045). Adding capability to the price-only model raises R^2 by about **42 percentage points** each week—a little below the single-week headline of 53, mostly because this panel corrects the cache-token accounting and uses a slightly different usage measure, but the same story. The stable **-1.16** elasticity is also reassuring: it matches the capability-controlled coefficient the calculator uses, so the gap from the simple **-0.56** is the difference between the frontier-model panel and the full sample, not week-to-week instability.
+To address both, I pulled each matched model's daily usage from OpenRouter's per-model activity endpoint and built a four-week panel. (The daily endpoint only goes back about a month, and the 52-week chart covers just the top few models, almost none of which have benchmark scores, so four weeks is as far as I can go.) Each week recomputes effective price from that week's own token mix, so price is not held fixed.
 
-The out-of-sample tests matter more. In a walk-forward setup—fit the demand model on one week, then predict the *next* week's token shares for the models it was fit on—price alone gives an out-of-sample R^2 of about **0.10**, while price plus capability gives about **0.54**. A stricter test holds out *models* instead of weeks: in 5-fold cross-validation on the current week, price alone has an out-of-sample R^2 of roughly **0.00** (no better than guessing the mean), while price plus the capability index reaches about **0.47**, and price plus the agentic index about **0.42**. So for models the fit has never seen, price predicts essentially nothing, but capability predicts close to half the variance in log usage—the opposite of what overfitting to a noisy snapshot would produce.
+The relationship is stable across the four weeks, with about 45 models in each. The raw capability-to-log-usage correlation stays around **+0.47**, the partial correlation after price around **+0.69**, the price elasticity around **-1.16**, and the capability coefficient around **+0.044**. Adding capability to the price-only model raises R^2 by about **42 percentage points** each week, a bit under the single-week figure of 53 (this panel fixes the cache-token accounting and measures usage slightly differently). The steady **-1.16** elasticity matches the coefficient the calculator uses, so the gap from the simple **-0.56** is frontier models versus the full sample, not week-to-week instability.
 
-These checks have their own limits: four weeks is not many, consecutive weeks are highly correlated (so the tight ranges overstate precision), and unit prices are current even though each week's token mix is historical. But the core result—capability tracks usage beyond price, stably and out-of-sample—survives them.
+The out-of-sample tests matter more. First, walk-forward: fit the model on one week, then predict the next week's token shares for those models. Price alone gives an out-of-sample R^2 around **0.10**; price plus capability gives about **0.54**. Second, a harder test that holds out models instead of weeks: in 5-fold cross-validation on the current week, price alone scores about **0.00**, no better than guessing the mean, while price plus capability reaches **0.47** and price plus the agentic index **0.42**. For models the fit has never seen, price on its own predicts almost nothing, but capability predicts close to half the variance.
+
+These checks have limits. Four weeks is not much, the weeks overlap heavily so the tight ranges look more precise than they are, and prices are current even though each week's token mix is historical. Still, the main result holds: capability tracks usage beyond price, and it does so out-of-sample.
 
 ## Pricing Implications
 
@@ -130,10 +132,10 @@ This is a correlational study on observational data, and there are several reaso
 
 **Usage is tokens, not decisions.** Token volume is dominated by a handful of high-throughput integrations. A coding tool defaulting to one model can produce billions of tokens, so the signal is throughput-weighted rather than a count of users or independent choices.
 
-**Correlation is not preference.** Higher-scoring models are also newer, more heavily marketed, and more likely to be set as defaults in popular tools—all of which raise usage independent of any benchmark. The agentic result is partly circular: OpenRouter usage is dominated by coding agents, and the agentic benchmarks measure coding ability, so the two partly measure the same thing on the same popular models. My capability index is also an aggregate of the individual benchmarks it is ranked against, so it is not an independent competitor in that comparison.
+**Usage does not always imply preference.** Higher-scoring models are also newer, more heavily marketed, and more likely to be set as defaults in popular tools—all of which raise usage independent of any benchmark.
 
-**Small, uneven samples.** Each benchmark is matched on a different subset of models—from over 100 down to roughly 10—and the headline price statistics cover a larger population (a few hundred paid models) than the benchmark correlations (a few dozen frontier models). With so few models and a search over many benchmarks, some will look predictive by chance, and I report no confidence intervals or significance tests. Treat the rankings as directional.
+**Small, uneven samples.** Each benchmark is matched on a different subset of models and the price statistics cover a larger population (a few hundred paid models) than the benchmark correlations (a few dozen frontier models). With so few models and a search over many benchmarks, some might look predictive by chance.
 
-**A short window.** The headline figures come from a single weekly snapshot (June 13, 2026); re-running the scrape on a later week would shift them, and the charts reflect whichever snapshot was last published rather than live data. The robustness panel spans only four weeks because the per-model daily history caps at about a month. Those four weeks are also highly correlated, so the stability they show is reassuring but not the same as four independent samples. A longer panel with model fixed effects would be the stronger design.
+**A short window.** The figures come from a single weekly snapshot (June 13, 2026); re-running the scrape on a later week would shift them, and the charts reflect whichever snapshot was last published rather than live data. The robustness panel spans only four weeks because the per-model daily history caps at about a month. Those four weeks are also highly correlated, so the stability they show is reassuring but not the same as four independent samples.
 
 **The demand model is cross-sectional.** The pricing calculator fits a single cross-section of a few dozen models and lets you extrapolate, but "a price cut would buy this much share" is a causal claim this data can't support. Note also that the capability-controlled price coefficient (about -1.2) is much steeper than the simple price elasticity (-0.56), because cheap models also tend to be lower-capability; the calculator uses the former.
