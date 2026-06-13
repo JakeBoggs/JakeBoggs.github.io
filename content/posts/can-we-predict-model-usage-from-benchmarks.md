@@ -46,7 +46,7 @@ Second, I estimate raw score-to-usage relationships for each benchmark:
 log_usage = a + b * benchmark_score
 ```
 
-This asks whether a benchmark's scores line up with usage in the raw market data. I report both Pearson correlation against log usage and Spearman rank correlation.
+This flips the previous question and answers: how much of model usage is explained by the benchmark before looking at price?
 
 Third, I ask whether scores explain usage after accounting for price:
 
@@ -67,7 +67,7 @@ Finally, for each benchmark, I also look at every pair of matched models whose e
 pairwise_accuracy = correct same-price-ish model orderings / all same-price-ish model orderings
 ```
 
-So the analysis starts with the obvious confounder, price; then asks whether scores correlate with usage at all; then asks whether scores add explanatory power beyond price.
+So the analysis starts with the obvious confounder, price; then asks whether scores correlate with usage at all; and finally asks whether scores add explanatory power beyond price.
 
 {{< openrouter-benchmark-analysis charts >}}
 
@@ -83,9 +83,9 @@ The more important result is the price-adjusted one. Adding the all-up capabilit
 
 Pairwise accuracy is a different lens on the same question. In the weekly scrape, my all-up capability index gets about **75%** of price-matched model pairs right. The agentic sub-index does better, at about **79%**, which fits the current OpenRouter user base: a lot of usage appears to come from coding, automation, and agent-style workflows rather than generic chat.
 
-Several individual benchmarks look surprisingly predictive by pairwise accuracy. FrontierSWE, GSO-Bench, EQ-Bench 3, ProgramBench Extended, Terminal-Bench Hard, CritPt, ProofBench, GDPval-AA, and PPBench all clear 74% pairwise accuracy in this scrape. I would not overinterpret the exact ordering because coverage differs a lot by benchmark, but the broad pattern is useful: benchmarks with open-ended or work-like tasks tend to predict usage better than narrow one-off tasks.
+Several individual benchmarks look surprisingly predictive by pairwise accuracy. FrontierSWE, GSO-Bench, EQ-Bench 3, ProgramBench Extended, Terminal-Bench Hard, CritPt, ProofBench, GDPval-AA, and PPBench all clear 74% pairwise accuracy in this scrape. I would not overinterpret the exact ordering because coverage differs a lot by benchmark, but the broad pattern is useful: benchmarks with open-ended or work-like tasks tend to predict usage better than narrow one-off tasks. This makes sense when you consider that OpenClaw deployments are one of OpenRouter's most popular use-cases.
 
-The weak end is also informative. SlopCodeBench, FrontierCode Main, Blueprint-Bench 2, Kaggle Game Arena, DeepSWE, and HalluHard all come in near chance or below in this cut. That does not mean they are bad benchmarks in isolation. It means they are not currently explaining OpenRouter paid usage at a given price very well. Some of that is probably coverage and timing. Some of it may be that they measure a narrower slice than the user base is buying.
+The weak end is also informative. SlopCodeBench, FrontierCode Main, Blueprint-Bench 2, Kaggle Game Arena, DeepSWE, and HalluHard all come in near chance or below. That does not mean they are bad benchmarks in isolation. It means they are not currently explaining OpenRouter paid usage at a given price very well.
 
 ## Pricing Implications
 
