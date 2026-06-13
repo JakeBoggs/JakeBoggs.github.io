@@ -134,8 +134,6 @@ This is a correlational study on observational data, and there are several reaso
 
 **Usage does not always imply preference.** Higher-scoring models are also newer, more heavily marketed, and more likely to be set as defaults in popular tools—all of which raise usage independent of any benchmark.
 
-**Small, uneven samples.** Each benchmark is matched on a different subset of models and the price statistics cover a larger population (a few hundred paid models) than the benchmark correlations (a few dozen frontier models). With so few models and a search over many benchmarks, some might look predictive by chance.
-
 **A short window.** The figures come from a single weekly snapshot (June 13, 2026); re-running the scrape on a later week would shift them, and the charts reflect whichever snapshot was last published rather than live data. The robustness panel spans only four weeks because the per-model daily history caps at about a month. Those four weeks are also highly correlated, so the stability they show is reassuring but not the same as four independent samples.
 
 **The demand model is cross-sectional.** The pricing calculator fits a single cross-section of a few dozen models and lets you extrapolate, but "a price cut would buy this much share" is a causal claim this data can't support. Note also that the capability-controlled price coefficient (about -1.2) is much steeper than the simple price elasticity (-0.56), because cheap models also tend to be lower-capability; the calculator uses the former.
