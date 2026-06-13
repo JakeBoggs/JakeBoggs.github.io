@@ -1,5 +1,5 @@
 ---
-title: "Do Benchmarks Predict Which Models People Use?"
+title: "How Well Do Benchmarks Predict Which Models People Use?"
 date: 2026-06-13
 draft: false
 summary: "Evaluating LLM benchmarks by analyzing how they correlate with OpenRouter market share."
