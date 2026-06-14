@@ -1,7 +1,7 @@
 ---
 title: "About me"
 ---
-My name is Jake and I have a snake. Currently at [Tzafon](https://tzafon.ai/), previously [Endeavor](https://endeavor.ai/), and before that I studied computer science and math at NC State, which I left senior year to move to San Francisco. I post here occassionally to share thoughts and projects.
+My name is Jake and I have a snake. Most recently at [Tzafon](https://tzafon.ai/), previously [Endeavor](https://endeavor.ai/), and before that I studied computer science and math at NC State, which I left senior year to move to San Francisco. I post here occassionally to share thoughts and projects.
 
 ### Research Interests
 **Evals.** If what gets measured gets improved, then the starting point for developing any new capability is to make a benchmark for it. I believe this is one of the highest-leverage ways to drive progress.
