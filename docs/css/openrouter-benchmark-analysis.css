@@ -10,7 +10,8 @@
 .openrouter-analysis--charts,
 .openrouter-analysis--price,
 .openrouter-analysis--score,
-.openrouter-analysis--adjusted {
+.openrouter-analysis--adjusted,
+.openrouter-analysis--pricing {
   --openrouter-bleed: calc(50% - min(640px, 50vw - 12px));
   margin: 2rem var(--openrouter-bleed);
   padding: 0 1.5rem;
@@ -44,58 +45,112 @@
 }
 
 .openrouter-pricing-tool {
-  margin: 1.75rem 0;
+  margin: 1.25rem 0 2rem;
+}
+
+.openrouter-pricing-layout {
+  display: grid;
+  grid-template-columns: minmax(20rem, 24rem) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.openrouter-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: 0.9rem;
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 1rem;
   background: #fff;
 }
 
-.openrouter-controls {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
 .openrouter-controls label {
   display: grid;
-  gap: 0.35rem;
+  gap: 0.3rem;
+  min-width: 0;
   color: var(--text-muted);
-  font-size: 0.84rem;
+  font-size: 0.78rem;
+  line-height: 1.25;
 }
 
-.openrouter-controls select,
-.openrouter-controls input[type="number"],
-.openrouter-controls input[type="range"] {
-  width: 100%;
+.openrouter-control-group {
+  display: grid;
+  gap: 0.65rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border);
+}
+
+.openrouter-control-group h4 {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.openrouter-control-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.openrouter-control-wide {
+  grid-column: 1 / -1;
 }
 
 .openrouter-controls select,
 .openrouter-controls input[type="number"] {
-  min-height: 2.35rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.openrouter-controls select,
+.openrouter-controls input[type="number"] {
+  min-height: 2.5rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.35rem 0.45rem;
+  border-radius: 5px;
+  padding: 0.45rem 0.55rem;
   background: #fff;
   color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  font-variant-numeric: tabular-nums;
+  transition: border-color 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+}
+
+.openrouter-controls select {
+  font-family: inherit;
+}
+
+.openrouter-controls select:hover,
+.openrouter-controls input[type="number"]:hover {
+  border-color: #9ca3af;
+}
+
+.openrouter-controls select:focus,
+.openrouter-controls input[type="number"]:focus {
+  border-color: #2563eb;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.14);
+}
+
+.openrouter-control-primary input[type="number"] {
+  border-color: #93b4f4;
+  background: #f7faff;
 }
 
 .openrouter-calculator-note {
-  margin: 0 0 0.65rem;
+  margin: 0 0 0.75rem;
   color: var(--text-muted);
   font-size: 0.85rem;
   line-height: 1.35;
 }
 
-.openrouter-controls output {
-  float: right;
-  font-family: var(--font-mono);
-  color: var(--text);
-}
-
 .openrouter-pricing-chart {
-  height: 320px;
-  margin-top: 1rem;
+  min-width: 0;
+  height: 440px;
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 0.75rem;
@@ -129,11 +184,22 @@
   height: 440px;
 }
 
+@media (max-width: 900px) {
+  .openrouter-pricing-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .openrouter-pricing-chart {
+    height: 400px;
+  }
+}
+
 @media (max-width: 700px) {
   .openrouter-analysis--charts,
   .openrouter-analysis--price,
   .openrouter-analysis--score,
-  .openrouter-analysis--adjusted {
+  .openrouter-analysis--adjusted,
+  .openrouter-analysis--pricing {
     margin-left: calc(50% - 50vw + 12px);
     margin-right: calc(50% - 50vw + 12px);
     padding: 0;
@@ -149,11 +215,21 @@
     text-align: left;
   }
 
-  .openrouter-controls {
-    grid-template-columns: 1fr;
+  .openrouter-pricing-chart {
+    height: 360px;
   }
 
   .openrouter-chart-wrap {
     min-width: 38rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .openrouter-control-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .openrouter-control-wide {
+    grid-column: auto;
   }
 }

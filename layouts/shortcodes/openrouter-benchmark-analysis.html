@@ -1,8 +1,8 @@
 {{- if not (.Page.Scratch.Get "openrouterBenchmarkAnalysisAssetsLoaded") -}}
 {{- .Page.Scratch.Set "openrouterBenchmarkAnalysisAssetsLoaded" true -}}
-<link rel="stylesheet" href="/css/openrouter-benchmark-analysis.css?v=20260618-16">
+<link rel="stylesheet" href="/css/openrouter-benchmark-analysis.css?v=20260618-18">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-<script defer src="/js/openrouter-benchmark-analysis.js?v=20260618-16"></script>
+<script defer src="/js/openrouter-benchmark-analysis.js?v=20260618-18"></script>
 {{- end -}}
 {{- $mode := .Get 0 | default "charts" -}}
 <section class="openrouter-analysis openrouter-analysis--{{ $mode }}" data-openrouter-benchmark-analysis data-openrouter-mode="{{ $mode }}">
@@ -15,38 +15,52 @@
       <h3>Model Pricing Calculator</h3>
       <p>Estimate paid-token share and price tradeoffs from capability-adjusted OpenRouter demand.</p>
     </div>
-    <div class="openrouter-controls">
-      <label>
-        <span>Model</span>
-        <select data-pricing-model></select>
-      </label>
-      <label>
-        <span>Input price ($/M)</span>
-        <input data-input-price type="number" min="0.000001" step="any">
-      </label>
-      <label>
-        <span>Output price ($/M)</span>
-        <input data-output-price type="number" min="0.000001" step="any">
-      </label>
-      <label>
-        <span>Input/output token ratio</span>
-        <input data-token-ratio type="number" min="0.001" step="any">
-      </label>
-      <label>
-        <span>Effective price ($/M)</span>
-        <input data-effective-price type="number" min="0.000001" step="any">
-      </label>
-      <label>
-        <span>Paid-token share (%)</span>
-        <input data-market-share type="number" min="0.000001" max="99.999" step="any">
-      </label>
-      <label>
-        <span>Capabilities index</span>
-        <input data-capability-index type="number" step="any">
-      </label>
-    </div>
-    <div class="openrouter-pricing-chart">
-      <canvas data-openrouter-chart="demand-curve"></canvas>
+    <div class="openrouter-pricing-layout">
+      <div class="openrouter-controls">
+        <label class="openrouter-control-wide">
+          <span>Model</span>
+          <select data-pricing-model></select>
+        </label>
+
+        <div class="openrouter-control-group openrouter-control-wide">
+          <h4>Pricing</h4>
+          <div class="openrouter-control-grid">
+            <label>
+              <span>Input ($/M)</span>
+              <input data-input-price type="number" min="0.000001" step="any">
+            </label>
+            <label>
+              <span>Output ($/M)</span>
+              <input data-output-price type="number" min="0.000001" step="any">
+            </label>
+            <label class="openrouter-control-wide openrouter-control-primary">
+              <span>Effective price ($/M)</span>
+              <input data-effective-price type="number" min="0.000001" step="any">
+            </label>
+          </div>
+        </div>
+
+        <div class="openrouter-control-group openrouter-control-wide">
+          <h4>Demand</h4>
+          <div class="openrouter-control-grid">
+            <label>
+              <span>Input/output ratio</span>
+              <input data-token-ratio type="number" min="0.001" step="any">
+            </label>
+            <label>
+              <span>Capabilities index</span>
+              <input data-capability-index type="number" step="any">
+            </label>
+            <label class="openrouter-control-wide openrouter-control-primary">
+              <span>Paid-token share (%)</span>
+              <input data-market-share type="number" min="0.000001" max="99.999" step="any">
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="openrouter-pricing-chart">
+        <canvas data-openrouter-chart="demand-curve"></canvas>
+      </div>
     </div>
   </div>
   {{- end }}

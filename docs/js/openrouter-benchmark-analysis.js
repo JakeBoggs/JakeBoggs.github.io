@@ -24,9 +24,8 @@
   const axisMoney = (value) => {
     if (value == null || Number.isNaN(value)) return "";
     const n = Number(value);
-    if (n < 1) return `$${n.toFixed(2)}`;
-    if (n < 10) return `$${n.toFixed(1).replace(/\.0$/, "")}`;
-    return `$${Math.round(n)}`;
+    const digits = n < 0.01 ? 4 : n < 0.1 ? 3 : n < 10 ? 2 : n < 100 ? 1 : 0;
+    return `$${n.toFixed(digits).replace(/\.?0+$/, "")}`;
   };
   const dollars = (value) => value == null || Number.isNaN(value) ? "" : `$${fmt.format(Math.round(value))}`;
   const tokens = (value) => {
@@ -74,30 +73,51 @@
     if (!canvas || !window.Chart) return;
     const limit = options.limit ?? rows.length;
     const chartRows = rows
-      .filter((row) => options.value(row) != null && !Number.isNaN(options.value(row)))
+      .filter((row) => {
+        const primary = options.value(row);
+        const secondary = options.secondaryValue ? options.secondaryValue(row) : null;
+        return (
+          (primary != null && !Number.isNaN(primary))
+          || (secondary != null && !Number.isNaN(secondary))
+        );
+      })
       .slice(0, limit);
+    const datasets = [{
+      label: options.datasetLabel,
+      data: chartRows.map((row) => options.value(row)),
+      backgroundColor: chartRows.map((row) => options.backgroundColor ? options.backgroundColor(row) : "rgba(37, 99, 235, 0.72)"),
+      borderColor: chartRows.map((row) => options.borderColor ? options.borderColor(row) : "#2563eb"),
+      borderWidth: 1,
+    }];
+    if (options.secondaryValue) {
+      datasets.push({
+        label: options.secondaryDatasetLabel,
+        data: chartRows.map((row) => options.secondaryValue(row)),
+        backgroundColor: chartRows.map((row) => options.secondaryBackgroundColor ? options.secondaryBackgroundColor(row) : "rgba(217, 119, 6, 0.72)"),
+        borderColor: chartRows.map((row) => options.secondaryBorderColor ? options.secondaryBorderColor(row) : "#b45309"),
+        borderWidth: 1,
+      });
+    }
     setChartWidth(canvas, chartRows.length, options.baseWidth, options.columnWidth, options.minWidth, options.maxWidth);
     new Chart(canvas.getContext("2d"), {
       type: "bar",
       data: {
         labels: chartRows.map((row) => options.label(row)),
-        datasets: [{
-          label: options.datasetLabel,
-          data: chartRows.map((row) => options.value(row)),
-          backgroundColor: chartRows.map((row) => options.backgroundColor ? options.backgroundColor(row) : "rgba(37, 99, 235, 0.72)"),
-          borderColor: chartRows.map((row) => options.borderColor ? options.borderColor(row) : "#2563eb"),
-          borderWidth: 1,
-        }],
+        datasets,
       },
       options: {
         animation: false,
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { display: false },
+          legend: { display: datasets.length > 1 },
           tooltip: {
             callbacks: {
-              label: (ctx) => options.tooltip(chartRows[ctx.dataIndex], ctx.parsed.y),
+              label: (ctx) => (
+                ctx.datasetIndex === 1
+                  ? options.secondaryTooltip(chartRows[ctx.dataIndex], ctx.parsed.y)
+                  : options.tooltip(chartRows[ctx.dataIndex], ctx.parsed.y)
+              ),
             },
           },
         },
@@ -123,7 +143,7 @@
     const charts = root.querySelector("[data-openrouter-charts]");
     if (!charts) return;
     const price = data.price_usage_relationship || {};
-    const rawRows = data.score_usage_examples?.top_raw_correlations || [];
+    const scoreRows = data.score_usage_examples?.top_score_correlations || [];
     const adjustedRows = data.score_usage_examples?.top_incremental_r2_after_price || [];
 
     const priceCopy = root.querySelector("[data-price-baseline-copy]");
@@ -144,11 +164,11 @@
       borderColor: () => "#4f46e5",
     });
 
-    renderVerticalChart(root.querySelector("canvas[data-openrouter-chart='score-r2']"), rawRows, {
+    renderVerticalChart(root.querySelector("canvas[data-openrouter-chart='score-r2']"), scoreRows, {
       datasetLabel: "Score-only R^2",
       label: metricName,
       value: (row) => (row.score_only_r2 || 0) * 100,
-      tooltip: (row) => `R^2 ${pct(row.score_only_r2)}; raw r ${num(row.score_log_usage_pearson, 2)}; ${fmt.format(row.matched_model_count || 0)} models`,
+      tooltip: (row) => `R^2 ${pct(row.score_only_r2)}; r ${num(row.score_log_usage_pearson, 2)}; ${fmt.format(row.matched_model_count || 0)} models`,
       tick: (value) => `${value}%`,
       max: 100,
       columnWidth: 28,
@@ -244,11 +264,28 @@
     return ratio > 0 && Number.isFinite(ratio) ? ratio : null;
   }
 
-  function isLabeledLogTick(value) {
-    if (value <= 0) return false;
-    const exponent = Math.floor(Math.log10(value));
-    const mantissa = value / Math.pow(10, exponent);
-    return [1, 2, 5].some((target) => Math.abs(mantissa - target) < 1e-8);
+  function adaptiveLogTicks(min, max, maxTicks = 7) {
+    if (!(min > 0) || !(max > min)) return [];
+    const span = Math.log10(max / min);
+    const mantissas = span > 3.5 ? [1] : span > 1.8 ? [1, 5] : [1, 2, 5];
+    const values = [];
+    const firstExponent = Math.floor(Math.log10(min)) - 1;
+    const lastExponent = Math.ceil(Math.log10(max)) + 1;
+    for (let exponent = firstExponent; exponent <= lastExponent; exponent += 1) {
+      for (const mantissa of mantissas) {
+        const value = mantissa * Math.pow(10, exponent);
+        if (value >= min && value <= max) values.push(value);
+      }
+    }
+    if (!values.length) {
+      return Array.from({ length: 5 }, (_, index) => (
+        Math.exp(Math.log(min) + (Math.log(max) - Math.log(min)) * index / 4)
+      ));
+    }
+    if (values.length <= maxTicks) return values;
+    return Array.from({ length: maxTicks }, (_, index) => (
+      values[Math.round(index * (values.length - 1) / (maxTicks - 1))]
+    )).filter((value, index, array) => index === 0 || value !== array[index - 1]);
   }
 
   function renderPricingTool(root, data) {
@@ -370,8 +407,23 @@
 
     function renderDemandChart(effective, capability, share) {
       if (!demandCanvas || !window.Chart || !base) return;
-      const low = Math.max(0.000001, Math.min(effective, base.effective) / 6);
-      const high = Math.max(low * 10, Math.max(effective, base.effective) * 6);
+      const modeledShare = clamp(shareFor(effective, capability) || share, 1e-8, 0.99999);
+      const highShareTarget = clamp(modeledShare * 6, modeledShare, 0.85);
+      const lowShareTarget = clamp(modeledShare / 8, 1e-8, modeledShare);
+      const lowTargetPrice = priceForShare(highShareTarget, capability);
+      const highTargetPrice = priceForShare(lowShareTarget, capability);
+      let low = Math.max(
+        0.000001,
+        Math.min(effective / 3, lowTargetPrice && lowTargetPrice > 0 ? lowTargetPrice : effective / 3),
+      );
+      let high = Math.max(
+        effective * 3,
+        highTargetPrice && highTargetPrice > 0 ? highTargetPrice : effective * 3,
+      );
+      const padding = Math.max(0.04, (Math.log(high) - Math.log(low)) * 0.03);
+      low = Math.max(0.000001, Math.exp(Math.log(low) - padding));
+      high = Math.exp(Math.log(high) + padding);
+      const xTicks = adaptiveLogTicks(low, high);
       const lowLog = Math.log(low);
       const highLog = Math.log(high);
       const points = Array.from({ length: 80 }, (_, index) => {
@@ -403,6 +455,11 @@
       };
       if (demandChart) {
         demandChart.data = chartData;
+        demandChart.options.scales.x.min = low;
+        demandChart.options.scales.x.max = high;
+        demandChart.options.scales.x.afterBuildTicks = (scale) => {
+          scale.ticks = xTicks.map((value) => ({ value }));
+        };
         demandChart.update();
         return;
       }
@@ -423,15 +480,16 @@
           scales: {
             x: {
               type: "logarithmic",
+              min: low,
+              max: high,
               title: { display: true, text: "Effective price ($/M tokens)" },
               afterBuildTicks: (scale) => {
-                scale.ticks = scale.ticks.filter((tick) => isLabeledLogTick(Number(tick.value)));
+                scale.ticks = xTicks.map((value) => ({ value }));
               },
               ticks: {
-                maxTicksLimit: 8,
                 maxRotation: 0,
                 minRotation: 0,
-                callback: (value) => isLabeledLogTick(Number(value)) ? axisMoney(Number(value)) : "",
+                callback: (value) => axisMoney(Number(value)),
               },
             },
             y: {
