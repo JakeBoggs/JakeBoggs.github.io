@@ -333,11 +333,11 @@
   }
 
   function capabilityIndexLabel() {
-    return state.filters.category ? `${titleCase(state.filters.category)} Capability Index` : "Capability Index";
+    return state.filters.category ? `${titleCase(state.filters.category)} Capabilities Index` : "Capabilities Index";
   }
 
   function jakeCapabilityIndexLabel() {
-    return state.filters.category ? `Jake's ${titleCase(state.filters.category)} Capability Index` : "Jake's Capability Index";
+    return state.filters.category ? `Jake's ${titleCase(state.filters.category)} Capabilities Index` : "Jake's Capabilities Index";
   }
 
   function titleCase(value) {
@@ -394,9 +394,9 @@
   function rankingTitleText() {
     const isBenchmark = !!state.filters.benchmark;
     if (state.rankingView === "time") {
-      return isBenchmark ? `${state.filters.benchmark} Over Time` : "Capability Index Over Time";
+      return isBenchmark ? `${state.filters.benchmark} Over Time` : "Capabilities Index Over Time";
     }
-    return isBenchmark ? `${state.filters.benchmark} Leaderboard` : "Capability Index";
+    return isBenchmark ? `${state.filters.benchmark} Leaderboard` : "Capabilities Index";
   }
 
   function selectedBenchmark() {
@@ -871,7 +871,7 @@
       data: {
         labels,
         datasets: [{
-          label: isBenchmark ? "Normalized score" : "Capability index",
+          label: isBenchmark ? "Normalized score" : "Capabilities index",
           data: values,
           backgroundColor: colors.map((c) => withAlpha(c, 0.85)),
           borderColor: colors,
@@ -900,7 +900,7 @@
           },
           y: {
             beginAtZero: isBenchmark ? true : false,
-            title: axisTitle(isBenchmark ? "Normalized score (%)" : "Capability index"),
+            title: axisTitle(isBenchmark ? "Normalized score (%)" : "Capabilities index"),
             ticks: yAxisTicks(isBenchmark ? { callback: (v) => `${v}%` } : {}),
           },
         },
@@ -1058,7 +1058,7 @@
             ticks: { maxTicksLimit: isMobileChart() ? 4 : 8 },
           },
           y: {
-            title: axisTitle(isBenchmark ? "Normalized score (%)" : "Capability index"),
+            title: axisTitle(isBenchmark ? "Normalized score (%)" : "Capabilities index"),
             ticks: yAxisTicks(isBenchmark ? { callback: (v) => `${v}%` } : {}),
           },
         },
@@ -1089,6 +1089,7 @@
         const date = releaseDates.get(modelId) || releaseDates.get(row.model_id);
         return {
           country: countryForLab(row.lab),
+          modelId,
           label: row.capability_model || row.model,
           lab: row.lab,
           date,
@@ -1103,6 +1104,7 @@
       .filter((row) => allowed.has(row.model_id))
       .map((row) => ({
         country: countryForLab(row.lab),
+        modelId: row.model_id,
         label: row.model,
         lab: row.lab,
         date: row.release_date || releaseDates.get(row.model_id),
@@ -1206,7 +1208,7 @@
             ticks: { maxTicksLimit: isMobileChart() ? 4 : 8 },
           },
           y: {
-            title: axisTitle(isBenchmark ? "Normalized score (%)" : "Capability index"),
+            title: axisTitle(isBenchmark ? "Normalized score (%)" : "Capabilities index"),
             ticks: yAxisTicks(isBenchmark ? { callback: (v) => `${v}%` } : {}),
           },
         },
@@ -1294,6 +1296,64 @@
     return Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
   }
 
+  function durationText(milliseconds) {
+    const days = Math.max(0, Math.ceil(milliseconds / 86400000));
+    if (days < 60) return `${days} ${days === 1 ? "day" : "days"}`;
+    const months = Math.floor(days / 30.4375);
+    const remainingDays = Math.round(days - months * 30.4375);
+    if (months < 24) {
+      return `${months} ${months === 1 ? "month" : "months"}, ${remainingDays} ${remainingDays === 1 ? "day" : "days"}`;
+    }
+    const years = days / 365.25;
+    return `${years.toFixed(1)} years`;
+  }
+
+  function linearFit(points) {
+    if (points.length < 2) return null;
+    const firstX = points[0].x;
+    const xs = points.map((point) => (point.x - firstX) / 86400000);
+    const ys = points.map((point) => point.y);
+    const xMean = xs.reduce((sum, value) => sum + value, 0) / xs.length;
+    const yMean = ys.reduce((sum, value) => sum + value, 0) / ys.length;
+    const denominator = xs.reduce((sum, value) => sum + (value - xMean) ** 2, 0);
+    if (!denominator) return null;
+
+    const slope = xs.reduce((sum, value, index) => sum + (value - xMean) * (ys[index] - yMean), 0) / denominator;
+    return {
+      firstX,
+      slope,
+      intercept: yMean - slope * xMean,
+    };
+  }
+
+  function updateFableChinaEstimate() {
+    const meta = document.querySelector("[data-frontier-projection-meta]");
+    if (!meta) return;
+
+    const capabilityRows = state.data.capability_index || [];
+    const fable = capabilityRows.find((row) => row.model_id === "claude-fable-5");
+    const chinaEntries = capabilityRows
+      .map((row) => ({
+        country: countryForLab(row.lab),
+        label: row.model,
+        lab: row.lab,
+        date: row.release_date,
+        value: Number(row.index),
+      }))
+      .filter((entry) => entry.country === "China" && parseDate(entry.date));
+    const chinaPoints = countryFrontierPoints(chinaEntries, "China");
+    const fit = linearFit(chinaPoints);
+    if (!fable || !fit || fit.slope <= 0) {
+      meta.textContent = "";
+      return;
+    }
+
+    const projectedDays = (Number(fable.index) - fit.intercept) / fit.slope;
+    const projectedChinaReachDate = fit.firstX + projectedDays * 86400000;
+    const timeRemaining = projectedChinaReachDate - currentDateTime();
+    meta.textContent = `Time to Chinese model with Fable-level capabilities: ${durationText(timeRemaining)}`;
+  }
+
   function frontierDeltaStepSeries(points, endX = currentDateTime()) {
     if (!points.length) return [];
     const series = [{ ...points[0] }];
@@ -1315,22 +1375,13 @@
   }
 
   function trendLine(points, endX = null) {
-    if (points.length < 2) return [];
-    const firstX = points[0].x;
-    const xs = points.map((point) => (point.x - firstX) / 86400000);
-    const ys = points.map((point) => point.y);
-    const xMean = xs.reduce((sum, value) => sum + value, 0) / xs.length;
-    const yMean = ys.reduce((sum, value) => sum + value, 0) / ys.length;
-    const denominator = xs.reduce((sum, value) => sum + (value - xMean) ** 2, 0);
-    if (!denominator) return [];
-
-    const slope = xs.reduce((sum, value, index) => sum + (value - xMean) * (ys[index] - yMean), 0) / denominator;
-    const intercept = yMean - slope * xMean;
+    const fit = linearFit(points);
+    if (!fit) return [];
     const last = points[points.length - 1];
     const endpoints = [points[0], { ...last, x: endX && endX > last.x ? endX : last.x }];
     return endpoints.map((point) => {
-      const x = (point.x - firstX) / 86400000;
-      return { x: point.x, y: intercept + slope * x };
+      const x = (point.x - fit.firstX) / 86400000;
+      return { x: point.x, y: fit.intercept + fit.slope * x };
     });
   }
 
@@ -1339,6 +1390,7 @@
     const deltaPoints = frontierDeltaPoints(usPoints, chinaPoints);
     const isBenchmark = !!state.filters.benchmark;
     const isTimeMode = state.frontierDeltaMode === "time";
+    updateFableChinaEstimate();
 
     if (!deltaPoints.length) {
       setEmpty("frontierDelta", true);
