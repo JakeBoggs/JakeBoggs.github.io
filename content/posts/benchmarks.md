@@ -5,7 +5,7 @@ draft: false
 summary: "My own version of the Epoch Capabilities Index for tracking niche benchmarks and my takes on how to identify ones worth paying attention to."
 ---
 
-I found myself refreshing ~40 different leaderboards whenever a new model dropped, so I made a dashboard that scrapes my favorites and computes a composite score using the same [methodology](https://epoch.ai/data/eci-documentation/methodology) as Epoch AI's [ECI](https://epoch.ai/eci). For those who are unfamiliar, Epoch uses multiple benchmarks to estimate a single "capability" level per model (kind of like an IQ score). Their index is great, but it doesn't track a lot of the benchmarks I care about, especially those which are unbounded like [EQ-Bench](https://eqbench.com/index.html). My [follow-up analysis](/posts/can-we-predict-model-usage-from-benchmarks) also finds my index to be much more predictive of actual usage.
+I found myself refreshing ~40 different leaderboards whenever a new model dropped, so I made a dashboard that scrapes my favorites and computes a composite score using the same [methodology](https://epoch.ai/data/eci-documentation/methodology) as Epoch AI's [ECI](https://epoch.ai/eci). For those who are unfamiliar, Epoch uses multiple benchmarks to estimate a single "capability" level per model (kind of like an IQ score). Their index is great, but it doesn't track a lot of the benchmarks I care about, especially those which are unbounded like [EQ-Bench](https://eqbench.com/index.html). My [follow-up analysis](/posts/can-we-predict-model-usage-from-benchmarks) also shows my index to be more predictive of actual usage.
 
 {{< benchmark-dashboard-controls >}}
 
@@ -31,6 +31,6 @@ Of course we need to compare against the original ECI too. As expected, the corr
 
 {{< benchmark-dashboard-frontier >}}
 
-I've also made a tracker for the US-China gap, which I estimate currently stands at ~6 months. This is slightly longer than [Epoch's calculation](https://epoch.ai/data-insights/open-closed-eci-gap).
+I've also made a tracker for the US-China gap, which I estimate currently stands at ~5 months. This is slightly longer than [Epoch's calculation](https://epoch.ai/data-insights/open-closed-eci-gap).
 
 {{< benchmark-dashboard-frontier-delta >}}

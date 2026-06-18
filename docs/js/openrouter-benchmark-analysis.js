@@ -160,7 +160,7 @@
       datasetLabel: "Incremental R^2 after price",
       label: metricName,
       value: (row) => (row.incremental_r2_after_price || 0) * 100,
-      tooltip: (row) => `${pp(row.incremental_r2_after_price)}; partial r ${num(row.score_log_usage_price_adjusted_partial_pearson, 2)}`,
+      tooltip: (row) => `${pp(row.incremental_r2_after_price)} across ${fmt.format(row.matched_model_count || 0)} models`,
       tick: (value) => `${value} pp`,
       max: 100,
       columnWidth: 28,
