@@ -13,7 +13,7 @@ Measuring this perfectly would require private data from each of the labs, so I'
 
 ## Method
 
-I pull input and output pricing from OpenRouter's [public model catalog](https://openrouter.ai/docs/api/api-reference/models/get-models) and I scrape token usage (over the past week) from their public rankings endpoints. This is combined with [my existing benchmark data](/posts/benchmarks), including my own aggregate capability index, the ECI, Arena.ai rankings, and individual benchmark scores.
+I pull input and output pricing from OpenRouter's [public model catalog](https://openrouter.ai/docs/api/api-reference/models/get-models) and I scrape token usage (over the past week) from their public rankings endpoints. This is combined with [my existing benchmark data](/posts/benchmarks), including my own aggregate capabilities index, the ECI, Arena.ai rankings, and individual benchmark scores.
 
 The price variable is an **effective observed price**, not just the listed input-token price or output-token price. Models have very different input/output mixes, so I estimate dollars per million served tokens from the observed token mix in OpenRouter's ranking rows:
 
@@ -72,9 +72,9 @@ Price matters, but it is far from the whole story. Across the current OpenRouter
 
 The price bands are useful context. Models below $0.50 per million effective tokens account for about 68% of paid token volume, but the $2-$10 band still accounts for about one fifth because high-end models like Claude Sonnet and Opus get substantial use despite much higher prices. The very expensive $10+ band has less than 1% token share.
 
-Raw benchmark correlations are stronger than the price baseline. My [capability index](/posts/benchmarks) has a raw score-to-log-usage correlation of about **0.51**. Among individual benchmarks, HiL-Bench, GSO-Bench, FrontierCode Main, scBench, and Terminal-Bench Hard are near the top.
+Raw benchmark correlations are stronger than the price baseline. My [capabilities index](/posts/benchmarks) has a raw score-to-log-usage correlation of about **0.51**. Among individual benchmarks, HiL-Bench, GSO-Bench, FrontierCode Main, scBench, and Terminal-Bench Hard are near the top.
 
-The more important result is the price-adjusted one. Adding the capability index to a price-only usage model adds about **59 percentage points** of R^2 on its model set. GSO-Bench, Terminal-Bench Hard, Humanity's Last Exam, the Arena.ai Text Elo, Arena.ai Agent Net Improvement, and raw EQ-Bench Elo also add large amounts of explanatory power after price. The agent score adds about **48 percentage points** on its smaller overlap, with about **70%** pairwise accuracy.
+The more important result is the price-adjusted one. Adding the capabilities index to a price-only usage model adds about **59 percentage points** of R^2 on its model set. GSO-Bench, Terminal-Bench Hard, Humanity's Last Exam, the Arena.ai Text Elo, Arena.ai Agent Net Improvement, and raw EQ-Bench Elo also add large amounts of explanatory power after price. The agent score adds about **48 percentage points** on its smaller overlap, with about **70%** pairwise accuracy.
 
 Not every benchmark looks predictive. SlopCodeBench, Opus Magnum Bench, Kaggle Game Arena, FrontierSWE, and Blueprint-Bench 2 have raw score-to-usage correlations near zero or add almost no explanatory power after price. That doesn't necessarily make them bad benchmarks, but they don't explain the majority of usage here.
 
@@ -94,7 +94,7 @@ These checks have limits. Four weeks is not much, the weeks overlap heavily so t
 
 This matters for both sides of the market. Users want to know which model is the best deal for their workload. Labs want to know whether a price cut would plausibly buy share, or whether a capability improvement would support a premium.
 
-I made an interactive pricing calculator that uses the price-and-capability model directly. Select a model, then adjust its input price, output price, input/output token ratio, effective price, paid-token share, or capability index.
+I made an interactive pricing calculator that uses the price-and-capability model directly. Select a model, then adjust its input price, output price, input/output token ratio, effective price, paid-token share, or capabilities index.
 
 Input price, output price, and token mix define the effective price:
 
@@ -115,7 +115,7 @@ log(paid_token_share) =
   + capability_coefficient * capability_index
 ```
 
-The important detail is the intercept. For each selected model, I recompute the intercept so the curve passes exactly through that model's observed paid OpenRouter token share, effective price, and capability index.
+The important detail is the intercept. For each selected model, I recompute the intercept so the curve passes exactly through that model's observed paid OpenRouter token share, effective price, and capabilities index.
 
 Changing paid-token share therefore solves for the effective price implied by the anchored curve. Changing capability keeps the current effective price fixed and recomputes the expected paid-token share. The chart shows the estimated paid-token-share curve over effective price at the current capability level.
 

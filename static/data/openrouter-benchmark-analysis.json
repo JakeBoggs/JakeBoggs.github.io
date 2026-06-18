@@ -538,7 +538,7 @@
     "matched_model_count": 49,
     "metric_id": "capability-index",
     "metric_name": "Jake's Index",
-    "note": "The published calculator anchors the intercept per selected model so the fitted relationship passes exactly through that model's current share, effective price, and capability index.",
+    "note": "The published calculator anchors the intercept per selected model so the fitted relationship passes exactly through that model's current share, effective price, and capabilities index.",
     "price_coefficient": -1.199862688585036,
     "r_squared": 0.6269772265972705
   },

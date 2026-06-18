@@ -47,9 +47,9 @@
   }
 
   function metricName(row) {
-    if (row.id === "capability-index" || row.name === "Jake Capability Index") return "Jake's Index";
+    if (row.id === "capability-index") return "Jake's Index";
     if (row.id === "epoch-eci" || row.name === "Epoch ECI") return "ECI";
-    return row.benchmark_id ? row.name : row.name.replace(" Capability Index", " Index");
+    return row.benchmark_id ? row.name : row.name.replace(" Capabilities Index", " Index");
   }
 
   function colorFor(row) {
