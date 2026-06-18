@@ -13,7 +13,7 @@ Measuring this perfectly would require private data from each of the labs, so I'
 
 ## Method
 
-I pull input and output pricing from OpenRouter's [public model catalog](https://openrouter.ai/docs/api/api-reference/models/get-models) and I scrape token usage from their public rankings endpoints. This is combined with [my existing benchmark data](/posts/benchmarks), including my own aggregate capabilities index, the ECI, Arena.ai rankings, and individual benchmark scores. For this analysis only, I also scrape [SWE-bench Verified](https://www.swebench.com/index.html) and [MMMU-Pro](https://artificialanalysis.ai/evaluations/mmmu-pro); they are comparison series here and are not added to the benchmark dashboard.
+I pull input and output pricing from OpenRouter's [public model catalog](https://openrouter.ai/docs/api/api-reference/models/get-models) and I scrape token usage from their public rankings endpoints. This is combined with [my existing benchmark data](/posts/benchmarks), including my own aggregate capabilities index, the ECI, Arena.ai rankings, and individual benchmark scores.
 
 The price variable is an **effective observed price**, not just the listed input-token price or output-token price. Models have very different input/output mixes, so I estimate dollars per million served tokens from the observed token mix in OpenRouter's ranking rows:
 
