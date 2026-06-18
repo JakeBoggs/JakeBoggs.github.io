@@ -2,7 +2,7 @@
 {{- .Page.Scratch.Set "openrouterBenchmarkAnalysisAssetsLoaded" true -}}
 <link rel="stylesheet" href="/css/openrouter-benchmark-analysis.css?v=20260618-18">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-<script defer src="/js/openrouter-benchmark-analysis.js?v=20260618-18"></script>
+<script defer src="/js/openrouter-benchmark-analysis.js?v=20260618-19"></script>
 {{- end -}}
 {{- $mode := .Get 0 | default "charts" -}}
 <section class="openrouter-analysis openrouter-analysis--{{ $mode }}" data-openrouter-benchmark-analysis data-openrouter-mode="{{ $mode }}">
@@ -98,7 +98,7 @@
     <div class="openrouter-chart-panel">
       <div class="openrouter-section-heading">
         <h3>Incremental R^2 After Price</h3>
-        <p>Extra explanatory power from adding benchmark score to the price-only model.</p>
+        <p>Dark bars show the benchmark's incremental R^2; the light extension brings each bar to total score-plus-price R^2.</p>
       </div>
       <div class="openrouter-chart-wrap openrouter-chart-wrap-large">
         <canvas data-openrouter-chart="incremental-r2"></canvas>

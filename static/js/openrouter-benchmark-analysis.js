@@ -63,6 +63,18 @@
     return "#0f8f70";
   }
 
+  function lightColorFor(row) {
+    if (row.kind === "aggregate") return "rgba(37, 99, 235, 0.18)";
+    if (row.kind === "category_index") return "rgba(79, 70, 229, 0.18)";
+    return "rgba(16, 163, 127, 0.18)";
+  }
+
+  function lightBorderFor(row) {
+    if (row.kind === "aggregate") return "rgba(37, 99, 235, 0.38)";
+    if (row.kind === "category_index") return "rgba(79, 70, 229, 0.38)";
+    return "rgba(16, 163, 127, 0.38)";
+  }
+
   function setChartWidth(canvas, rowCount, base = 96, columnWidth = 28, min = 0, max = 1280) {
     const wrap = canvas.closest(".openrouter-chart-wrap");
     if (!wrap) return;
@@ -123,6 +135,7 @@
         },
         scales: {
           x: {
+            stacked: Boolean(options.stacked),
             ticks: {
               autoSkip: false,
               maxRotation: 60,
@@ -130,6 +143,7 @@
             },
           },
           y: {
+            stacked: Boolean(options.stacked),
             beginAtZero: true,
             max: options.max,
             ticks: { callback: options.tick },
@@ -177,15 +191,21 @@
     });
 
     renderVerticalChart(root.querySelector("canvas[data-openrouter-chart='incremental-r2']"), adjustedRows, {
-      datasetLabel: "Incremental R^2 after price",
+      datasetLabel: "Incremental R^2 from benchmark",
+      secondaryDatasetLabel: "Price-only R^2",
       label: metricName,
       value: (row) => (row.incremental_r2_after_price || 0) * 100,
-      tooltip: (row) => `${pp(row.incremental_r2_after_price)} across ${fmt.format(row.matched_model_count || 0)} models`,
+      tooltip: (row) => `${pp(row.incremental_r2_after_price)} incremental; total R^2 ${pct(row.price_score_r2)} across ${fmt.format(row.matched_model_count || 0)} models`,
+      secondaryValue: (row) => (row.price_only_r2_on_matched_models || 0) * 100,
+      secondaryTooltip: (row) => `Price-only R^2 ${pct(row.price_only_r2_on_matched_models)}; total score + price R^2 ${pct(row.price_score_r2)}`,
       tick: (value) => `${value} pp`,
       max: 100,
       columnWidth: 28,
       backgroundColor: colorFor,
       borderColor: borderFor,
+      secondaryBackgroundColor: lightColorFor,
+      secondaryBorderColor: lightBorderFor,
+      stacked: true,
     });
 
     charts.hidden = false;
