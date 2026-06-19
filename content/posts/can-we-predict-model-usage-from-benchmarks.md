@@ -9,7 +9,7 @@ The purpose of a benchmark is to help answer two questions: For users, **"which 
 
 One way to test whether a benchmark is useful is to ask whether it predicts user preference. When two models are available at roughly the same price, does the model with the higher benchmark score get used more? If the answer is yes, the benchmark is probably measuring something users value. If the answer is no, either the benchmark is missing the real capability, or other factors are dominating.
 
-Measuring this perfectly would require private data from each of the labs, so I'm using [OpenRouter](https://openrouter.ai) (a model aggregator) as a proxy for the broader market. Current volume is over 40 trillion tokens / week and it serves models from dozens of providers. They are also the only source I am aware of that shares the necessary data publicly. While this misses usage from first-party apps like ChatGPT and Gemini, I would argue that this is fine and perhaps even a good thing because the average user of these apps is probably less of an informed buyer than the average OpenRouter user.
+Measuring this perfectly would require private data from each of the labs, so I'm using [OpenRouter](https://openrouter.ai) (a model aggregator) as a proxy for the broader market. Current volume is over 40 trillion tokens / $49 million per week, and it serves models from dozens of providers. They are also the only source I am aware of that shares the necessary data publicly. While this misses usage from first-party apps like ChatGPT and Gemini, I would argue that this is fine and perhaps even a good thing because the average user of these apps is probably less of an informed buyer than the average OpenRouter user.
 
 ## Method
 
