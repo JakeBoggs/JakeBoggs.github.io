@@ -28,6 +28,16 @@
     return `$${n.toFixed(digits).replace(/\.?0+$/, "")}`;
   };
   const dollars = (value) => value == null || Number.isNaN(value) ? "" : `$${fmt.format(Math.round(value))}`;
+  const compactDollars = (value) => {
+    if (value == null || Number.isNaN(value)) return "";
+    const n = Number(value);
+    const abs = Math.abs(n);
+    const sign = n < 0 ? "-" : "";
+    if (abs >= 1e9) return `${sign}$${(abs / 1e9).toFixed(1)}B`;
+    if (abs >= 1e6) return `${sign}$${(abs / 1e6).toFixed(1)}M`;
+    if (abs >= 1e3) return `${sign}$${(abs / 1e3).toFixed(0)}K`;
+    return `${sign}$${abs.toFixed(0)}`;
+  };
   const tokens = (value) => {
     if (value == null) return "";
     const n = Number(value);
@@ -325,6 +335,8 @@
     const modelSelect = pricingTool.querySelector("[data-pricing-model]");
     const inputPriceInput = pricingTool.querySelector("[data-input-price]");
     const outputPriceInput = pricingTool.querySelector("[data-output-price]");
+    const prefillCostInput = pricingTool.querySelector("[data-prefill-cost]");
+    const outputCostInput = pricingTool.querySelector("[data-output-cost]");
     const tokenRatioInput = pricingTool.querySelector("[data-token-ratio]");
     const effectivePriceInput = pricingTool.querySelector("[data-effective-price]");
     const marketShareInput = pricingTool.querySelector("[data-market-share]");
@@ -352,10 +364,22 @@
       const effective = effectivePrice(inputPrice, outputPrice, ratio);
       const share = model.token_share ?? (totalTokens > 0 ? (model.total_tokens || 0) / totalTokens : null);
       const capability = model.capability_index;
+      const prefillCost = inputPrice * 0.1;
+      const outputCost = outputPrice * 0.1;
       const anchor = Math.log(Math.max(share || 0, 1e-12))
         - priceCoefficient * Math.log(Math.max(effective, 1e-12))
         - capabilityCoefficient * capability;
-      return { inputPrice, outputPrice, ratio, effective, share, capability, anchor };
+      return {
+        inputPrice,
+        outputPrice,
+        prefillCost,
+        outputCost,
+        ratio,
+        effective,
+        share,
+        capability,
+        anchor,
+      };
     }
 
     function shareFor(price, capability) {
@@ -419,6 +443,8 @@
       base = initialState(model);
       setInputNumber(inputPriceInput, base.inputPrice, priceInputValue);
       setInputNumber(outputPriceInput, base.outputPrice, priceInputValue);
+      setInputNumber(prefillCostInput, base.prefillCost, priceInputValue);
+      setInputNumber(outputCostInput, base.outputCost, priceInputValue);
       setInputNumber(tokenRatioInput, base.ratio, (value) => compactNumber(value, value > 10 ? 2 : 3));
       setInputNumber(effectivePriceInput, base.effective, priceInputValue);
       setInputNumber(marketShareInput, base.share, shareInputValue, base.share == null ? base.share : base.share * 100);
@@ -427,6 +453,10 @@
 
     function renderDemandChart(effective, capability, share) {
       if (!demandCanvas || !window.Chart || !base) return;
+      const ratio = Math.max(0.001, readNumber(tokenRatioInput, base.ratio));
+      const prefillCost = Math.max(0, readNumber(prefillCostInput, base.prefillCost));
+      const outputCost = Math.max(0, readNumber(outputCostInput, base.outputCost));
+      const effectiveServingCost = effectivePrice(prefillCost, outputCost, ratio);
       const modeledShare = clamp(shareFor(effective, capability) || share, 1e-8, 0.99999);
       const highShareTarget = clamp(modeledShare * 6, modeledShare, 0.85);
       const lowShareTarget = clamp(modeledShare / 8, 1e-8, modeledShare);
@@ -450,7 +480,15 @@
         const price = Math.exp(lowLog + (highLog - lowLog) * index / 79);
         return { x: price, y: (shareFor(price, capability) || 0) * 100 };
       });
+      const profitPoints = points.map((point) => ({
+        x: point.x,
+        y: (point.y / 100) * totalTokens / 1e6 * (point.x - effectiveServingCost),
+      }));
       const currentPoint = { x: effective, y: share * 100 };
+      const currentProfitPoint = {
+        x: effective,
+        y: share * totalTokens / 1e6 * (effective - effectiveServingCost),
+      };
       const chartData = {
         datasets: [
           {
@@ -462,14 +500,36 @@
             pointRadius: 0,
             borderWidth: 2,
             tension: 0.2,
+            yAxisID: "yShare",
+          },
+          {
+            type: "line",
+            label: "Estimated weekly profit",
+            data: profitPoints,
+            borderColor: "#b45309",
+            backgroundColor: "rgba(180, 83, 9, 0.08)",
+            pointRadius: 0,
+            borderWidth: 2,
+            tension: 0.2,
+            yAxisID: "yProfit",
           },
           {
             type: "scatter",
-            label: "Current setting",
+            label: "Current share",
             data: [currentPoint],
             borderColor: "#0f8f70",
             backgroundColor: "#0f8f70",
             pointRadius: 4,
+            yAxisID: "yShare",
+          },
+          {
+            type: "scatter",
+            label: "Current profit",
+            data: [currentProfitPoint],
+            borderColor: "#b45309",
+            backgroundColor: "#b45309",
+            pointRadius: 4,
+            yAxisID: "yProfit",
           },
         ],
       };
@@ -490,10 +550,19 @@
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { display: false },
+            legend: {
+              display: true,
+              labels: {
+                filter: (item) => !item.text.startsWith("Current "),
+              },
+            },
             tooltip: {
               callbacks: {
-                label: (ctx) => `${money(ctx.parsed.x)} effective price; ${num(ctx.parsed.y, 3)}% paid-token share`,
+                label: (ctx) => (
+                  ctx.dataset.yAxisID === "yProfit"
+                    ? `${money(ctx.parsed.x)} effective price; ${dollars(ctx.parsed.y)} weekly profit`
+                    : `${money(ctx.parsed.x)} effective price; ${num(ctx.parsed.y, 3)}% paid-token share`
+                ),
               },
             },
           },
@@ -512,10 +581,18 @@
                 callback: (value) => axisMoney(Number(value)),
               },
             },
-            y: {
+            yShare: {
+              position: "left",
               beginAtZero: true,
               title: { display: true, text: "Estimated paid-token share" },
               ticks: { callback: (value) => `${value}%` },
+            },
+            yProfit: {
+              position: "right",
+              beginAtZero: true,
+              title: { display: true, text: "Estimated weekly profit" },
+              grid: { drawOnChartArea: false },
+              ticks: { callback: (value) => compactDollars(value) },
             },
           },
         },
@@ -582,6 +659,16 @@
       if (parseInputNumber(capabilityInput) == null) return;
       syncShareFromPrice();
       render();
+    });
+    [prefillCostInput, outputCostInput].forEach((element) => {
+      element.addEventListener("input", () => {
+        if (parseInputNumber(element) == null) return;
+        render();
+      });
+      element.addEventListener("change", () => {
+        if (parseInputNumber(element) == null) return;
+        render();
+      });
     });
     writeInitialControls();
     render();

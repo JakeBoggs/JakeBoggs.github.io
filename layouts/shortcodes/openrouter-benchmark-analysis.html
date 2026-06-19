@@ -1,8 +1,8 @@
 {{- if not (.Page.Scratch.Get "openrouterBenchmarkAnalysisAssetsLoaded") -}}
 {{- .Page.Scratch.Set "openrouterBenchmarkAnalysisAssetsLoaded" true -}}
-<link rel="stylesheet" href="/css/openrouter-benchmark-analysis.css?v=20260618-18">
+<link rel="stylesheet" href="/css/openrouter-benchmark-analysis.css?v=20260618-20">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-<script defer src="/js/openrouter-benchmark-analysis.js?v=20260618-19"></script>
+<script defer src="/js/openrouter-benchmark-analysis.js?v=20260618-20"></script>
 {{- end -}}
 {{- $mode := .Get 0 | default "charts" -}}
 <section class="openrouter-analysis openrouter-analysis--{{ $mode }}" data-openrouter-benchmark-analysis data-openrouter-mode="{{ $mode }}">
@@ -13,7 +13,7 @@
   <div class="openrouter-pricing-tool" data-openrouter-pricing hidden>
     <div class="openrouter-section-heading">
       <h3>Model Pricing Calculator</h3>
-      <p>Estimate paid-token share and price tradeoffs from capability-adjusted OpenRouter demand.</p>
+      <p>Estimate paid-token share and weekly profit from capability-adjusted OpenRouter demand.</p>
     </div>
     <div class="openrouter-pricing-layout">
       <div class="openrouter-controls">
@@ -36,6 +36,20 @@
             <label class="openrouter-control-wide openrouter-control-primary">
               <span>Effective price ($/M)</span>
               <input data-effective-price type="number" min="0.000001" step="any">
+            </label>
+          </div>
+        </div>
+
+        <div class="openrouter-control-group openrouter-control-wide">
+          <h4>Serving Costs</h4>
+          <div class="openrouter-control-grid">
+            <label>
+              <span>Prefill cost ($/M)</span>
+              <input data-prefill-cost type="number" min="0" step="any">
+            </label>
+            <label>
+              <span>Output cost ($/M)</span>
+              <input data-output-cost type="number" min="0" step="any">
             </label>
           </div>
         </div>
