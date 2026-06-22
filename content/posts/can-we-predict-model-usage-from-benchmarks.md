@@ -92,9 +92,9 @@ To test the out-of-sample prediction, I first walk-forward: fit the model on one
 
 ## Pricing Implications
 
-This matters for both sides of the market. Users want to know which model is the best deal for their workload. Labs want to know whether a price cut would plausibly buy share, or whether a capability improvement would support a premium.
+This matters for both sides of the market. Users want to know which model is the best deal for their workload. Labs want to price their models efficiently to maximize profits.
 
-I made an interactive pricing calculator that uses the price-and-capability model directly. Select a model, then adjust its input price, output price, input/output token ratio, effective price, paid-token share, or capabilities index.
+I made an interactive pricing calculator that uses the price-and-capability model directly. Select a model, then adjust its input price, output price, input/output token ratio, effective price, token share, or capabilities index.
 
 Input price, output price, and token mix define the effective price:
 
@@ -106,24 +106,22 @@ effective_price =
 
 Changing the input price, output price, or input/output ratio updates effective price. Changing effective price scales input and output prices together while preserving their current ratio.
 
-Paid-token share and capability are linked through the capability-adjusted demand model:
+Token share and capability are linked through the capability-adjusted demand model:
 
 ```text
-log(paid_token_share) =
+log(token_share) =
   anchored_intercept
   + price_coefficient * log(effective_price)
   + capability_coefficient * capability_index
 ```
 
-The important detail is the intercept. For each selected model, I recompute the intercept so the curve passes exactly through that model's observed paid OpenRouter token share, effective price, and capabilities index.
+For each selected model, I recompute the intercept so the curve passes exactly through that model's observed OpenRouter token share, effective price, and capabilities index.
 
-Changing paid-token share therefore solves for the effective price implied by the anchored curve. Changing capability keeps the current effective price fixed and recomputes the expected paid-token share. The chart shows the estimated paid-token-share curve over effective price at the current capability level.
+Changing token share therefore solves for the effective price implied by the anchored curve. Changing capability keeps the current effective price fixed and recomputes the expected token share. The chart shows the estimated token-share curve over effective price at the current capability level.
 
 {{< openrouter-benchmark-analysis pricing >}}
 
 ## Limitations
-
-This is a correlational study on observational data, and there are several reasons to read it as suggestive rather than definitive.
 
 **OpenRouter is a proxy, not the market.** The biggest consumers of LLM tokens—ChatGPT, Claude.ai, the Gemini app, and direct first-party API customers—mostly bypass OpenRouter. Its traffic skews toward open-weight models, coding agents, and price-sensitive developers. So "usage" here is the revealed preference of OpenRouter's particular userbase, not the whole industry.
 
@@ -132,5 +130,3 @@ This is a correlational study on observational data, and there are several reaso
 **Usage does not always imply preference.** Higher-scoring models are also newer, more heavily marketed, and more likely to be set as defaults in popular tools—all of which raise usage independent of any benchmark.
 
 **A short window.** The figures come from a single weekly snapshot (June 18, 2026). The robustness panel spans only four weeks because the per-model daily history caps at about a month. Those four weeks are also highly correlated, so the stability they show is reassuring but not the same as four independent samples.
-
-**The demand model is cross-sectional.** The pricing calculator fits a single cross-section of a few dozen models and lets you extrapolate, but "a price cut would buy this much share" is a causal claim this data can't support. Note also that the capability-controlled price coefficient (about -1.2) is much steeper than the simple price elasticity (-0.57), because cheap models also tend to be lower-capability; the calculator uses the former.

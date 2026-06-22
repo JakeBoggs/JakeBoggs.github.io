@@ -6,6 +6,7 @@
     rankingView: "bar",
     frontierDeltaMode: "time",
     filters: { benchmark: "", category: "", lab: "", openness: "" },
+    modelCardIds: [],
     charts: { ranking: null, time: null, metr: null, eci: null, frontier: null, frontierDelta: null },
   };
 
@@ -69,6 +70,40 @@
     "lisanbench": "Score = mean path length / current leaderboard maximum.",
     "game-arena": "Score = 2 * P(win vs top Bradley-Terry rating).",
     "zerobench": "Score = main-question pass@5.",
+  };
+  const confidenceIntervalPlugin = {
+    id: "confidenceIntervals",
+    afterDatasetsDraw(chart, _args, options) {
+      if (!options?.enabled) return;
+      const datasetIndex = options.datasetIndex ?? 0;
+      const dataset = chart.data.datasets[datasetIndex];
+      const intervals = dataset?.confidenceIntervals;
+      const elements = chart.getDatasetMeta(datasetIndex)?.data;
+      const yScale = chart.scales.y;
+      if (!intervals || !elements || !yScale) return;
+
+      const context = chart.ctx;
+      context.save();
+      context.strokeStyle = options.color || "rgba(31, 41, 55, 0.8)";
+      context.lineWidth = options.lineWidth || 1.5;
+      intervals.forEach((interval, index) => {
+        const element = elements[index];
+        if (!element || !Number.isFinite(interval?.low) || !Number.isFinite(interval?.high)) return;
+        const x = element.x;
+        const lowY = yScale.getPixelForValue(interval.low);
+        const highY = yScale.getPixelForValue(interval.high);
+        const capWidth = options.capWidth || 5;
+        context.beginPath();
+        context.moveTo(x, highY);
+        context.lineTo(x, lowY);
+        context.moveTo(x - capWidth, highY);
+        context.lineTo(x + capWidth, highY);
+        context.moveTo(x - capWidth, lowY);
+        context.lineTo(x + capWidth, lowY);
+        context.stroke();
+      });
+      context.restore();
+    },
   };
 
   function labColor(lab) {
@@ -205,6 +240,166 @@
 
     applyRankingView();
     initStickyControls();
+    initModelCards();
+  }
+
+  function modelCardCatalog() {
+    const models = new Map();
+    const addRows = (rows) => rows.forEach((row) => {
+      if (!row.model_id || !row.model || row.lab === "Human") return;
+      models.set(row.model_id, { id: row.model_id, model: row.model, lab: row.lab });
+    });
+    addRows(state.data.capability_index || []);
+    Object.values(state.data.capability_indices_by_category || {}).forEach(addRows);
+    return Array.from(models.values()).sort((a, b) => a.model.localeCompare(b.model));
+  }
+
+  function updateModelCardOptions() {
+    const select = document.querySelector("[data-model-card-select]");
+    const addButton = document.querySelector("[data-model-card-add]");
+    if (!select) return;
+
+    const selected = new Set(state.modelCardIds);
+    const currentValue = selected.has(select.value) ? "" : select.value;
+    select.replaceChildren(new Option("Select model", ""));
+    modelCardCatalog()
+      .filter((model) => !selected.has(model.id))
+      .forEach((model) => {
+        select.append(new Option(`${model.model} (${model.lab})`, model.id));
+      });
+    select.value = currentValue;
+    if (addButton) addButton.disabled = !select.value;
+  }
+
+  function initModelCards() {
+    const select = document.querySelector("[data-model-card-select]");
+    const addButton = document.querySelector("[data-model-card-add]");
+    const table = document.querySelector("[data-model-cards-table]");
+    if (!select || !addButton || !table) return;
+
+    updateModelCardOptions();
+    select.addEventListener("change", () => {
+      addButton.disabled = !select.value;
+    });
+    addButton.addEventListener("click", () => {
+      if (!select.value || state.modelCardIds.includes(select.value)) return;
+      state.modelCardIds.push(select.value);
+      updateModelCardOptions();
+      renderModelCards();
+    });
+    table.addEventListener("click", (event) => {
+      const removeButton = event.target.closest("[data-model-card-remove]");
+      if (!removeButton) return;
+      state.modelCardIds = state.modelCardIds.filter((modelId) => modelId !== removeButton.dataset.modelCardRemove);
+      updateModelCardOptions();
+      renderModelCards();
+    });
+    renderModelCards();
+  }
+
+  function modelCardBenchmarkRows() {
+    const selected = new Set(state.modelCardIds);
+    const registeredBenchmarks = new Map(
+      (state.data.benchmarks || []).map((benchmark, index) => [benchmark.id, { ...benchmark, index }]),
+    );
+    const scoresByBenchmark = new Map();
+
+    state.data.results.forEach((row) => {
+      const modelId = row.capability_model_id || row.model_id;
+      const score = Number(row.normalized_score);
+      if (!selected.has(modelId) || !registeredBenchmarks.has(row.benchmark_id) || !Number.isFinite(score)) return;
+      if (!scoresByBenchmark.has(row.benchmark_id)) scoresByBenchmark.set(row.benchmark_id, new Map());
+      const modelScores = scoresByBenchmark.get(row.benchmark_id);
+      const current = modelScores.get(modelId);
+      if (!current || score > Number(current.normalized_score)) modelScores.set(modelId, row);
+    });
+
+    return Array.from(scoresByBenchmark, ([benchmarkId, scores]) => ({
+      benchmark: registeredBenchmarks.get(benchmarkId),
+      scores,
+    })).sort((a, b) => a.benchmark.index - b.benchmark.index);
+  }
+
+  function modelCardRemoveButton(model) {
+    const button = document.createElement("button");
+    button.className = "model-cards__remove";
+    button.type = "button";
+    button.dataset.modelCardRemove = model.id;
+    button.setAttribute("aria-label", `Remove ${model.model}`);
+    button.title = `Remove ${model.model}`;
+    button.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14"><path d="M18 6 6 18M6 6l12 12"></path></svg>';
+    return button;
+  }
+
+  function renderModelCards() {
+    const table = document.querySelector("[data-model-cards-table]");
+    const tableWrap = document.querySelector("[data-model-cards-table-wrap]");
+    const empty = document.querySelector("[data-model-cards-empty]");
+    if (!table || !tableWrap || !empty) return;
+
+    table.replaceChildren();
+    if (!state.modelCardIds.length) {
+      tableWrap.hidden = true;
+      empty.hidden = false;
+      return;
+    }
+
+    const catalog = new Map(modelCardCatalog().map((model) => [model.id, model]));
+    const selectedModels = state.modelCardIds.map((modelId) => catalog.get(modelId)).filter(Boolean);
+    const rows = modelCardBenchmarkRows();
+    const head = document.createElement("thead");
+    const headRow = document.createElement("tr");
+    const benchmarkHeader = document.createElement("th");
+    benchmarkHeader.scope = "col";
+    benchmarkHeader.textContent = "Benchmark";
+    headRow.append(benchmarkHeader);
+    selectedModels.forEach((model) => {
+      const header = document.createElement("th");
+      header.scope = "col";
+      const heading = document.createElement("div");
+      heading.className = "model-cards__model-heading";
+      const label = document.createElement("span");
+      label.textContent = model.model;
+      heading.append(label, modelCardRemoveButton(model));
+      header.append(heading);
+      headRow.append(header);
+    });
+    head.append(headRow);
+
+    const body = document.createElement("tbody");
+    rows.forEach(({ benchmark, scores }) => {
+      const row = document.createElement("tr");
+      const benchmarkCell = document.createElement("th");
+      benchmarkCell.scope = "row";
+      benchmarkCell.textContent = benchmark.name;
+      row.append(benchmarkCell);
+
+      const availableScores = selectedModels
+        .map((model) => Number(scores.get(model.id)?.normalized_score))
+        .filter(Number.isFinite);
+      const bestScore = availableScores.length ? Math.max(...availableScores) : null;
+      selectedModels.forEach((model) => {
+        const cell = document.createElement("td");
+        const result = scores.get(model.id);
+        const score = Number(result?.normalized_score);
+        cell.textContent = Number.isFinite(score) ? pct(score) : "-";
+        if (
+          selectedModels.length > 1
+          && Number.isFinite(score)
+          && bestScore != null
+          && Math.abs(score - bestScore) < 1e-12
+        ) {
+          cell.classList.add("model-cards__winner");
+        }
+        row.append(cell);
+      });
+      body.append(row);
+    });
+
+    table.append(head, body);
+    tableWrap.hidden = false;
+    empty.hidden = rows.length > 0;
+    if (!rows.length) empty.textContent = "No benchmark results for the selected models.";
   }
 
   function initStickyControls() {
@@ -340,6 +535,13 @@
     return state.filters.category ? `Jake's ${titleCase(state.filters.category)} Capabilities Index` : "Jake's Capabilities Index";
   }
 
+  function capabilityConfidenceLabel() {
+    const level = Number(state.filters.category
+      ? state.data.capability_index_metadata_by_category?.[state.filters.category]?.ci_level
+      : state.data.capability_index_metadata?.ci_level);
+    return `${Number.isFinite(level) ? Math.round(level * 100) : 90}% CI`;
+  }
+
   function titleCase(value) {
     return String(value || "")
       .split(/[-_\s]+/)
@@ -385,6 +587,8 @@
         lab: r.lab,
         value: Number(r.index),
         valueText: r.index.toFixed(1),
+        ciLow: Number(r.index_ci_low),
+        ciHigh: Number(r.index_ci_high),
         detail: `${r.lab} - ${r.benchmark_count} benchmarks`,
         modelId: r.model_id,
         releaseDate: r.release_date,
@@ -860,6 +1064,7 @@
 
     const labels = entries.map((e) => e.label);
     const values = entries.map((e) => e.value);
+    const confidenceIntervals = entries.map((e) => ({ low: e.ciLow, high: e.ciHigh }));
     const colors = entries.map((e) => labColor(e.lab));
     const canvas = document.querySelector("canvas[data-chart='ranking']");
     if (!canvas) return;
@@ -876,8 +1081,10 @@
           backgroundColor: colors.map((c) => withAlpha(c, 0.85)),
           borderColor: colors,
           borderWidth: 1,
+          confidenceIntervals,
         }],
       },
+      plugins: [confidenceIntervalPlugin],
       options: {
         indexAxis: "x",
         responsive: true,
@@ -885,11 +1092,18 @@
         layout: { padding: chartPadding() },
         plugins: {
           legend: { display: false },
+          confidenceIntervals: {
+            enabled: !isBenchmark,
+          },
           tooltip: {
             callbacks: {
               label: (ctx) => {
                 const e = entries[ctx.dataIndex];
-                return `${e.valueText} - ${e.detail}`;
+                const lines = [`${e.valueText} - ${e.detail}`];
+                if (!isBenchmark && Number.isFinite(e.ciLow) && Number.isFinite(e.ciHigh)) {
+                  lines.push(`${capabilityConfidenceLabel()}: ${e.ciLow.toFixed(1)} to ${e.ciHigh.toFixed(1)}`);
+                }
+                return lines;
               },
             },
           },
@@ -899,6 +1113,11 @@
             ticks: rankingTickOptions(),
           },
           y: {
+            ...(!isBenchmark ? compactRange(
+              confidenceIntervals.flatMap((interval) => [interval.low, interval.high]),
+              0.05,
+              true,
+            ) : {}),
             beginAtZero: isBenchmark ? true : false,
             title: axisTitle(isBenchmark ? "Normalized score (%)" : "Capabilities index"),
             ticks: yAxisTicks(isBenchmark ? { callback: (v) => `${v}%` } : {}),
@@ -943,6 +1162,8 @@
           date,
           value: Number(r.index),
           valueText: r.index.toFixed(1),
+          ciLow: Number(r.index_ci_low),
+          ciHigh: Number(r.index_ci_high),
         };
       })
       .filter((e) => parseDate(e.date) != null);
@@ -992,6 +1213,8 @@
       label: e.label,
       lab: e.lab,
       valueText: e.valueText,
+      ciLow: e.ciLow,
+      ciHigh: e.ciHigh,
       date: e.date,
     }));
 
@@ -1014,6 +1237,7 @@
             borderColor: points.map((p) => labColor(p.lab)),
             pointRadius: 5,
             pointHoverRadius: 8,
+            confidenceIntervals: points.map((point) => ({ low: point.ciLow, high: point.ciHigh })),
           },
           {
             type: "line",
@@ -1029,6 +1253,7 @@
           },
         ],
       },
+      plugins: [confidenceIntervalPlugin],
       options: {
         responsive: true,
         maintainAspectRatio: false,
@@ -1038,12 +1263,19 @@
             position: "top",
             labels: { boxWidth: 14, font: { size: 11 } },
           },
+          confidenceIntervals: {
+            enabled: !isBenchmark,
+          },
           tooltip: {
             callbacks: {
               label: (ctx) => {
                 if (ctx.dataset.label === "Frontier") return `Frontier: ${ctx.parsed.y.toFixed(1)}`;
                 const p = ctx.dataset.data[ctx.dataIndex];
-                return `${p.label} (${p.lab}): ${p.valueText} on ${dateFull.format(new Date(p.x))}`;
+                const lines = [`${p.label} (${p.lab}): ${p.valueText} on ${dateFull.format(new Date(p.x))}`];
+                if (!isBenchmark && Number.isFinite(p.ciLow) && Number.isFinite(p.ciHigh)) {
+                  lines.push(`${capabilityConfidenceLabel()}: ${p.ciLow.toFixed(1)} to ${p.ciHigh.toFixed(1)}`);
+                }
+                return lines;
               },
             },
           },
@@ -1058,6 +1290,11 @@
             ticks: { maxTicksLimit: isMobileChart() ? 4 : 8 },
           },
           y: {
+            ...(!isBenchmark ? compactRange(
+              points.flatMap((point) => [point.ciLow, point.ciHigh]),
+              0.05,
+              true,
+            ) : {}),
             title: axisTitle(isBenchmark ? "Normalized score (%)" : "Capabilities index"),
             ticks: yAxisTicks(isBenchmark ? { callback: (v) => `${v}%` } : {}),
           },
@@ -1140,8 +1377,9 @@
   }
 
   function renderFrontier() {
-    const { usPoints, chinaPoints } = currentCountryFrontiers();
+    const { entries, usPoints, chinaPoints } = currentCountryFrontiers();
     const isBenchmark = !!state.filters.benchmark;
+    updateFableChinaEstimate(entries, chinaPoints);
 
     if (!usPoints.length && !chinaPoints.length) {
       setEmpty("frontier", true);
@@ -1326,32 +1564,21 @@
     };
   }
 
-  function updateFableChinaEstimate() {
+  function updateFableChinaEstimate(entries, chinaPoints) {
     const meta = document.querySelector("[data-frontier-projection-meta]");
     if (!meta) return;
 
-    const capabilityRows = state.data.capability_index || [];
-    const fable = capabilityRows.find((row) => row.model_id === "claude-fable-5");
-    const chinaEntries = capabilityRows
-      .map((row) => ({
-        country: countryForLab(row.lab),
-        label: row.model,
-        lab: row.lab,
-        date: row.release_date,
-        value: Number(row.index),
-      }))
-      .filter((entry) => entry.country === "China" && parseDate(entry.date));
-    const chinaPoints = countryFrontierPoints(chinaEntries, "China");
+    const fable = entries.find((entry) => entry.modelId === "claude-fable-5");
     const fit = linearFit(chinaPoints);
     if (!fable || !fit || fit.slope <= 0) {
       meta.textContent = "";
       return;
     }
 
-    const projectedDays = (Number(fable.index) - fit.intercept) / fit.slope;
+    const projectedDays = (fable.value - fit.intercept) / fit.slope;
     const projectedChinaReachDate = fit.firstX + projectedDays * 86400000;
     const timeRemaining = projectedChinaReachDate - currentDateTime();
-    meta.textContent = `Time to Chinese model with Fable-level capabilities: ${durationText(timeRemaining)}`;
+    meta.textContent = `Estimated time to Chinese Fable: ${durationText(timeRemaining)}`;
   }
 
   function frontierDeltaStepSeries(points, endX = currentDateTime()) {
@@ -1390,7 +1617,6 @@
     const deltaPoints = frontierDeltaPoints(usPoints, chinaPoints);
     const isBenchmark = !!state.filters.benchmark;
     const isTimeMode = state.frontierDeltaMode === "time";
-    updateFableChinaEstimate();
 
     if (!deltaPoints.length) {
       setEmpty("frontierDelta", true);

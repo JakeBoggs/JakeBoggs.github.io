@@ -1,0 +1,27 @@
+<div class="benchmarks-dashboard" data-benchmark-dashboard>
+  <div class="benchmarks-dashboard__inner">
+    <section class="dashboard-panel">
+      <div class="dashboard-panel__header">
+        <div class="dashboard-panel__title">
+          <h2>Model Cards</h2>
+        </div>
+        <div class="model-cards__add">
+          <label class="sr-only" for="model-card-select">Model</label>
+          <select id="model-card-select" data-model-card-select>
+            <option value="">Select model</option>
+          </select>
+          <button class="model-cards__add-button" type="button" data-model-card-add disabled>
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15">
+              <path d="M12 5v14M5 12h14"></path>
+            </svg>
+            <span>Add model</span>
+          </button>
+        </div>
+      </div>
+      <div class="model-cards__table-wrap" data-model-cards-table-wrap hidden>
+        <table class="model-cards__table" data-model-cards-table></table>
+      </div>
+      <p class="dashboard-empty" data-model-cards-empty>No models selected.</p>
+    </section>
+  </div>
+</div>

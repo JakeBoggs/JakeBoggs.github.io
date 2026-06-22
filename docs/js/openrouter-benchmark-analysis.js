@@ -493,7 +493,7 @@
         datasets: [
           {
             type: "line",
-            label: "Estimated paid-token share",
+            label: "Estimated token share",
             data: points,
             borderColor: "#2563eb",
             backgroundColor: "rgba(37, 99, 235, 0.12)",
@@ -561,7 +561,7 @@
                 label: (ctx) => (
                   ctx.dataset.yAxisID === "yProfit"
                     ? `${money(ctx.parsed.x)} effective price; ${dollars(ctx.parsed.y)} weekly profit`
-                    : `${money(ctx.parsed.x)} effective price; ${num(ctx.parsed.y, 3)}% paid-token share`
+                    : `${money(ctx.parsed.x)} effective price; ${num(ctx.parsed.y, 3)}% token share`
                 ),
               },
             },
@@ -584,7 +584,7 @@
             yShare: {
               position: "left",
               beginAtZero: true,
-              title: { display: true, text: "Estimated paid-token share" },
+              title: { display: true, text: "Estimated token share" },
               ticks: { callback: (value) => `${value}%` },
             },
             yProfit: {
