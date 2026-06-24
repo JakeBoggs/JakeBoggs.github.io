@@ -47,8 +47,7 @@
   };
   const US_LABS = new Set(["OpenAI", "Anthropic", "Google", "Google DeepMind", "xAI", "Meta", "Meta AI", "Microsoft", "Amazon", "Cohere", "AI21 Labs", "NVIDIA"]);
   const CHINA_LABS = new Set(["DeepSeek", "Alibaba", "Qwen", "Z.ai", "Zhipu", "Zhipu AI", "GLM", "Moonshot AI", "Moonshot", "Kimi", "MiniMax", "Xiaomi", "ByteDance", "Tencent", "01.AI", "StepFun", "OpenBMB"]);
-  const METR_ESTIMATE_MIN_INDEX = 150;
-  const METR_ESTIMATE_LIMIT = 12;
+  const METR_ESTIMATE_LIMIT = 10;
   const ECI_PROJECTION_MIN_INDEX = 150;
   const ECI_PROJECTION_LIMIT = 12;
   const BENCHMARK_TRANSFORMS = {
@@ -69,43 +68,32 @@
     "contextarena": "Score = 8-needle MRCRv2 AUC @1M.",
     "lisanbench": "Score = mean path length / current leaderboard maximum.",
     "game-arena": "Score = 2 * P(win vs top Bradley-Terry rating).",
+    "swe-bench-verified": "Score = Epoch pass rate.",
+    "gpqa-diamond": "Score = accuracy.",
+    "hellaswag": "Score = accuracy.",
+    "gsm8k": "Score = exact match.",
+    "mmlu": "Score = exact match.",
+    "triviaqa": "Score = exact match.",
+    "winogrande": "Score = accuracy.",
+    "bbh": "Score = aggregate average.",
+    "arena-hard-auto": "Score = Arena-Hard-Auto score vs GPT-4-0314 anchor.",
+    "helm-lite": "Score = HELM Lite core-scenarios mean win rate.",
+    "alpacaeval-2-verified": "Score = length-controlled win rate.",
+    "livebench": "Score = mean of LiveBench category averages.",
+    "arc-ai2": "Score = ARC Challenge accuracy.",
+    "openbookqa": "Score = accuracy.",
+    "cad-eval": "Score = overall pass rate.",
+    "otis-mock-aime-2024-2025": "Score = Epoch best scorer accuracy.",
+    "drop": "Score = DROP F1.",
+    "humaneval": "Score = HumanEval pass@1.",
+    "aa-briefcase": "Score = rubric pass rate.",
+    "math-500": "Score = accuracy.",
+    "mmlu-pro": "Score = accuracy.",
+    "mmmu-pro": "Score = accuracy.",
+    "tau2-bench": "Score = success rate.",
+    "ale-bench": "Score = best performance / current top performance.",
     "zerobench": "Score = main-question pass@5.",
   };
-  const confidenceIntervalPlugin = {
-    id: "confidenceIntervals",
-    afterDatasetsDraw(chart, _args, options) {
-      if (!options?.enabled) return;
-      const datasetIndex = options.datasetIndex ?? 0;
-      const dataset = chart.data.datasets[datasetIndex];
-      const intervals = dataset?.confidenceIntervals;
-      const elements = chart.getDatasetMeta(datasetIndex)?.data;
-      const yScale = chart.scales.y;
-      if (!intervals || !elements || !yScale) return;
-
-      const context = chart.ctx;
-      context.save();
-      context.strokeStyle = options.color || "rgba(31, 41, 55, 0.8)";
-      context.lineWidth = options.lineWidth || 1.5;
-      intervals.forEach((interval, index) => {
-        const element = elements[index];
-        if (!element || !Number.isFinite(interval?.low) || !Number.isFinite(interval?.high)) return;
-        const x = element.x;
-        const lowY = yScale.getPixelForValue(interval.low);
-        const highY = yScale.getPixelForValue(interval.high);
-        const capWidth = options.capWidth || 5;
-        context.beginPath();
-        context.moveTo(x, highY);
-        context.lineTo(x, lowY);
-        context.moveTo(x - capWidth, highY);
-        context.lineTo(x + capWidth, highY);
-        context.moveTo(x - capWidth, lowY);
-        context.lineTo(x + capWidth, lowY);
-        context.stroke();
-      });
-      context.restore();
-    },
-  };
-
   function labColor(lab) {
     if (LAB_COLORS[lab]) return LAB_COLORS[lab];
     let hash = 0;
@@ -126,6 +114,14 @@
   const optionHtml = (label, values) => [`<option value="">${label}</option>`].concat(
     values.map((value) => `<option value="${value}">${value}</option>`)
   ).join("");
+
+  const BENCHMARK_BAND_ORDER = ["current", "pre-2026", "pre-June 2025", "pre-2025"];
+  const BENCHMARK_BAND_LABELS = {
+    current: "Current benchmarks",
+    "pre-2026": "Pre-2026",
+    "pre-June 2025": "Pre-June 2025",
+    "pre-2025": "Pre-2025",
+  };
 
   function setStatus(text) {
     const el = $("[data-dashboard-status]");
@@ -271,12 +267,21 @@
     if (addButton) addButton.disabled = !select.value;
   }
 
+  function defaultModelCardIds() {
+    return (state.data.capability_index || [])
+      .filter((row) => row.model_id && row.lab !== "Human" && Number.isFinite(Number(row.index)))
+      .sort((a, b) => Number(b.index) - Number(a.index))
+      .slice(0, 3)
+      .map((row) => row.model_id);
+  }
+
   function initModelCards() {
     const select = document.querySelector("[data-model-card-select]");
     const addButton = document.querySelector("[data-model-card-add]");
     const table = document.querySelector("[data-model-cards-table]");
     if (!select || !addButton || !table) return;
 
+    if (!state.modelCardIds.length) state.modelCardIds = defaultModelCardIds();
     updateModelCardOptions();
     select.addEventListener("change", () => {
       addButton.disabled = !select.value;
@@ -435,13 +440,52 @@
     const benchmarkFilter = $("[data-filter='benchmark']");
     if (!benchmarkFilter || !state.data) return;
     const category = state.filters.category;
-    const benchmarks = uniqueSorted(
+    const availableNames = new Set(
       state.data.results
         .filter((row) => !category || rowCategories(row).includes(category))
         .map((row) => row.benchmark_name)
     );
-    benchmarkFilter.innerHTML = optionHtml("All benchmarks", benchmarks);
+    const groups = new Map();
+    (state.data.benchmarks || [])
+      .filter((benchmark) => availableNames.has(benchmark.name))
+      .filter((benchmark) => !category || benchmarkCategories(benchmark).includes(category))
+      .forEach((benchmark) => {
+        const band = benchmark.index_band || "current";
+        if (!groups.has(band)) groups.set(band, []);
+        groups.get(band).push(benchmark);
+      });
+
+    benchmarkFilter.replaceChildren(new Option("All benchmarks", ""));
+    benchmarkBandOrder(groups).forEach((band) => {
+      const benchmarks = groups.get(band)
+        .slice()
+        .sort((a, b) => a.name.localeCompare(b.name));
+      if (!benchmarks.length) return;
+      benchmarkFilter.append(benchmarkBandOption(band));
+      benchmarks.forEach((benchmark) => {
+        benchmarkFilter.append(new Option(benchmark.name, benchmark.name));
+      });
+    });
     benchmarkFilter.value = state.filters.benchmark;
+  }
+
+  function benchmarkBandOption(band) {
+    const option = new Option(`-- ${BENCHMARK_BAND_LABELS[band] || titleCase(band)} --`, `__band:${band}`);
+    option.disabled = true;
+    return option;
+  }
+
+  function benchmarkBandOrder(groups) {
+    const known = BENCHMARK_BAND_ORDER.filter((band) => groups.has(band));
+    const unknown = Array.from(groups.keys())
+      .filter((band) => !BENCHMARK_BAND_ORDER.includes(band))
+      .sort((a, b) => a.localeCompare(b));
+    return known.concat(unknown);
+  }
+
+  function benchmarkCategories(benchmark) {
+    if (Array.isArray(benchmark.categories)) return benchmark.categories.filter(Boolean);
+    return benchmark.category ? [benchmark.category] : [];
   }
 
   function applyRankingView() {
@@ -542,6 +586,20 @@
     return `${Number.isFinite(level) ? Math.round(level * 100) : 90}% CI`;
   }
 
+  function optionalNumber(value) {
+    if (value == null || value === "") return null;
+    const number = Number(value);
+    return Number.isFinite(number) ? number : null;
+  }
+
+  function confidenceTooltipLine(entry) {
+    if (state.filters.benchmark) return null;
+    const low = optionalNumber(entry.ciLow);
+    const high = optionalNumber(entry.ciHigh);
+    if (low == null || high == null) return null;
+    return `${capabilityConfidenceLabel()}: ${low.toFixed(1)} to ${high.toFixed(1)}`;
+  }
+
   function titleCase(value) {
     return String(value || "")
       .split(/[-_\s]+/)
@@ -587,8 +645,8 @@
         lab: r.lab,
         value: Number(r.index),
         valueText: r.index.toFixed(1),
-        ciLow: Number(r.index_ci_low),
-        ciHigh: Number(r.index_ci_high),
+        ciLow: optionalNumber(r.index_ci_low),
+        ciHigh: optionalNumber(r.index_ci_high),
         detail: `${r.lab} - ${r.benchmark_count} benchmarks`,
         modelId: r.model_id,
         releaseDate: r.release_date,
@@ -615,7 +673,7 @@
   function rankingSubtitleText() {
     const benchmarkId = selectedBenchmarkId();
     if (benchmarkId) return BENCHMARK_TRANSFORMS[benchmarkId] || "";
-    return "GPT-4.1 = 100, GPT-5 = 150";
+    return "GPT-4.1 = 100, GPT-5 = 120";
   }
 
   function selectedBenchmarkMetricRows() {
@@ -685,6 +743,12 @@
     return denominator ? numerator / denominator : 0;
   }
 
+  function formatPearsonCorrelation(value) {
+    if (!Number.isFinite(value)) return "n/a";
+    if (Math.abs(value) >= 0.995 && Math.abs(value) < 1) return value.toFixed(3);
+    return value.toFixed(2);
+  }
+
   function logYRegression(points) {
     const logPoints = points
       .filter((point) => point.y > 0)
@@ -705,7 +769,7 @@
     const officialIds = new Set(officialPairs.map((pair) => pair.model_id));
     return selectedCapabilityMetricRows()
       .filter((row) => !officialIds.has(row.model_id))
-      .filter((row) => Number(row.value) >= METR_ESTIMATE_MIN_INDEX)
+      .filter((row) => Number.isFinite(Number(row.value)))
       .sort((a, b) => b.value - a.value)
       .slice(0, METR_ESTIMATE_LIMIT)
       .map((row) => {
@@ -760,7 +824,7 @@
       estimated: true,
     }));
     const trend = logYTrend(points);
-    if (meta) meta.textContent = `Pearson r = ${pearsonCorrelation(pairs).toFixed(2)} (n = ${pairs.length})`;
+    if (meta) meta.textContent = `Pearson r = ${formatPearsonCorrelation(pearsonCorrelation(pairs))} (n = ${pairs.length})`;
 
     const canvas = document.querySelector("canvas[data-chart='metr']");
     if (!canvas) return;
@@ -923,7 +987,7 @@
       projected: true,
     }));
     const trend = linearTrend(points);
-    if (meta) meta.textContent = `Pearson r = ${pearsonCorrelation(pairs, "yValue").toFixed(2)} (n = ${pairs.length})`;
+    if (meta) meta.textContent = `Pearson r = ${formatPearsonCorrelation(pearsonCorrelation(pairs, "yValue"))} (n = ${pairs.length})`;
 
     const canvas = document.querySelector("canvas[data-chart='eci']");
     if (!canvas) return;
@@ -1064,7 +1128,7 @@
 
     const labels = entries.map((e) => e.label);
     const values = entries.map((e) => e.value);
-    const confidenceIntervals = entries.map((e) => ({ low: e.ciLow, high: e.ciHigh }));
+    const rangeValues = values;
     const colors = entries.map((e) => labColor(e.lab));
     const canvas = document.querySelector("canvas[data-chart='ranking']");
     if (!canvas) return;
@@ -1081,10 +1145,8 @@
           backgroundColor: colors.map((c) => withAlpha(c, 0.85)),
           borderColor: colors,
           borderWidth: 1,
-          confidenceIntervals,
         }],
       },
-      plugins: [confidenceIntervalPlugin],
       options: {
         indexAxis: "x",
         responsive: true,
@@ -1092,17 +1154,13 @@
         layout: { padding: chartPadding() },
         plugins: {
           legend: { display: false },
-          confidenceIntervals: {
-            enabled: !isBenchmark,
-          },
           tooltip: {
             callbacks: {
               label: (ctx) => {
                 const e = entries[ctx.dataIndex];
                 const lines = [`${e.valueText} - ${e.detail}`];
-                if (!isBenchmark && Number.isFinite(e.ciLow) && Number.isFinite(e.ciHigh)) {
-                  lines.push(`${capabilityConfidenceLabel()}: ${e.ciLow.toFixed(1)} to ${e.ciHigh.toFixed(1)}`);
-                }
+                const ciLine = confidenceTooltipLine(e);
+                if (ciLine) lines.push(ciLine);
                 return lines;
               },
             },
@@ -1114,7 +1172,7 @@
           },
           y: {
             ...(!isBenchmark ? compactRange(
-              confidenceIntervals.flatMap((interval) => [interval.low, interval.high]),
+              rangeValues,
               0.05,
               true,
             ) : {}),
@@ -1162,8 +1220,8 @@
           date,
           value: Number(r.index),
           valueText: r.index.toFixed(1),
-          ciLow: Number(r.index_ci_low),
-          ciHigh: Number(r.index_ci_high),
+          ciLow: optionalNumber(r.index_ci_low),
+          ciHigh: optionalNumber(r.index_ci_high),
         };
       })
       .filter((e) => parseDate(e.date) != null);
@@ -1219,6 +1277,7 @@
     }));
 
     const frontier = frontierLine(points.map((p) => ({ x: p.x, y: p.y })));
+    const yRangeValues = points.map((point) => point.y);
 
     updateRankingHeader();
 
@@ -1237,7 +1296,6 @@
             borderColor: points.map((p) => labColor(p.lab)),
             pointRadius: 5,
             pointHoverRadius: 8,
-            confidenceIntervals: points.map((point) => ({ low: point.ciLow, high: point.ciHigh })),
           },
           {
             type: "line",
@@ -1253,7 +1311,6 @@
           },
         ],
       },
-      plugins: [confidenceIntervalPlugin],
       options: {
         responsive: true,
         maintainAspectRatio: false,
@@ -1263,18 +1320,14 @@
             position: "top",
             labels: { boxWidth: 14, font: { size: 11 } },
           },
-          confidenceIntervals: {
-            enabled: !isBenchmark,
-          },
           tooltip: {
             callbacks: {
               label: (ctx) => {
                 if (ctx.dataset.label === "Frontier") return `Frontier: ${ctx.parsed.y.toFixed(1)}`;
                 const p = ctx.dataset.data[ctx.dataIndex];
                 const lines = [`${p.label} (${p.lab}): ${p.valueText} on ${dateFull.format(new Date(p.x))}`];
-                if (!isBenchmark && Number.isFinite(p.ciLow) && Number.isFinite(p.ciHigh)) {
-                  lines.push(`${capabilityConfidenceLabel()}: ${p.ciLow.toFixed(1)} to ${p.ciHigh.toFixed(1)}`);
-                }
+                const ciLine = confidenceTooltipLine(p);
+                if (ciLine) lines.push(ciLine);
                 return lines;
               },
             },
@@ -1291,7 +1344,7 @@
           },
           y: {
             ...(!isBenchmark ? compactRange(
-              points.flatMap((point) => [point.ciLow, point.ciHigh]),
+              yRangeValues,
               0.05,
               true,
             ) : {}),

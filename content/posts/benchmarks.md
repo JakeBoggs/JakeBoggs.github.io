@@ -11,9 +11,7 @@ I found myself refreshing ~40 different leaderboards whenever a new model droppe
 
 {{< benchmark-dashboard-ranking >}}
 
-The index is fixed so that GPT-4.1 will always be at 100 and GPT-5 will always be at 150. The other values might drift as the benchmark composition changes. Epoch's model requires scores to range from 0-1, so I apply normalization to Elo-based evals such that the top model scores 100% and each other model x's score equals `2 * P(model_x wins against top_model)`. To reduce noise from models with low benchmark coverage, I require that each model be on at least eight benchmarks and at least 1/3rd of the benchmarks that have data on or before that model's release date. For sub-indices, I apply the same 1/3rd rule to the category but reduce the lower bound to four across the full dataset.
-
-Expect that I will add / remove benchmarks and adjust the formulas over time. The main objective is to strongly differentiate between the latest models, and less to track long-term progress. As a result, scores for some older models are likely to be missing or unstable.
+The index is fixed so that GPT-4.1 is 100 and GPT-5 is 120. The other values might drift as the benchmark composition changes. Epoch's model requires scores to range from 0-1, so I apply normalization to Elo-based evals such that the top model scores 100% and each other model x's score equals `2 * P(model_x wins against top_model)`. To reduce noise from models with low benchmark coverage, I require that each model be on at least eight benchmarks and at least 1/3rd of the benchmarks that have data on or before that model's release date. For sub-indices, I apply the same 1/3rd rule to the category but reduce the lower bound to four across the full dataset.
 
 How did I decide what to include? I mainly look at three things: data quality, contamination, and real-world relevance. Data quality is perhaps the biggest peristent issue across benchmarks and can be broken down into sub-categories like incorrect answer keys, faulty automated graders, and impossible tasks. The best way to prevent quality issues is simple but boring: look at the data. Ideally you will have a human, or multiple, attempt each task in your benchmark. If this is impractical, you better have a good automated pipeline and do manual validation of that. When I evaluate a benchmark, I either look at the data myself, or I judge whether the authors or someone with domain knowledge have done this thoroughly.
 
@@ -23,11 +21,11 @@ Memorization was historically a large problem, since any public dataset quickly 
 
 {{< benchmark-dashboard-metr >}}
 
-For fun, I've calculated the correlation between the indices and the [METR Time Horizon](https://metr.org/time-horizons/), with the coding sub-index having a particularly strong r^2 of 0.88. METR is extremely thorough and produced a great benchmark, but I've excluded it from my index for two reasons. First, it has mostly been saturated at the time of writing and second, I wanted to see how well I could predict their results for new models.
+For fun, I've calculated the correlation between the indices and the [METR Time Horizon](https://metr.org/time-horizons/), with the coding sub-index having a particularly strong r^2 of 0.92. METR is extremely thorough and produced a great benchmark, but I've excluded it from my index for two reasons. First, it has mostly been saturated at the time of writing and second, I wanted to see how well I could predict their results for new models.
 
 {{< benchmark-dashboard-eci >}}
 
-Of course we need to compare against the original ECI too. As expected, the correlation is high, with an r^2 of 0.92. An interesting pattern I notice is that my index consistently shows Anthropic's models doing better relative to Epoch's, while theirs shows Gemini outperforming. This aligns with my personal experience, where Gemini often does well on common benchmarks but underperforms for actual use-cases.
+Of course we need to compare against the original ECI too. As expected, the correlation is high, with an r^2 of 0.98. An interesting pattern I notice is that my index consistently shows Anthropic's models doing better relative to Epoch's, while theirs shows Gemini outperforming. This aligns with my personal experience, where Gemini often does well on common benchmarks but underperforms for actual use-cases.
 
 {{< benchmark-dashboard-frontier >}}
 

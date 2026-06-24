@@ -123,10 +123,8 @@ Changing token share therefore solves for the effective price implied by the anc
 
 ## Limitations
 
-**OpenRouter is a proxy, not the market.** The biggest consumers of LLM tokens—ChatGPT, Claude.ai, the Gemini app, and direct first-party API customers—mostly bypass OpenRouter. Its traffic skews toward open-weight models, coding agents, and price-sensitive developers. So "usage" here is the revealed preference of OpenRouter's particular userbase, not the whole industry.
+The biggest consumers of LLM tokens—ChatGPT, Claude, the Gemini app, and direct first-party API customers—mostly bypass OpenRouter, and its traffic skews toward open-weight models, coding agents, and price-sensitive developers, so "usage" here is the revealed preference of OpenRouter's particular userbase, not the whole industry.
 
-**Usage is tokens, not decisions.** Token volume is dominated by a handful of high-throughput integrations. A coding tool defaulting to one model can produce billions of tokens, so the signal is throughput-weighted rather than a count of users or independent choices.
+That usage is measured in tokens, so the signal is throughput-weighted rather than a count of users or independent choices. It also does not always imply preference, since higher-scoring models are also newer, more heavily marketed, and more likely to be set as defaults in popular tools—all of which raise usage independent of any benchmark.
 
-**Usage does not always imply preference.** Higher-scoring models are also newer, more heavily marketed, and more likely to be set as defaults in popular tools—all of which raise usage independent of any benchmark.
-
-**A short window.** The figures come from a single weekly snapshot (June 18, 2026). The robustness panel spans only four weeks because the per-model daily history caps at about a month. Those four weeks are also highly correlated, so the stability they show is reassuring but not the same as four independent samples.
+Finally, the figures come from a single weekly snapshot, **June 18, 2026**. The robustness panel spans only four weeks because the per-model daily history caps at about a month, and those four weeks are highly correlated, so the stability they show is reassuring but not the same as four independent samples.

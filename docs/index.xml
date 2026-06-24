@@ -6,8 +6,15 @@
     <description>Recent content on Jake Boggs</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 13 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 24 Jun 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://boggs.tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HieroglyphBench: A Modern OCR Benchmark Using Ancient Text</title>
+      <link>https://boggs.tech/posts/reading-hieroglyphs-with-vlms/</link>
+      <pubDate>Wed, 24 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://boggs.tech/posts/reading-hieroglyphs-with-vlms/</guid>
+      <description>Standard OCR benchmarks are mostly saturated, so I made something harder. HieroglyphBench tests how well VLMs can read ancient Egyptian hieroglyphs.</description>
+    </item>
     <item>
       <title>How Well Do Benchmarks Predict Which Models People Use?</title>
       <link>https://boggs.tech/posts/can-we-predict-model-usage-from-benchmarks/</link>
