@@ -29,7 +29,7 @@ Of course we need to compare against the original ECI too. As expected, the corr
 
 {{< benchmark-dashboard-frontier >}}
 
-I've also made a tracker for the US-China gap, which I estimate currently stands at ~5 months. This is slightly longer than [Epoch's calculation](https://epoch.ai/data-insights/open-closed-eci-gap).
+I've also made a tracker for the US-China gap, which I estimate currently stands at ~6 months. This is slightly longer than [Epoch's calculation](https://epoch.ai/data-insights/open-closed-eci-gap).
 
 {{< benchmark-dashboard-frontier-delta >}}
 

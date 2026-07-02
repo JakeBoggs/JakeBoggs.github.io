@@ -1535,8 +1535,17 @@
 
   function firstFrontierReachDate(points, targetScore) {
     const epsilon = 1e-9;
-    const point = points.find((candidate) => candidate.y + epsilon >= targetScore);
-    return point ? point.x : null;
+    for (let i = 0; i < points.length; i += 1) {
+      if (points[i].y + epsilon < targetScore) continue;
+      if (i === 0) return points[i].x;
+      const lo = points[i - 1];
+      const hi = points[i];
+      const span = hi.y - lo.y;
+      if (span <= epsilon) return hi.x;
+      const frac = (targetScore - lo.y) / span;
+      return lo.x + frac * (hi.x - lo.x);
+    }
+    return null;
   }
 
   function yearsBetween(start, end) {
