@@ -21,33 +21,41 @@ Given a column of hieroglyphs, models must output the signs they see as [Gardine
         const ctx = canvasElement.getContext('2d');
 
         const labels = [
-            'Gemini 3.5 Flash',           // 52.5
-            'Gemini 3 Flash Preview',     // 48.8
-            'Gemini 3.1 Pro',             // 39.7
-            'Fable 5',                    // 22.9
-            'GPT-5.5',                    // 22.8
-            'Kimi K2.6',                  // 19.2
-            'Gemini 2.5 Pro',             // 18.8
-            'GPT-5.4 Mini',               // 15.7
-            'Claude Opus 4.8',            // 14.0
-            'MiniMax M3',                 // 11.1
-            'Qwen 3.7 Plus',              // 10.1
-            'GPT-4o',                     // 9.5
+            'Gemini 3.5 Flash',             // 52.5
+            'Gemini 3 Flash Preview',       // 48.8
+            'Gemini 3.1 Pro',               // 39.7
+            'GPT-5.6 Sol',                  // 27.6
+            'Fable 5',                      // 22.9
+            'GPT-5.5',                      // 22.8
+            'Grok 4.5',                     // 21.2
+            'GPT-5.6 Terra',                // 20.5
+            'Kimi K2.6',                    // 19.2
+            'Gemini 2.5 Pro',               // 18.8
+            'Grok 4.2',                     // 16.8
+            'GPT-5.4 Mini',                 // 15.7
+            'Claude Opus 4.8',              // 14.0
+            'MiniMax M3',                   // 11.1
+            'Qwen 3.7 Plus',                // 10.1
+            'GPT-4o',                       // 9.5
         ];
-        const dataValues = [52.5, 48.8, 39.7, 22.9, 22.8, 19.2, 18.8, 15.7, 14.0, 11.1, 10.1, 9.5];
+        const dataValues = [52.5, 48.8, 39.7, 27.6, 22.9, 22.8, 21.2, 20.5, 19.2, 18.8, 16.8, 15.7, 14.0, 11.1, 10.1, 9.5];
         const backgroundColors = [
-            'rgba(0, 200, 150, 0.85)',  // Gemini 3.5 Flash
-            'rgba(0, 150, 255, 0.85)',  // Gemini 3 Flash Preview
-            'rgba(0, 220, 220, 0.85)',  // Gemini 3.1 Pro
-            'rgba(235, 150, 110, 0.85)',// Fable 5
-            'rgba(0, 114, 178, 0.85)',  // GPT-5.5
-            'rgba(140, 190, 70, 0.85)', // Kimi K2.6
-            'rgba(90, 175, 190, 0.85)', // Gemini 2.5 Pro
-            'rgba(204, 121, 167, 0.85)',// GPT-5.4 Mini
-            'rgba(210, 120, 80, 0.85)', // Claude Opus 4.8
-            'rgba(240, 170, 50, 0.85)', // MiniMax M3
-            'rgba(120, 90, 60, 0.85)',  // Qwen 3.7 Plus
-            'rgba(153, 102, 255, 0.8)', // GPT-4o
+            'rgba(66, 133, 244, 0.85)', // Google (Gemini 3.5 Flash)
+            'rgba(66, 133, 244, 0.85)', // Google (Gemini 3 Flash Preview)
+            'rgba(66, 133, 244, 0.85)', // Google (Gemini 3.1 Pro)
+            'rgba(16, 163, 127, 0.85)', // OpenAI (GPT-5.6 Sol)
+            'rgba(217, 119, 87, 0.85)', // Anthropic (Fable 5)
+            'rgba(16, 163, 127, 0.85)', // OpenAI (GPT-5.5)
+            'rgba(70, 70, 80, 0.85)', // xAI (Grok 4.5)
+            'rgba(16, 163, 127, 0.85)', // OpenAI (GPT-5.6 Terra)
+            'rgba(139, 92, 246, 0.85)', // Moonshot (Kimi K2.6)
+            'rgba(66, 133, 244, 0.85)', // Google (Gemini 2.5 Pro)
+            'rgba(70, 70, 80, 0.85)', // xAI (Grok 4.2)
+            'rgba(16, 163, 127, 0.85)', // OpenAI (GPT-5.4 Mini)
+            'rgba(217, 119, 87, 0.85)', // Anthropic (Claude Opus 4.8)
+            'rgba(219, 68, 110, 0.85)', // MiniMax (MiniMax M3)
+            'rgba(245, 171, 53, 0.85)', // Alibaba (Qwen 3.7 Plus)
+            'rgba(16, 163, 127, 0.85)', // OpenAI (GPT-4o)
         ];
         const borderColors = backgroundColors.map(c => c.replace('0.8', '1').replace('0.85', '1'));
 
