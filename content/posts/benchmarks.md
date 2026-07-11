@@ -33,6 +33,6 @@ I've also made a tracker for the US-China gap, which I estimate currently stands
 
 {{< benchmark-dashboard-frontier-delta >}}
 
-Finally, you can compare benchmark results across models with this card generator:
+Finally, we can compare benchmark results across models:
 
 {{< benchmark-dashboard-model-cards >}}

@@ -305,7 +305,7 @@
   function modelCardBenchmarkRows() {
     const selected = new Set(state.modelCardIds);
     const registeredBenchmarks = new Map(
-      (state.data.benchmarks || []).map((benchmark, index) => [benchmark.id, { ...benchmark, index }]),
+      (state.data.benchmarks || []).map((benchmark) => [benchmark.id, benchmark]),
     );
     const scoresByBenchmark = new Map();
 
@@ -322,7 +322,10 @@
     return Array.from(scoresByBenchmark, ([benchmarkId, scores]) => ({
       benchmark: registeredBenchmarks.get(benchmarkId),
       scores,
-    })).sort((a, b) => a.benchmark.index - b.benchmark.index);
+    })).sort((a, b) => (
+      a.benchmark.name.localeCompare(b.benchmark.name)
+      || a.benchmark.id.localeCompare(b.benchmark.id)
+    ));
   }
 
   function modelCardRemoveButton(model) {
@@ -1335,7 +1338,7 @@
         },
         scales: {
           x: {
-            ...compactRange(points.map((point) => point.x), 0.01),
+            ...compactRange(points.map((point) => point.x), 0.01, true),
             type: "time",
             bounds: "data",
             time: { unit: "month", tooltipFormat: "MMM yyyy" },
