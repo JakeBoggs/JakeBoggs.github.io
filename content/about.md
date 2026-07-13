@@ -6,13 +6,13 @@ My name is Jake and I have a snake. Most recently at [Tzafon](https://tzafon.ai/
 ### Research Interests
 **Evals.** If what gets measured gets improved, then the starting point for developing any new capability is to make a benchmark for it. I believe this is one of the highest-leverage ways to drive progress.
 
-I also maintain a [capabilities index](/posts/benchmarks) of ones which I think are valuable.
+I also maintain a [capabilities index](/posts/benchmarks) composed of ones which I think are valuable.
 
 **Harnesses.** Models are only useful if you can apply them. There's a lot of low-hanging fruit here.
 
 A few of my favorites:
 * [RuneBench](https://maxbittker.github.io/runebench/). AI writes code to play RuneScape
-* [Remote Labor Index](https://www.remotelabor.ai/). CUA harness for measuring progress towards full automation of standard online freelance work. Still very unsaturated, no model gets above 5%
+* [Remote Labor Index](https://www.remotelabor.ai/). CUA harness and benchmark for measuring progress towards full automation of online freelance work. Still very unsaturated, no model gets above 5%
 * [Kosmos](https://edisonscientific.com/articles/announcing-kosmos). This one helped with research for the genetic engineering project below
 
 **Reinforcement learning.** A combination of the above. Make a harness for a task, an evaluation to measure the output quality, and now you have an RL environment.

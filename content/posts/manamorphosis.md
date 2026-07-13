@@ -2,7 +2,7 @@
 title: "Introducing Manamorphosis: A Diffusion Model for MTG Deck Generation"
 date: "2025-05-05"
 draft: false
-summary: "I trained a diffusion model to complete Magic: The Gathering decklists. Give it some cards, it fills in the rest. Trained on 47k tournament decks."
+summary: "I trained a diffusion model to complete Magic: The Gathering decklists. Give it some cards, it fills in the rest."
 ---
 This post details **Manamorphosis**, a first-of-its-kind diffusion model I developed to complete Magic: The Gathering decklists. It takes a partial list and fills in the rest to form a 60-card main deck. Subsequently, using the completed main deck as context, it can complete a 15-card sideboard. The core generative mechanism is based on Denoising Diffusion Probabilistic Models (DDPMs), the same family of models powering image generation systems like Stable Diffusion and Midjourney, but adapted here to produce sets of cards. As far as I know, this is the state-of-the-art (and only) AI model trained specifically for this task.
 
