@@ -108,9 +108,9 @@ Many visual understanding benchmarks are nearing saturation and struggle to diff
 ## Examples
 
 <style>
-.hiero-ex { border:1px solid #e2ddd2; border-radius:12px; padding:16px; margin:22px 0; background:#fcfbf8; }
+.hiero-ex { border:1px solid var(--border); border-radius:6px; padding:16px; margin:22px 0; background:#fff; }
 .hiero-grid { display:flex; gap:18px; align-items:flex-start; }
-.hiero-img { flex:0 0 auto; max-height:360px; width:auto; border-radius:8px; border:1px solid #d8d2c4; background:#fff; }
+.hiero-img { flex:0 0 auto; max-height:360px; width:auto; border-radius:6px; border:1px solid var(--border); background:#fff; }
 .hiero-readings { flex:1 1 auto; min-width:0; }
 .hiero-readings .rd { margin-bottom:14px; }
 .hiero-readings .lbl { display:block; font-size:13px; font-weight:600; color:#5b5446; margin-bottom:5px; }
