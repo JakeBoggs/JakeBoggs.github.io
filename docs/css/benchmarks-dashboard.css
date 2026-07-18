@@ -242,6 +242,100 @@ html, body {
   height: 100% !important;
 }
 
+.dashboard-chart--cost.has-time-slider {
+  height: 552px;
+}
+
+.dashboard-chart--cost .dashboard-chart__plot {
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.dashboard-chart--cost.has-time-slider .dashboard-chart__plot {
+  height: calc(100% - 4.5rem);
+}
+
+.dashboard-chart--cost .dashboard-chart__plot canvas {
+  height: 100% !important;
+}
+
+.dashboard-cost-time {
+  bottom: 1.85rem;
+  left: 1rem;
+  position: absolute;
+  right: 1rem;
+}
+
+.dashboard-cost-time[hidden] {
+  display: none;
+}
+
+.dashboard-cost-time__header {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.2rem;
+}
+
+.dashboard-cost-time__header label,
+.dashboard-cost-time__header output {
+  color: var(--dash-muted);
+  font-size: 0.78rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.dashboard-cost-time input {
+  display: block;
+  margin: 0;
+  min-width: 0;
+  width: 100%;
+}
+
+.dashboard-cost-time__axis {
+  height: 1rem;
+  margin: 0 0.45rem;
+  position: relative;
+}
+
+.dashboard-cost-time__tick {
+  color: var(--dash-muted);
+  font-size: 0.67rem;
+  line-height: 1;
+  padding-top: 0.38rem;
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.dashboard-cost-time__tick::before {
+  background: var(--dash-border);
+  content: "";
+  height: 0.25rem;
+  left: 50%;
+  position: absolute;
+  top: 0;
+  width: 1px;
+}
+
+.dashboard-cost-time__tick:first-child {
+  transform: none;
+}
+
+.dashboard-cost-time__tick:first-child::before {
+  left: 0;
+}
+
+.dashboard-cost-time__tick:last-child {
+  transform: translateX(-100%);
+}
+
+.dashboard-cost-time__tick:last-child::before {
+  left: 100%;
+}
+
 .dashboard-empty {
   color: var(--dash-muted);
   padding: 1.25rem 1rem 1.5rem;
@@ -427,8 +521,17 @@ html, body {
     padding-right: 0.45rem;
   }
 
+  .dashboard-cost-time {
+    left: 0.45rem;
+    right: 0.45rem;
+  }
+
   .dashboard-chart--scatter {
     height: 380px;
+  }
+
+  .dashboard-chart--cost.has-time-slider {
+    height: 452px;
   }
 
   .model-cards__add {
@@ -459,8 +562,17 @@ html, body {
     padding-right: 0.15rem;
   }
 
+  .dashboard-cost-time {
+    left: 0.35rem;
+    right: 0.35rem;
+  }
+
   .dashboard-chart--scatter {
     height: 340px;
+  }
+
+  .dashboard-chart--cost.has-time-slider {
+    height: 412px;
   }
 
   .model-cards__add-button span {

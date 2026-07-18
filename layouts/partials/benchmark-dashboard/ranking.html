@@ -15,9 +15,10 @@
               <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"></path>
             </svg>
           </a>
-          <div class="dashboard-segmented" aria-label="Capability view">
+          <div class="dashboard-segmented" aria-label="Ranking view">
             <button type="button" class="segmented-button is-active" data-ranking-view="bar">Bars</button>
             <button type="button" class="segmented-button" data-ranking-view="time">Time</button>
+            <button type="button" class="segmented-button" data-ranking-view="cost">Cost</button>
           </div>
         </div>
       </div>
@@ -31,6 +32,21 @@
         <span class="dashboard-chart__updated" data-chart-updated></span>
       </div>
       <p class="dashboard-empty" data-empty="time" data-view-pane="time" hidden>No models with release dates match the current filters.</p>
+      <div class="dashboard-chart dashboard-chart--scatter dashboard-chart--cost" data-view-pane="cost" hidden>
+        <div class="dashboard-chart__plot">
+          <canvas data-chart="cost"></canvas>
+        </div>
+        <div class="dashboard-cost-time" data-cost-time-slider hidden>
+          <div class="dashboard-cost-time__header">
+            <label for="cost-time-cutoff">Release date</label>
+            <output for="cost-time-cutoff" data-cost-time-output></output>
+          </div>
+          <input id="cost-time-cutoff" type="range" data-cost-time-input aria-label="Model release date cutoff">
+          <div class="dashboard-cost-time__axis" data-cost-time-axis aria-hidden="true"></div>
+        </div>
+        <span class="dashboard-chart__updated" data-chart-updated></span>
+      </div>
+      <p class="dashboard-empty" data-empty="cost" data-view-pane="cost" hidden>No source-reported model costs match the current filters.</p>
     </section>
   </div>
 </div>

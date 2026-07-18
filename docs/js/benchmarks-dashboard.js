@@ -5,13 +5,16 @@
     data: null,
     rankingView: "bar",
     frontierDeltaMode: "time",
+    costCutoffTimestamp: null,
     filters: { benchmark: "", category: "", lab: "", openness: "" },
     modelCardIds: [],
-    charts: { ranking: null, time: null, metr: null, eci: null, frontier: null, frontierDelta: null },
+    charts: { ranking: null, time: null, cost: null, costLevels: null, metr: null, eci: null, frontier: null, frontierDelta: null },
   };
 
   const fmt = new Intl.NumberFormat("en-US");
+  const usd = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 4 });
   const dateFull = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+  const dateMonth = new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
   const $ = (sel) => document.querySelector(sel);
   const pct = (v) => v == null ? "" : `${(v * 100).toFixed(1)}%`;
 
@@ -53,7 +56,7 @@
   const BENCHMARK_TRANSFORMS = {
     "bullshitbench": "Score = green classifications / scored samples.",
     "benchmarks-bio-epibench": "Score = pass rate.",
-    "benchmarks-bio-singlecell": "Score = accuracy.",
+    "benchmarks-bio-scbench-long": "Score = pass rate.",
     "benchmarks-bio-txbench": "Score = pass rate.",
     "eqbench": "Score = 2 * P(win vs top Elo).",
     "gdpval-aa": "Score = 2 * P(win vs top Elo).",
@@ -183,6 +186,18 @@
     return { min: min - pad, max: max + pad };
   }
 
+  function logarithmicRange(values, fraction = 0.04) {
+    const finite = values.filter((value) => Number.isFinite(value) && value > 0);
+    if (!finite.length) return {};
+    const minimum = Math.log10(Math.min(...finite));
+    const maximum = Math.log10(Math.max(...finite));
+    const span = maximum - minimum || 1;
+    return {
+      min: 10 ** (minimum - span * fraction),
+      max: 10 ** (maximum + span * fraction),
+    };
+  }
+
   function rankingTickOptions() {
     if (window.innerWidth <= 560) {
       return { autoSkip: true, maxTicksLimit: 12, maxRotation: 65, minRotation: 45, font: { size: 10 } };
@@ -210,6 +225,14 @@
           state.filters.benchmark = "";
           updateBenchmarkOptions();
         }
+        if (key === "benchmark"
+          && state.rankingView === "cost"
+          && state.filters.benchmark
+          && !benchmarkHasReportedCost(state.filters.benchmark)) {
+          state.rankingView = "bar";
+          updateBenchmarkOptions();
+          syncRankingViewUi();
+        }
         render();
       });
     });
@@ -217,12 +240,21 @@
     document.querySelectorAll("[data-ranking-view]").forEach((btn) => {
       btn.addEventListener("click", () => {
         state.rankingView = btn.dataset.rankingView;
-        document.querySelectorAll("[data-ranking-view]").forEach((b) => {
-          b.classList.toggle("is-active", b.dataset.rankingView === state.rankingView);
-        });
+        if (state.rankingView === "cost" && state.filters.benchmark && !benchmarkHasReportedCost(state.filters.benchmark)) {
+          state.rankingView = "bar";
+        }
+        updateBenchmarkOptions();
         applyRankingView();
       });
     });
+
+    const costTimeInput = $("[data-cost-time-input]");
+    if (costTimeInput) {
+      costTimeInput.addEventListener("input", () => {
+        state.costCutoffTimestamp = Number(costTimeInput.value);
+        renderCost();
+      });
+    }
 
     document.querySelectorAll("[data-frontier-delta-mode]").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -472,6 +504,12 @@
     benchmarkFilter.value = state.filters.benchmark;
   }
 
+  function benchmarkHasReportedCost(benchmarkName) {
+    return state.data.results.some(
+      (row) => row.benchmark_name === benchmarkName && Number(row.cost_usd) > 0
+    );
+  }
+
   function benchmarkBandOption(band) {
     const option = new Option(`-- ${BENCHMARK_BAND_LABELS[band] || titleCase(band)} --`, `__band:${band}`);
     option.disabled = true;
@@ -492,6 +530,13 @@
   }
 
   function applyRankingView() {
+    syncRankingViewUi();
+    if (state.rankingView === "bar") renderRanking();
+    else if (state.rankingView === "time") renderTime();
+    else renderCost();
+  }
+
+  function syncRankingViewUi() {
     document.querySelectorAll("[data-view-pane]").forEach((pane) => {
       const isActive = pane.dataset.viewPane === state.rankingView;
       const isEmptyBanner = pane.hasAttribute("data-empty");
@@ -502,8 +547,9 @@
         pane.hidden = !isActive;
       }
     });
-    if (state.rankingView === "bar") renderRanking();
-    else renderTime();
+    document.querySelectorAll("[data-ranking-view]").forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.rankingView === state.rankingView);
+    });
   }
 
   function passes(row) {
@@ -658,6 +704,11 @@
 
   function rankingTitleText() {
     const isBenchmark = !!state.filters.benchmark;
+    if (state.rankingView === "cost") {
+      return isBenchmark
+        ? `${state.filters.benchmark} Score vs Cost`
+        : `${capabilityIndexLabel()} vs Cost Index`;
+    }
     if (state.rankingView === "time") {
       return isBenchmark ? `${state.filters.benchmark} Over Time` : "Capabilities Index Over Time";
     }
@@ -675,6 +726,10 @@
 
   function rankingSubtitleText() {
     const benchmarkId = selectedBenchmarkId();
+    if (state.rankingView === "cost") {
+      if (benchmarkId) return selectedBenchmark()?.cost_basis || "Source-reported USD cost";
+      return "Relative model cost; GPT-4.1 = 100";
+    }
     if (benchmarkId) return BENCHMARK_TRANSFORMS[benchmarkId] || "";
     return "GPT-4.1 = 100, GPT-5 = 120";
   }
@@ -1359,6 +1414,367 @@
     });
   }
 
+  function bestScoringRows(rows) {
+    const best = new Map();
+    rows.forEach((row) => {
+      const score = Number(row.normalized_score);
+      const modelId = row.capability_model_id || row.model_id;
+      if (!modelId || !Number.isFinite(score)) return;
+      const current = best.get(modelId);
+      if (!current || score > Number(current.normalized_score)) best.set(modelId, row);
+    });
+    return Array.from(best.values());
+  }
+
+  function costEntries() {
+    if (state.filters.benchmark) {
+      return bestScoringRows(filteredResults())
+        .filter((row) => Number(row.cost_usd) > 0)
+        .map((row) => ({
+          label: row.capability_model || row.model,
+          lab: row.lab,
+          cost: Number(row.cost_usd),
+          score: Number(row.normalized_score) * 100,
+          scoreText: pct(row.normalized_score),
+          costText: usd.format(Number(row.cost_usd)),
+        }));
+    }
+
+    const allowed = new Set(filteredResults().map((row) => row.capability_model_id || row.model_id));
+    const costByModel = new Map((state.data.cost_index || []).map((row) => [row.model_id, row]));
+    return selectedCapabilityRows()
+      .filter((row) => allowed.has(row.model_id) && costByModel.has(row.model_id))
+      .map((row) => {
+        const cost = costByModel.get(row.model_id);
+        return {
+          label: row.model,
+          lab: row.lab,
+          cost: Number(cost.cost_index),
+          score: Number(row.index),
+          scoreText: row.index.toFixed(1),
+          costText: cost.cost_index.toFixed(1),
+          benchmarkCount: cost.benchmark_count,
+          releaseTimestamp: parseDate(row.release_date)?.getTime() ?? null,
+        };
+      })
+      .filter((row) => Number.isFinite(row.cost)
+        && row.cost > 0
+        && Number.isFinite(row.score)
+        && Number.isFinite(row.releaseTimestamp));
+  }
+
+  function updateCostTimeSlider(entries, isBenchmark) {
+    const container = $("[data-cost-time-slider]");
+    const chart = $(".dashboard-chart--cost");
+    const input = $("[data-cost-time-input]");
+    const output = $("[data-cost-time-output]");
+    const axis = $("[data-cost-time-axis]");
+    if (!container || !chart || !input || !output || !axis) return entries;
+
+    const timestamps = entries
+      .map((entry) => entry.releaseTimestamp)
+      .filter(Number.isFinite);
+    const showSlider = !isBenchmark && timestamps.length > 0;
+    container.hidden = !showSlider;
+    chart.classList.toggle("has-time-slider", showSlider);
+    if (!showSlider) return entries;
+
+    const minimum = Math.min(...timestamps);
+    const maximum = Math.max(...timestamps);
+    if (!Number.isFinite(state.costCutoffTimestamp)) state.costCutoffTimestamp = maximum;
+    const visibleCutoff = Math.min(maximum, Math.max(minimum, state.costCutoffTimestamp));
+
+    input.min = String(minimum);
+    input.max = String(maximum);
+    input.step = String(24 * 60 * 60 * 1000);
+    input.value = String(visibleCutoff);
+    output.value = dateFull.format(new Date(visibleCutoff));
+    renderCostTimeAxis(axis, minimum, maximum);
+
+    return entries.filter((entry) => entry.releaseTimestamp <= visibleCutoff);
+  }
+
+  function renderCostTimeAxis(axis, minimum, maximum) {
+    const tickCount = isMobileChart() ? 3 : 5;
+    const span = maximum - minimum;
+    const ticks = Array.from({ length: tickCount }, (_, index) => {
+      const ratio = index / (tickCount - 1);
+      const tick = document.createElement("span");
+      tick.className = "dashboard-cost-time__tick";
+      tick.style.left = `${ratio * 100}%`;
+      tick.textContent = dateMonth.format(new Date(minimum + span * ratio));
+      return tick;
+    });
+    axis.replaceChildren(...ticks);
+  }
+
+  function renderCost() {
+    const isBenchmark = !!state.filters.benchmark;
+    const entries = updateCostTimeSlider(costEntries(), isBenchmark);
+    updateRankingHeader();
+    if (!entries.length) {
+      setEmpty("cost", true);
+      return;
+    }
+    setEmpty("cost", false);
+
+    const points = entries.map((entry) => ({
+      x: entry.cost,
+      y: entry.score,
+      ...entry,
+    }));
+    const canvas = document.querySelector("canvas[data-chart='cost']");
+    if (!canvas) return;
+    destroyChart("cost");
+    state.charts.cost = new Chart(canvas.getContext("2d"), {
+      type: "scatter",
+      data: {
+        datasets: [{
+          label: "Models",
+          data: points,
+          parsing: false,
+          backgroundColor: points.map((point) => withAlpha(labColor(point.lab), 0.85)),
+          borderColor: points.map((point) => labColor(point.lab)),
+          pointRadius: 5,
+          pointHoverRadius: 8,
+          datalabels: { display: false },
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        layout: { padding: chartPadding() },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const point = context.dataset.data[context.dataIndex];
+                if (isBenchmark) {
+                  return [
+                    `${point.label} (${point.lab})`,
+                    `Score: ${point.scoreText}`,
+                    `Reported cost: ${point.costText}`,
+                  ];
+                }
+                return [
+                  `${point.label} (${point.lab})`,
+                  `${capabilityIndexLabel()}: ${point.scoreText}`,
+                  `Cost index: ${point.costText} (${point.benchmarkCount} benchmarks)`,
+                ];
+              },
+            },
+          },
+        },
+        scales: {
+          x: {
+            type: "logarithmic",
+            ...logarithmicRange(points.map((point) => point.x), 0.04),
+            title: axisTitle(isBenchmark ? "Reported cost (USD, log scale)" : "Cost index (GPT-4.1 = 100, log scale)"),
+            ticks: { maxTicksLimit: isMobileChart() ? 5 : 8 },
+          },
+          y: {
+            ...compactRange(points.map((point) => point.y), 0.05, true),
+            title: axisTitle(isBenchmark ? "Normalized score (%)" : capabilityIndexLabel()),
+            ticks: yAxisTicks(isBenchmark ? { callback: (value) => `${value}%` } : {}),
+          },
+        },
+      },
+    });
+  }
+
+  const CAPABILITY_LEVEL_COLORS = ["#2867d8", "#10a37f", "#d69e00", "#d97757", "#7e22ce", "#374151"];
+
+  function costLevelEntries() {
+    const allowedModels = new Set(
+      filteredResults().map((row) => row.capability_model_id || row.model_id)
+    );
+    const costByModel = new Map((state.data.cost_index || []).map((row) => [row.model_id, row]));
+    return selectedCapabilityRows()
+      .filter((row) => allowedModels.has(row.model_id) && costByModel.has(row.model_id))
+      .map((row) => ({
+        model: row.model,
+        lab: row.lab,
+        capability: Number(row.index),
+        cost: Number(costByModel.get(row.model_id).cost_index),
+        releaseTimestamp: parseDate(row.release_date)?.getTime() ?? null,
+      }))
+      .filter((row) => Number.isFinite(row.capability)
+        && Number.isFinite(row.cost)
+        && row.cost > 0
+        && Number.isFinite(row.releaseTimestamp));
+  }
+
+  function capabilityCostFrontier(entries, level) {
+    const cheapestByDate = new Map();
+    entries
+      .filter((entry) => entry.capability >= level)
+      .forEach((entry) => {
+        const current = cheapestByDate.get(entry.releaseTimestamp);
+        if (!current || entry.cost < current.cost) cheapestByDate.set(entry.releaseTimestamp, entry);
+      });
+
+    let cheapestCost = Infinity;
+    const frontier = Array.from(cheapestByDate.entries())
+      .sort(([left], [right]) => left - right)
+      .flatMap(([releaseTimestamp, entry]) => {
+        if (entry.cost >= cheapestCost) return [];
+        cheapestCost = entry.cost;
+        return [{
+          x: releaseTimestamp,
+          y: entry.cost,
+          model: entry.model,
+          lab: entry.lab,
+          capability: entry.capability,
+        }];
+      });
+    if (!frontier.length) return frontier;
+
+    const plotPoints = [frontier[0]];
+    frontier.slice(1).forEach((point) => {
+      const previous = plotPoints[plotPoints.length - 1];
+      plotPoints.push({ ...previous, x: point.x, joint: true });
+      plotPoints.push(point);
+    });
+    const latest = plotPoints[plotPoints.length - 1];
+    return plotPoints.concat({ ...latest, x: Date.now(), extension: true });
+  }
+
+  function fittedAnnualCostMultiplier(series) {
+    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+    const millisecondsPerYear = 365.2425 * 24 * 60 * 60 * 1000;
+    let covariance = 0;
+    let yearVariance = 0;
+
+    series.forEach(({ points }) => {
+      const events = points.filter((point) => !point.joint && !point.extension);
+      if (events.length < 2) return;
+
+      const values = [];
+      let eventIndex = 0;
+      for (let timestamp = events[0].x; timestamp <= currentDateTime(); timestamp += millisecondsPerDay) {
+        while (eventIndex + 1 < events.length && events[eventIndex + 1].x <= timestamp) {
+          eventIndex += 1;
+        }
+        values.push({
+          year: timestamp / millisecondsPerYear,
+          logCost: Math.log(events[eventIndex].y),
+        });
+      }
+
+      const meanYear = values.reduce((sum, point) => sum + point.year, 0) / values.length;
+      const meanLogCost = values.reduce((sum, point) => sum + point.logCost, 0) / values.length;
+      values.forEach((point) => {
+        covariance += (point.year - meanYear) * (point.logCost - meanLogCost);
+        yearVariance += (point.year - meanYear) ** 2;
+      });
+    });
+
+    if (!yearVariance) return null;
+    const annualLogChange = covariance / yearVariance;
+    return annualLogChange < 0 ? Math.exp(-annualLogChange) : null;
+  }
+
+  function formatAnnualCostMultiplier(value) {
+    return value < 10 ? value.toFixed(1) : value.toFixed(0);
+  }
+
+  function renderCostLevels() {
+    const title = $("[data-cost-levels-title]");
+    if (title) {
+      title.textContent = state.filters.category
+        ? `Cost of ${titleCase(state.filters.category)} Capability Over Time`
+        : "Cost of Capability Over Time";
+    }
+
+    const entries = costLevelEntries();
+    const maximumLevel = Math.floor(Math.max(...entries.map((entry) => entry.capability)) / 20) * 20;
+    const levels = maximumLevel >= 80
+      ? Array.from({ length: (maximumLevel - 80) / 20 + 1 }, (_, index) => 80 + index * 20)
+      : [];
+    const series = levels
+      .map((level) => ({ level, points: capabilityCostFrontier(entries, level) }))
+      .filter((item) => item.points.length > 0);
+    const annualCostMultiplier = fittedAnnualCostMultiplier(series);
+    const meta = $("[data-cost-levels-meta]");
+    if (meta) {
+      meta.textContent = Number.isFinite(annualCostMultiplier)
+        ? `Estimated cost decrease: ${formatAnnualCostMultiplier(annualCostMultiplier)}x/year`
+        : "";
+    }
+    const allPoints = series.flatMap((item) => item.points);
+    if (!allPoints.length) {
+      setEmpty("costLevels", true);
+      return;
+    }
+    setEmpty("costLevels", false);
+
+    const canvas = $("canvas[data-chart='costLevels']");
+    if (!canvas) return;
+    destroyChart("costLevels");
+    state.charts.costLevels = new Chart(canvas.getContext("2d"), {
+      type: "line",
+      data: {
+        datasets: series.map(({ level, points }, index) => ({
+          label: `${level}`,
+          capabilityLevel: level,
+          data: points,
+          parsing: false,
+          borderColor: CAPABILITY_LEVEL_COLORS[index % CAPABILITY_LEVEL_COLORS.length],
+          backgroundColor: CAPABILITY_LEVEL_COLORS[index % CAPABILITY_LEVEL_COLORS.length],
+          borderWidth: 2,
+          pointRadius: (context) => (context.raw?.extension || context.raw?.joint ? 0 : 3),
+          pointHoverRadius: 6,
+          tension: 0,
+          datalabels: { display: false },
+        })),
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        layout: { padding: chartPadding() },
+        plugins: {
+          legend: {
+            position: "top",
+            labels: { boxWidth: 12, font: { size: 11 } },
+          },
+          tooltip: {
+            callbacks: {
+              title: (contexts) => dateFull.format(new Date(contexts[0].parsed.x)),
+              label: (context) => {
+                const point = context.dataset.data[context.dataIndex];
+                const lines = [
+                  `Level ${context.dataset.capabilityLevel}: ${point.model} (${point.lab})`,
+                  `Capabilities index: ${point.capability.toFixed(1)}`,
+                  `Cost index: ${point.y.toFixed(1)}`,
+                ];
+                return lines;
+              },
+            },
+          },
+        },
+        scales: {
+          x: {
+            type: "time",
+            bounds: "data",
+            max: Date.now(),
+            time: { unit: "month", tooltipFormat: "MMM d, yyyy" },
+            title: axisTitle("Model release date"),
+            ticks: { maxTicksLimit: isMobileChart() ? 4 : 8 },
+          },
+          y: {
+            type: "logarithmic",
+            ...logarithmicRange(allPoints.map((point) => point.y), 0.06),
+            title: axisTitle("Cost index (GPT-4.1 = 100, log scale)"),
+            ticks: yAxisTicks(),
+          },
+        },
+      },
+    });
+  }
+
   function countryForLab(lab) {
     if (US_LABS.has(lab)) return "US";
     if (CHINA_LABS.has(lab)) return "China";
@@ -1814,7 +2230,9 @@
 
   function render() {
     if (state.rankingView === "bar") renderRanking();
-    else renderTime();
+    else if (state.rankingView === "time") renderTime();
+    else renderCost();
+    renderCostLevels();
     renderMetrCorrelation();
     renderEciCorrelation();
     renderFrontier();
