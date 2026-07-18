@@ -11,7 +11,7 @@ Given a column of hieroglyphs, models must output the signs they see as [Gardine
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
-<div style="width: 90%; margin: 20px auto;">
+<div style="width: 90%; margin: 20px auto; background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem;">
     <canvas id="hieroLeaderboardChart"></canvas>
 </div>
 
