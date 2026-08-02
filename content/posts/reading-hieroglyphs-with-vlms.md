@@ -35,13 +35,14 @@ Given a column of hieroglyphs, models must output the signs they see as [Gardine
             'Gemini 2.5 Pro',               // 18.8
             'Grok 4.2',                     // 16.8
             'GPT-5.4 Mini',                 // 15.7
+            'Claude Opus 5',                // 14.6
             'Claude Opus 4.8',              // 14.0
             'Inkling 1',                    // 12.5
             'MiniMax M3',                   // 11.1
             'Qwen 3.7 Plus',                // 10.1
             'GPT-4o',                       // 9.5
         ];
-        const dataValues = [52.5, 48.8, 39.7, 27.6, 25.9, 24.5, 22.9, 22.8, 21.2, 20.5, 19.2, 18.8, 16.8, 15.7, 14.0, 12.5, 11.1, 10.1, 9.5];
+        const dataValues = [52.5, 48.8, 39.7, 27.6, 25.9, 24.5, 22.9, 22.8, 21.2, 20.5, 19.2, 18.8, 16.8, 15.7, 14.6, 14.0, 12.5, 11.1, 10.1, 9.5];
         const backgroundColors = [
             'rgba(66, 133, 244, 0.85)', // Google (Gemini 3.5 Flash)
             'rgba(66, 133, 244, 0.85)', // Google (Gemini 3 Flash Preview)
@@ -57,6 +58,7 @@ Given a column of hieroglyphs, models must output the signs they see as [Gardine
             'rgba(66, 133, 244, 0.85)', // Google (Gemini 2.5 Pro)
             'rgba(70, 70, 80, 0.85)', // xAI (Grok 4.2)
             'rgba(16, 163, 127, 0.85)', // OpenAI (GPT-5.4 Mini)
+            'rgba(217, 119, 87, 0.85)', // Anthropic (Claude Opus 5)
             'rgba(217, 119, 87, 0.85)', // Anthropic (Claude Opus 4.8)
             'rgba(90, 110, 170, 0.85)', // Thinking Machines (Inkling 1)
             'rgba(219, 68, 110, 0.85)', // MiniMax (MiniMax M3)

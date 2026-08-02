@@ -55,14 +55,14 @@
       <link>https://boggs.tech/posts/manamorphosis/</link>
       <pubDate>Mon, 05 May 2025 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/manamorphosis/</guid>
-      <description>I trained a diffusion model to complete Magic: The Gathering decklists. Give it some cards, it fills in the rest. Trained on 47k tournament decks.</description>
+      <description>I trained a diffusion model to complete Magic: The Gathering decklists. Give it some cards, it fills in the rest.</description>
     </item>
     <item>
       <title>Gait Analysis for Physical Therapy with YOLOv11</title>
       <link>https://boggs.tech/posts/gait-analysis-physical-therapy-research/</link>
       <pubDate>Mon, 21 Apr 2025 00:00:00 +0000</pubDate>
       <guid>https://boggs.tech/posts/gait-analysis-physical-therapy-research/</guid>
-      <description>Built a video analysis tool for my mom&amp;rsquo;s physical therapy research. Uses YOLOv11-pose for automatic joint detection with a drag-to-correct interface.</description>
+      <description>Built a video analysis tool for my mom&#39;s physical therapy research. Uses YOLOv11-pose for automatic joint detection with a drag-to-correct interface.</description>
     </item>
     <item>
       <title>Daily Yap: A Synthetically Generated Conversational Audio Dataset</title>
