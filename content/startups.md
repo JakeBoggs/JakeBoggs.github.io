@@ -4,6 +4,7 @@ title: "Startups"
 Places I've worked:
 
 <div class="investment-grid">
+{{< investment img="/images/recension.png" url="https://www.recension.ai/" title="Recension" description="Foundation models for genetic engineering" meta="Founder" >}}
 {{< investment img="/images/tzafon.png" url="https://www.tzafon.ai/" title="Tzafon" description="Computer-use models and infrastructure" meta="Member of Technical Staff" >}}
 {{< investment img="/images/endeavor.png" url="https://endeavor.ai/" title="Endeavor" description="Agents for ERP automation in manufacturing and distribution" meta="Research Engineer" >}}
 {{< investment img="/images/aeternum.png" modal="aeternum-gallery" title="Aeternum Analytics" description="Began with facial recognition (failed during COVID), ended up selling ~$1 million in trading cards out of my bedroom during the Pokemon / MTG frenzy" meta="Founder" >}}
