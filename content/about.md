@@ -17,7 +17,7 @@ A few of my favorites:
 
 **Reinforcement learning.** A combination of the above. Make a harness for a task, an evaluation to measure the output quality, and now you have an RL environment.
 
-**Data quality.** Models form approximations of the data they are trained on. If your data is flawed, your model will be too. Garbage in, garbage out. LOOK AT YOUR DATA. Not enough people do this.
+**Data quality.** If your data is flawed, your model will be too. Garbage in, garbage out. LOOK AT YOUR DATA. Not enough people do this.
 
 **Genetic engineering.** One of the projects we are working on at Recension is creating a real-life <a href="/about#lotus">Black Lotus</a>. If this interests you, reach out [here](mailto:contact@recension.ai).
 
