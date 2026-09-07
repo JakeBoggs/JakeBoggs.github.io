@@ -46,7 +46,7 @@ A few of my favorites:
 <span id="lotus"></span>
 
 <div style="margin-top: 2rem;">
-    I'm also skilled at Magic: the Gathering 😏
+    I'm also skilled at Magic: The Gathering 😏
     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; align-items: flex-start;">
         <img src="/images/lotus.jpg" alt="Black Lotus" style="max-width: min(400px, 90%); margin: 0; display: block;">
     </div>
