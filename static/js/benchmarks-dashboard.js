@@ -55,9 +55,8 @@
   const ECI_PROJECTION_LIMIT = 12;
   const BENCHMARK_TRANSFORMS = {
     "bullshitbench": "Score = green classifications / scored samples.",
-    "benchmarks-bio-epibench": "Score = pass rate.",
-    "benchmarks-bio-scbench-long": "Score = pass rate.",
-    "benchmarks-bio-txbench": "Score = pass rate.",
+    "benchmarks-bio": "Score = mean predicted pass rate across evaluations; excludes refusal.",
+    "vals-rsi": "Score = mean reference-anchored task score.",
     "eqbench": "Score = 2 * P(win vs top Elo).",
     "gdpval-aa": "Score = 2 * P(win vs top Elo).",
     "halluhard": "Score = 1 - mean hallucination rate.",
