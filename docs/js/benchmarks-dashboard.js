@@ -117,9 +117,10 @@
     values.map((value) => `<option value="${value}">${value}</option>`)
   ).join("");
 
-  const BENCHMARK_BAND_ORDER = ["current", "pre-2026", "pre-June 2025", "pre-2025"];
+  const BENCHMARK_BAND_ORDER = ["current", "pre-June 2026", "pre-2026", "pre-June 2025", "pre-2025"];
   const BENCHMARK_BAND_LABELS = {
     current: "Current benchmarks",
+    "pre-June 2026": "Pre-June 2026",
     "pre-2026": "Pre-2026",
     "pre-June 2025": "Pre-June 2025",
     "pre-2025": "Pre-2025",
