@@ -29,6 +29,7 @@ Given a column of hieroglyphs, models must output the signs they see as [Gardine
             'Gemini 3.1 Pro',               // 39.7
             'Claude Opus 5.5',              // 37.4
             'GPT-5.6 Sol',                  // 27.6
+            'GPT-6 Sol',                    // 26.0
             'Kimi K3',                      // 25.9
             'Muse Spark 1.1',               // 24.5
             'Fable 5',                      // 22.9
@@ -51,7 +52,7 @@ Given a column of hieroglyphs, models must output the signs they see as [Gardine
             'GPT-4o',                       // 9.5
             'Qwen 3.8 Max',                 // 5.9
         ];
-        const dataValues = [55.0, 54.6, 52.5, 48.8, 40.0, 39.7, 37.4, 27.6, 25.9, 24.5, 22.9, 22.8, 21.2, 20.5, 20.4, 20.3, 19.2, 18.8, 16.8, 15.7, 14.6, 14.0, 12.5, 12.3, 12.3, 11.1, 10.1, 9.5, 5.9];
+        const dataValues = [55.0, 54.6, 52.5, 48.8, 40.0, 39.7, 37.4, 27.6, 26.0, 25.9, 24.5, 22.9, 22.8, 21.2, 20.5, 20.4, 20.3, 19.2, 18.8, 16.8, 15.7, 14.6, 14.0, 12.5, 12.3, 12.3, 11.1, 10.1, 9.5, 5.9];
         const backgroundColors = [
             'rgba(66, 133, 244, 0.85)', // Google (Gemini 3.7 Flash)
             'rgba(66, 133, 244, 0.85)', // Google (Gemini 3.8 Flash)
@@ -61,6 +62,7 @@ Given a column of hieroglyphs, models must output the signs they see as [Gardine
             'rgba(66, 133, 244, 0.85)', // Google (Gemini 3.1 Pro)
             'rgba(217, 119, 87, 0.85)', // Anthropic (Claude Opus 5.5)
             'rgba(16, 163, 127, 0.85)', // OpenAI (GPT-5.6 Sol)
+            'rgba(16, 163, 127, 0.85)', // OpenAI (GPT-6 Sol)
             'rgba(139, 92, 246, 0.85)', // Moonshot (Kimi K3)
             'rgba(6, 182, 212, 0.85)', // Meta (Muse Spark 1.1)
             'rgba(217, 119, 87, 0.85)', // Anthropic (Fable 5)

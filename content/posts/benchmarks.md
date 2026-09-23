@@ -5,7 +5,7 @@ draft: false
 summary: "My own version of the Epoch Capabilities Index for tracking niche benchmarks and my takes on how to identify ones worth paying attention to."
 ---
 
-I found myself refreshing ~70 different leaderboards whenever a new model dropped, so I made a dashboard that scrapes my favorites and computes a composite score using the same [methodology](https://epoch.ai/data/eci-documentation/methodology) as Epoch AI's [ECI](https://epoch.ai/eci). For those who are unfamiliar, Epoch uses multiple benchmarks to estimate a single "capability" level per model (kind of like an IQ score). Their index is great, but it doesn't track a lot of the benchmarks I care about, especially those which are unbounded like [EQ-Bench](https://eqbench.com/index.html). My [follow-up analysis](/posts/can-we-predict-model-usage-from-benchmarks) also shows my index to be more predictive of actual usage.
+I found myself refreshing ~80 different leaderboards whenever a new model dropped, so I made a dashboard that scrapes my favorites and computes a composite score using the same [methodology](https://epoch.ai/data/eci-documentation/methodology) as Epoch AI's [ECI](https://epoch.ai/eci). For those who are unfamiliar, Epoch uses multiple benchmarks to estimate a single "capability" level per model (kind of like an IQ score). Their index is great, but it doesn't track a lot of the benchmarks I care about, especially those which are unbounded like [EQ-Bench](https://eqbench.com/index.html). My [follow-up analysis](/posts/can-we-predict-model-usage-from-benchmarks) also shows my index to be more predictive of actual usage.
 
 {{< benchmark-dashboard-controls >}}
 
@@ -32,7 +32,7 @@ For fun, I've calculated the correlation between the indices and the [METR Time 
 
 {{< benchmark-dashboard-eci >}}
 
-Of course we need to compare against the original ECI too. As expected, the correlation is high, with an r^2 of 0.98. An interesting pattern I notice is that my index consistently shows Anthropic's models doing better relative to Epoch's, while theirs shows Gemini outperforming. This aligns with my personal experience, where Gemini often does well on common benchmarks but underperforms for actual use-cases.
+Of course we need to compare against the original ECI too. As expected, the correlation is high, with an r^2 of 0.98.
 
 {{< benchmark-dashboard-frontier >}}
 

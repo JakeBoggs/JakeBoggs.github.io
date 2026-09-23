@@ -226,15 +226,9 @@ score = float(response['score'])
 
 ## Results
 
-The fine-tuned model showed a 10.5% improvement over the base, with the average score going from 1.62 to 1.79 on the GPT-4 evaluation. That's a slight improvement, but both models still have tremendous room to learn.
+The fine-tuned model showed a 10.5% increase over the base, with the average score going from 1.62 to 1.79 on the GPT-4 evaluation. That's a slight improvement, but both models still have tremendous room to learn.
 
-## Future Directions
-
-Future research could explore the addition of custom tokens for special game symbols like mana and tapping, which are underrepresented in pre-training data and maybe not be appropriately tokenized. Additionally, expanding the dataset to include more diverse game scenarios and interactions could further refine the model's capabilities.
-
-## Conclusion
-
-This project shows what LLMs could add to the MTG playing experience and the work that remains. I hope others find this dataset useful for training future models and build off my work. There's much more to do and I can't wait for the day when AI systems can build good decks with my janky pet cards.
+I hope others find this dataset useful for training future models and build off my work. There's much more to do and I can't wait for the day when AI systems can build good decks with my janky pet cards.
 
 ## Acknowledgments
 

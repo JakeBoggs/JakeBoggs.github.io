@@ -69,6 +69,6 @@ As a final touch, I added a button to download the full document with the origin
     </p>
 </div>
 
-Although anthropology is not my main area of interest, this was a fun project and I enjoy seeing the progress frontier models are making in fields outside of programming and basic knowledge work. I'm far from an industry veteran (just 22 years old), but I remember learning about CNNs back when people still cared about MNIST / CIFAR and YOLO was a new thing. We live in extraordinary times and I'm incredibly optimistic about the potential for AI in all types of research. Even if the promises of superintelligence do not come to pass, existing models still have so much untapped potential and I expect we'll see many breakthroughs as adoption increases.
+Although anthropology is not my main area of interest, this was a fun project and I enjoy seeing the progress frontier models are making in fields outside of programming and basic knowledge work. We live in extraordinary times and I'm incredibly optimistic about the potential for AI in all types of research. Even if the promises of superintelligence do not come to pass, existing models still have so much untapped potential and I expect we'll see many breakthroughs as adoption increases.
 
-If you want to try it out, the code is [available on GitHub](https://github.com/JakeBoggs/Manuscript-Translator)
+If you want to try it out, the code is [available on GitHub](https://github.com/JakeBoggs/Manuscript-Translator).

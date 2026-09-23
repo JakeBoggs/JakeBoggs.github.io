@@ -12,7 +12,7 @@ I also maintain a [capabilities index](/posts/benchmarks) composed of benchmarks
 
 A few of my favorites:
 * [RuneBench](https://maxbittker.github.io/runebench/). AI writes code to play RuneScape
-* [Remote Labor Index](https://www.remotelabor.ai/). CUA harness and benchmark for measuring progress towards full automation of online freelance work. Still very unsaturated, no model gets above 16%
+* [Remote Labor Index](https://www.remotelabor.ai/). CUA harness and benchmark for measuring progress towards full automation of online freelance work. Still very unsaturated, no model gets above 20%
 * [Kosmos](https://edisonscientific.com/). This one helped with research for the genetic engineering project below
 
 **Reinforcement learning.** A combination of the above. Make a harness for a task, an evaluation to measure the output quality, and now you have an RL environment.

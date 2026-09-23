@@ -225,25 +225,14 @@
           state.filters.benchmark = "";
           updateBenchmarkOptions();
         }
-        if (key === "benchmark"
-          && state.rankingView === "cost"
-          && state.filters.benchmark
-          && !benchmarkHasReportedCost(state.filters.benchmark)) {
-          state.rankingView = "bar";
-          updateBenchmarkOptions();
-          syncRankingViewUi();
-        }
         render();
       });
     });
 
     document.querySelectorAll("[data-ranking-view]").forEach((btn) => {
       btn.addEventListener("click", () => {
+        if (btn.dataset.rankingView === "cost" && !costEntries().length) return;
         state.rankingView = btn.dataset.rankingView;
-        if (state.rankingView === "cost" && state.filters.benchmark && !benchmarkHasReportedCost(state.filters.benchmark)) {
-          state.rankingView = "bar";
-        }
-        updateBenchmarkOptions();
         applyRankingView();
       });
     });
@@ -504,12 +493,6 @@
     benchmarkFilter.value = state.filters.benchmark;
   }
 
-  function benchmarkHasReportedCost(benchmarkName) {
-    return state.data.results.some(
-      (row) => row.benchmark_name === benchmarkName && Number(row.cost_usd) > 0
-    );
-  }
-
   function benchmarkBandOption(band) {
     const option = new Option(`-- ${BENCHMARK_BAND_LABELS[band] || titleCase(band)} --`, `__band:${band}`);
     option.disabled = true;
@@ -537,6 +520,10 @@
   }
 
   function syncRankingViewUi() {
+    const costButton = $("[data-ranking-view='cost']");
+    const hasCostEntries = costEntries().length > 0;
+    if (costButton) costButton.hidden = !hasCostEntries;
+    if (!hasCostEntries && state.rankingView === "cost") state.rankingView = "bar";
     document.querySelectorAll("[data-view-pane]").forEach((pane) => {
       const isActive = pane.dataset.viewPane === state.rankingView;
       const isEmptyBanner = pane.hasAttribute("data-empty");
@@ -2229,6 +2216,7 @@
   }
 
   function render() {
+    syncRankingViewUi();
     if (state.rankingView === "bar") renderRanking();
     else if (state.rankingView === "time") renderTime();
     else renderCost();
