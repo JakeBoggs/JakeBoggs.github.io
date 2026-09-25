@@ -20,7 +20,7 @@ Back in college I did Reg CF as a hobby. Things I invested in:
 
 <div class="investment-grid">
 {{< investment img="/images/fueled.png" url="https://fueled.io/" title="Fueled" description="1st-party eCommerce data platform" meta="Invested 2023 · Acquired 2026" status="exit" >}}
-{{< investment img="/images/fathom.png" url="https://www.fathom.ai/" title="Fathom AI" description="AI notetaker" meta="Invested 2024 · Acquired 2026" >}}
+{{< investment img="/images/fathom.png" url="https://www.fathom.ai/" title="Fathom AI" description="AI notetaker" meta="Invested 2024 · Acquired 2026" status="exit" >}}
 </div>
 
 ### Highlights
