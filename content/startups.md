@@ -14,12 +14,13 @@ Places I've worked:
 
 ## Investments
 
-Back in college I did Reg CF as a hobby. Things I've invested in:
+Back in college I did Reg CF as a hobby. Things I invested in:
 
 ### Exits
 
 <div class="investment-grid">
 {{< investment img="/images/fueled.png" url="https://fueled.io/" title="Fueled" description="1st-party eCommerce data platform" meta="Invested 2023 · Acquired 2026" status="exit" >}}
+{{< investment img="/images/fathom.png" url="https://www.fathom.ai/" title="Fathom AI" description="AI notetaker" meta="Invested 2024 · Acquired 2026" >}}
 </div>
 
 ### Highlights
@@ -27,7 +28,6 @@ Back in college I did Reg CF as a hobby. Things I've invested in:
 These have been the best performers, with substantial growth and/or follow-on rounds.
 
 <div class="investment-grid">
-{{< investment img="/images/fathom.png" url="https://www.fathom.ai/" title="Fathom AI" description="AI notetaker" meta="Invested 2024" >}}
 {{< investment img="/images/substack.png" url="https://substack.com/" title="Substack" description="Blogging or something" meta="Invested 2023" >}}
 {{< investment img="/images/blackbird.png" url="https://www.blackbirdfoods.com/" title="Blackbird Foods" description="Plant-based pizza and meats" meta="Invested 2023" >}}
 {{< investment img="/images/jurny.png" url="https://www.jurny.com/" title="Jurny" description="Automated vacation rental management" meta="Invested 2023" >}}

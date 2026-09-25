@@ -54,6 +54,7 @@
   const ECI_PROJECTION_MIN_INDEX = 150;
   const ECI_PROJECTION_LIMIT = 12;
   const BENCHMARK_TRANSFORMS = {
+    "weirdml-v3": "Score = 0.8 * normalized log-token AUC + 0.2 * final best.",
     "bullshitbench": "Score = green classifications / scored samples.",
     "benchmarks-bio": "Score = mean predicted pass rate across evaluations; excludes refusal.",
     "vals-rsi": "Score = mean reference-anchored task score.",
