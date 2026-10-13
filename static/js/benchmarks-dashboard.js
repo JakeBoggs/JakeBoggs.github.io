@@ -70,6 +70,7 @@
     "vending-bench-2": "Score = profit / $62.5k target profit, capped at 1.",
     "contextarena": "Score = 8-needle MRCRv2 AUC @1M.",
     "lisanbench": "Score = mean path length / current leaderboard maximum.",
+    "tasteval": "Score = compute multiplier / current leaderboard maximum.",
     "game-arena": "Score = 2 * P(win vs top Bradley-Terry rating).",
     "swe-bench-verified": "Score = Epoch pass rate.",
     "gpqa-diamond": "Score = accuracy.",
