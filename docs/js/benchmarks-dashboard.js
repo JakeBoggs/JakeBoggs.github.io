@@ -65,6 +65,7 @@
     "omniscience": "Score = accuracy.",
     "opus-magnum-bench": "Score = mean best human-normalized reward across 36 puzzles.",
     "posttrainbench": "Score = published aggregate; subtasks hidden.",
+    "posttrainbench-v1": "Score = published aggregate; subtasks hidden.",
     "ppbench": "Score = max available success rate.",
     "programbench": "Score = raw pass rate.",
     "vending-bench-2": "Score = profit / $62.5k target profit, capped at 1.",
