@@ -619,10 +619,12 @@
   }
 
   function capabilityConfidenceLabel() {
-    const level = Number(state.filters.category
-      ? state.data.capability_index_metadata_by_category?.[state.filters.category]?.ci_level
-      : state.data.capability_index_metadata?.ci_level);
-    return `${Number.isFinite(level) ? Math.round(level * 100) : 90}% CI`;
+    const metadata = state.filters.category
+      ? state.data.capability_index_metadata_by_category?.[state.filters.category]
+      : state.data.capability_index_metadata;
+    const level = Number(metadata?.ci_level);
+    const label = metadata?.interval_type === "credible" ? "credible interval" : "interval";
+    return `${Number.isFinite(level) ? Math.round(level * 100) : 90}% ${label}`;
   }
 
   function optionalNumber(value) {
